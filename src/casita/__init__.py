@@ -1208,6 +1208,56 @@ def demo(fixture: Path, host: str, port: int):
             console.print("\n[yellow]demo server stopped[/yellow]")
 
 
+@cli.command(name="mash")
+@click.option(
+    "--fixture",
+    type=click.Path(exists=True, dir_okay=False, path_type=Path),
+    default=DEMO_FIXTURE,
+    help="Listings SQLite (read-only for mash; comparisons go to CASITA_MASH_DB).",
+)
+@click.option("--host", default="127.0.0.1")
+@click.option("--port", default=8766, help="Mash HTTP port (demo uses 8765).")
+@click.option(
+    "--site-dir",
+    type=click.Path(file_okay=False, path_type=Path),
+    default=None,
+    help="Optional rendered site dir for /listing detail links.",
+)
+def mash_cmd(fixture: Path, host: str, port: int, site_dir: Path | None):
+    """CasitaMash — pairwise preference learning UI (additive; does not alter browse)."""
+    import shutil
+
+    demo_db = ROOT / "tmp" / "demo.sqlite"
+    demo_db.parent.mkdir(exist_ok=True)
+    if not demo_db.exists() or fixture.resolve() != demo_db.resolve():
+        shutil.copy2(fixture, demo_db)
+    if site_dir is None:
+        site_dir = ROOT / "tmp" / "demo-site"
+        if not site_dir.exists():
+            env_updates = {
+                "CASITA_DB_PATH": str(demo_db),
+                "CASITA_ROUTE_CACHE_DB": str(demo_db),
+                "CASITA_ROUTES_OFFLINE": "1",
+                "CASITA_SITE_URL": f"http://{host}:{port}",
+            }
+            previous = {k: os.environ.get(k) for k in env_updates}
+            try:
+                os.environ.update(env_updates)
+                _render_site("index.html", site_dir)
+            finally:
+                for key, value in previous.items():
+                    if value is None:
+                        os.environ.pop(key, None)
+                    else:
+                        os.environ[key] = value
+    os.environ["CASITA_DB_PATH"] = str(demo_db)
+    os.environ["CASITA_ROUTE_CACHE_DB"] = str(demo_db)
+    os.environ["CASITA_ROUTES_OFFLINE"] = "1"
+    from .mash import serve as mash_serve
+    console.print(f"[green]mash:[/green] http://{host}:{port}/mash/")
+    mash_serve(demo_db, host=host, port=port, site_dir=site_dir)
+
+
 # ---------------------------------------------------------------------------
 # Cloud-synced verbs — optional private deployment helpers.
 #

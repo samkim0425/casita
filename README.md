@@ -26,6 +26,30 @@ uv run casita demo
 
 Then open <http://127.0.0.1:8765/>.
 
+### CasitaMash (this fork)
+
+Pairwise preference learning on top of the fixture — FaceMash-style comparisons
+that fit a hybrid model (`score = w·x + u`) so exchange rates generalize to
+listings you never compared.
+
+```bash
+uv run casita mash
+```
+
+Open <http://127.0.0.1:8766/mash/>. Comparisons persist in gitignored
+`tmp/mash.sqlite` (never the committed fixture). Flow: name → rank features →
+compare → end session for a ranked list with Casita + source links.
+
+**Why this:** Casita’s learning signal was 16 upvotes in a capped few-shot block.
+Ranking ~118 listings by comparison alone needs on the order of n log n picks;
+learning ~15 feature weights needs dozens, then every listing gets a score.
+Rejected: shortlist-stability as a *selection* objective, priors from the
+onboarding ranking, hand-curated grocery anchors, editing the browse view or
+ranking prompt. Kept: soft “end session” when the top 20 holds still, sparse
+labeled hypothetics, OSM-derived POIs, reviewer-isolated fits.
+
+See `RECON.md` for fixture facts that shaped the design.
+
 The demo does not scrape, call Vertex, deploy to Firebase, read GCS, or call the
 Google Maps Routes API. It does use Playwright's local Chromium browser to
 render Open Graph preview images from listing photos and facts. Live `search` /

@@ -33,6 +33,8 @@ casita.db-journal
 detail_cache/
 screenshots/
 tmp/
+tmp/mash.sqlite
+*.mash.sqlite
 
 # Docs build output
 site/

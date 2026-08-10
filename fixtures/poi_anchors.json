@@ -1,0 +1,5140 @@
+{
+  "grocery": [
+    {
+      "name": "Safeway",
+      "lat": 37.7767776,
+      "lng": -122.3940709
+    },
+    {
+      "name": "Calmart",
+      "lat": 37.786265,
+      "lng": -122.4528047
+    },
+    {
+      "name": "Angel's Deli & Market",
+      "lat": 37.7482363,
+      "lng": -122.4336596
+    },
+    {
+      "name": "Modern Market",
+      "lat": 37.7484143,
+      "lng": -122.4269955
+    },
+    {
+      "name": "Star Market",
+      "lat": 37.7864444,
+      "lng": -122.4146585
+    },
+    {
+      "name": "North Point Market",
+      "lat": 37.8052324,
+      "lng": -122.4235144
+    },
+    {
+      "name": "Marina Supermarket",
+      "lat": 37.8000223,
+      "lng": -122.4416127
+    },
+    {
+      "name": "Marina Deli & Liquor",
+      "lat": 37.8001107,
+      "lng": -122.4410436
+    },
+    {
+      "name": "Mollie Stone's",
+      "lat": 37.7606657,
+      "lng": -122.436559
+    },
+    {
+      "name": "E & M Market",
+      "lat": 37.76668,
+      "lng": -122.4219156
+    },
+    {
+      "name": "Foodhall",
+      "lat": 37.7650583,
+      "lng": -122.4220701
+    },
+    {
+      "name": "Fred's Liquor",
+      "lat": 37.76976,
+      "lng": -122.422503
+    },
+    {
+      "name": "K&D Market",
+      "lat": 37.7646987,
+      "lng": -122.4235801
+    },
+    {
+      "name": "Good Life Grocery",
+      "lat": 37.7600939,
+      "lng": -122.3968164
+    },
+    {
+      "name": "JW & L Market",
+      "lat": 37.7986741,
+      "lng": -122.4090015
+    },
+    {
+      "name": "7-Eleven",
+      "lat": 37.7265162,
+      "lng": -122.4645819
+    },
+    {
+      "name": "Mason Liquor & Deli",
+      "lat": 37.7886224,
+      "lng": -122.4100569
+    },
+    {
+      "name": "MMC Wine & Spirit",
+      "lat": 37.7888877,
+      "lng": -122.4105878
+    },
+    {
+      "name": "West Portal Produce Market",
+      "lat": 37.7387041,
+      "lng": -122.4684835
+    },
+    {
+      "name": "Sea Bee Liquors",
+      "lat": 37.742187,
+      "lng": -122.4983446
+    },
+    {
+      "name": "Amity Market",
+      "lat": 37.7420078,
+      "lng": -122.5023245
+    },
+    {
+      "name": "Eureka Market",
+      "lat": 37.7621857,
+      "lng": -122.4385594
+    },
+    {
+      "name": "Deena's Market",
+      "lat": 37.7856885,
+      "lng": -122.4147799
+    },
+    {
+      "name": "Nugget Markets",
+      "lat": 37.919027,
+      "lng": -122.5075218
+    },
+    {
+      "name": "1001 Castro Street",
+      "lat": 37.7535913,
+      "lng": -122.4341333
+    },
+    {
+      "name": "J & W Market",
+      "lat": 37.7911541,
+      "lng": -122.407672
+    },
+    {
+      "name": "Sunrise Market",
+      "lat": 37.7718315,
+      "lng": -122.4335053
+    },
+    {
+      "name": "S & W market",
+      "lat": 37.7722466,
+      "lng": -122.4286694
+    },
+    {
+      "name": "Himalaya Playa / O'Looney's",
+      "lat": 37.7720318,
+      "lng": -122.4318431
+    },
+    {
+      "name": "7-Eleven",
+      "lat": 37.7098206,
+      "lng": -122.4578886
+    },
+    {
+      "name": "unnamed",
+      "lat": 37.9359504,
+      "lng": -122.3689719
+    },
+    {
+      "name": "j&s market",
+      "lat": 37.9339472,
+      "lng": -122.369097
+    },
+    {
+      "name": "Super Save",
+      "lat": 37.7367631,
+      "lng": -122.3897193
+    },
+    {
+      "name": "Aguila de Oro",
+      "lat": 37.7306288,
+      "lng": -122.3920322
+    },
+    {
+      "name": "unnamed",
+      "lat": 37.7213718,
+      "lng": -122.3914266
+    },
+    {
+      "name": "7-Eleven",
+      "lat": 37.7123845,
+      "lng": -122.4032164
+    },
+    {
+      "name": "unnamed",
+      "lat": 37.707757,
+      "lng": -122.4551252
+    },
+    {
+      "name": "Tierra Santa Market",
+      "lat": 37.7253138,
+      "lng": -122.4028091
+    },
+    {
+      "name": "Food Mart",
+      "lat": 37.7320804,
+      "lng": -122.4059665
+    },
+    {
+      "name": "Hillcrest Market",
+      "lat": 37.7289174,
+      "lng": -122.4196089
+    },
+    {
+      "name": "unnamed",
+      "lat": 37.733976,
+      "lng": -122.3912081
+    },
+    {
+      "name": "25th and Clement Produce and Market",
+      "lat": 37.7821273,
+      "lng": -122.4847278
+    },
+    {
+      "name": "KD's Grog and Groceries",
+      "lat": 37.7627241,
+      "lng": -122.4356465
+    },
+    {
+      "name": "Le Beau Market",
+      "lat": 37.7928844,
+      "lng": -122.416234
+    },
+    {
+      "name": "7-Eleven",
+      "lat": 37.7421503,
+      "lng": -122.4226138
+    },
+    {
+      "name": "Grant Mini Market",
+      "lat": 37.7904053,
+      "lng": -122.4060032
+    },
+    {
+      "name": "Food Fair Market Liquors",
+      "lat": 37.7902181,
+      "lng": -122.4074048
+    },
+    {
+      "name": "Bush Market",
+      "lat": 37.7900177,
+      "lng": -122.410859
+    },
+    {
+      "name": "7-Eleven",
+      "lat": 37.7890489,
+      "lng": -122.4090986
+    },
+    {
+      "name": "Courtney's Produce",
+      "lat": 37.767252,
+      "lng": -122.4354725
+    },
+    {
+      "name": "Lucky",
+      "lat": 37.7761053,
+      "lng": -122.4459793
+    },
+    {
+      "name": "Shufat Market",
+      "lat": 37.7515955,
+      "lng": -122.4276745
+    },
+    {
+      "name": "7-Eleven",
+      "lat": 37.7606933,
+      "lng": -122.5057598
+    },
+    {
+      "name": "Mollie Stone's",
+      "lat": 37.9457131,
+      "lng": -122.5242641
+    },
+    {
+      "name": "Genki Crepes & Mini Mart",
+      "lat": 37.7831431,
+      "lng": -122.4628435
+    },
+    {
+      "name": "Woodland Market",
+      "lat": 37.8751977,
+      "lng": -122.4598234
+    },
+    {
+      "name": "Best Food",
+      "lat": 37.7975226,
+      "lng": -122.4084387
+    },
+    {
+      "name": "Habibi Market",
+      "lat": 37.781741,
+      "lng": -122.409897
+    },
+    {
+      "name": "Go Go Market & Deli",
+      "lat": 37.7764144,
+      "lng": -122.414717
+    },
+    {
+      "name": "Jai Ho Indian Grocery Store",
+      "lat": 37.7831231,
+      "lng": -122.4322615
+    },
+    {
+      "name": "Diana Market #2",
+      "lat": 37.7739007,
+      "lng": -122.4120484
+    },
+    {
+      "name": "unnamed",
+      "lat": 37.8816698,
+      "lng": -122.5250825
+    },
+    {
+      "name": "Yogi Food Market",
+      "lat": 37.7884667,
+      "lng": -122.4154843
+    },
+    {
+      "name": "Shell",
+      "lat": 37.970825,
+      "lng": -122.520772
+    },
+    {
+      "name": "Church Street Groceteria",
+      "lat": 37.7660309,
+      "lng": -122.4289792
+    },
+    {
+      "name": "Transfer Market",
+      "lat": 37.7776794,
+      "lng": -122.4385135
+    },
+    {
+      "name": "Fulton Food Shop",
+      "lat": 37.7756753,
+      "lng": -122.4467198
+    },
+    {
+      "name": "26th & Guerrero Market",
+      "lat": 37.7486631,
+      "lng": -122.4227133
+    },
+    {
+      "name": "Cindy's Market",
+      "lat": 37.7734424,
+      "lng": -122.4508575
+    },
+    {
+      "name": "McBaker Market",
+      "lat": 37.7774463,
+      "lng": -122.4419453
+    },
+    {
+      "name": "Home Service Market",
+      "lat": 37.7742525,
+      "lng": -122.4446478
+    },
+    {
+      "name": "Cool Guys",
+      "lat": 37.7217291,
+      "lng": -122.4621338
+    },
+    {
+      "name": "Casa Guadalupe",
+      "lat": 37.7492129,
+      "lng": -122.4180336
+    },
+    {
+      "name": "Valencia Farmers Market",
+      "lat": 37.7522376,
+      "lng": -122.4205268
+    },
+    {
+      "name": "BART Liquor Store",
+      "lat": 37.7520991,
+      "lng": -122.4194208
+    },
+    {
+      "name": "Yicks Liquor",
+      "lat": 37.7229089,
+      "lng": -122.435887
+    },
+    {
+      "name": "Frank's Market Liquor",
+      "lat": 37.7216084,
+      "lng": -122.4368714
+    },
+    {
+      "name": "El Chico Produce",
+      "lat": 37.7245595,
+      "lng": -122.4351038
+    },
+    {
+      "name": "Casa Lucas",
+      "lat": 37.7253084,
+      "lng": -122.4341382
+    },
+    {
+      "name": "Mission Silver Market",
+      "lat": 37.7286093,
+      "lng": -122.431617
+    },
+    {
+      "name": "New College Hill Market",
+      "lat": 37.736053,
+      "lng": -122.4246298
+    },
+    {
+      "name": "United Liquor Market",
+      "lat": 37.7147704,
+      "lng": -122.4427139
+    },
+    {
+      "name": "San Bruno Supermarket",
+      "lat": 37.7303902,
+      "lng": -122.4051055
+    },
+    {
+      "name": "La Loma Produce",
+      "lat": 37.7278468,
+      "lng": -122.4034662
+    },
+    {
+      "name": "ampm",
+      "lat": 37.7092884,
+      "lng": -122.452827
+    },
+    {
+      "name": "Mr Liquor",
+      "lat": 37.7535575,
+      "lng": -122.420977
+    },
+    {
+      "name": "Valencia Grocery",
+      "lat": 37.7519723,
+      "lng": -122.4208323
+    },
+    {
+      "name": "Dolores Deluxe",
+      "lat": 37.7551098,
+      "lng": -122.4257529
+    },
+    {
+      "name": "ABC Supermarket Inc",
+      "lat": 37.7976247,
+      "lng": -122.4076211
+    },
+    {
+      "name": "Kin Tat Co.",
+      "lat": 37.7974117,
+      "lng": -122.4084311
+    },
+    {
+      "name": "Kum Luen",
+      "lat": 37.7974827,
+      "lng": -122.4087315
+    },
+    {
+      "name": "Sun Sun Produce",
+      "lat": 37.7985247,
+      "lng": -122.4103536
+    },
+    {
+      "name": "7th and Clement Market",
+      "lat": 37.7830595,
+      "lng": -122.4650796
+    },
+    {
+      "name": "Food 24 Market",
+      "lat": 37.7830743,
+      "lng": -122.4645995
+    },
+    {
+      "name": "Buddies Market",
+      "lat": 37.7346227,
+      "lng": -122.4337115
+    },
+    {
+      "name": "Searchlight Market",
+      "lat": 37.7991456,
+      "lng": -122.4189266
+    },
+    {
+      "name": "Harvest Hills Market",
+      "lat": 37.7467436,
+      "lng": -122.4137155
+    },
+    {
+      "name": "Mayflower Market",
+      "lat": 37.7924108,
+      "lng": -122.4344435
+    },
+    {
+      "name": "Gino's",
+      "lat": 37.7925919,
+      "lng": -122.4344765
+    },
+    {
+      "name": "Dogpatch Biofuels",
+      "lat": 37.7564805,
+      "lng": -122.3927992
+    },
+    {
+      "name": "Nijiya Market",
+      "lat": 37.7852546,
+      "lng": -122.4310324
+    },
+    {
+      "name": "New Russian Hill Market",
+      "lat": 37.7959769,
+      "lng": -122.4149018
+    },
+    {
+      "name": "First Korean Market",
+      "lat": 37.7806174,
+      "lng": -122.4689908
+    },
+    {
+      "name": "Buffalo Whole Food",
+      "lat": 37.7593854,
+      "lng": -122.4350485
+    },
+    {
+      "name": "7-Eleven",
+      "lat": 37.878897,
+      "lng": -122.533226
+    },
+    {
+      "name": "Sherman Market",
+      "lat": 37.798471,
+      "lng": -122.425542
+    },
+    {
+      "name": "Green Earth",
+      "lat": 37.777716,
+      "lng": -122.43816
+    },
+    {
+      "name": "Superette Market",
+      "lat": 37.771113,
+      "lng": -122.43719
+    },
+    {
+      "name": "Jim's Smoke Shop & Deli",
+      "lat": 37.7606346,
+      "lng": -122.387782
+    },
+    {
+      "name": "Van Ness Vallejo Market",
+      "lat": 37.7968023,
+      "lng": -122.4238896
+    },
+    {
+      "name": "Chevron Extra Mile",
+      "lat": 37.7627767,
+      "lng": -122.4344896
+    },
+    {
+      "name": "Golden Market",
+      "lat": 37.7507677,
+      "lng": -122.4181695
+    },
+    {
+      "name": "R Image Market",
+      "lat": 37.7510149,
+      "lng": -122.4141343
+    },
+    {
+      "name": "Grocery Outlet",
+      "lat": 37.7415785,
+      "lng": -122.405368
+    },
+    {
+      "name": "17th & Balboa Market",
+      "lat": 37.7765595,
+      "lng": -122.4760759
+    },
+    {
+      "name": "Five Markets",
+      "lat": 37.7529431,
+      "lng": -122.408716
+    },
+    {
+      "name": "Frank's Liquors",
+      "lat": 37.7694214,
+      "lng": -122.4505453
+    },
+    {
+      "name": "Golden Farmer Market",
+      "lat": 37.7902045,
+      "lng": -122.420782
+    },
+    {
+      "name": "Blue Fog Market",
+      "lat": 37.7970779,
+      "lng": -122.4272116
+    },
+    {
+      "name": "Oak Fair Market",
+      "lat": 37.773267,
+      "lng": -122.435627
+    },
+    {
+      "name": "Adel's Wine Cellar",
+      "lat": 37.7615674,
+      "lng": -122.4489819
+    },
+    {
+      "name": "Pine-Taylor Market",
+      "lat": 37.7908059,
+      "lng": -122.4121671
+    },
+    {
+      "name": "New Star Market",
+      "lat": 37.7682232,
+      "lng": -122.4193356
+    },
+    {
+      "name": "Lombard Heights Market",
+      "lat": 37.803113,
+      "lng": -122.4098541
+    },
+    {
+      "name": "F & G Grocery",
+      "lat": 37.758486,
+      "lng": -122.423328
+    },
+    {
+      "name": "Pang Kee Bargain Market",
+      "lat": 37.7979062,
+      "lng": -122.4085421
+    },
+    {
+      "name": "Sun Kau Shing Co., Inc.",
+      "lat": 37.798411,
+      "lng": -122.4086385
+    },
+    {
+      "name": "Chuck's Sun Valley Grocery",
+      "lat": 37.7452193,
+      "lng": -122.4266861
+    },
+    {
+      "name": "Green Street Market",
+      "lat": 37.7969094,
+      "lng": -122.4302557
+    },
+    {
+      "name": "Larkin Corner Market",
+      "lat": 37.7916503,
+      "lng": -122.4190711
+    },
+    {
+      "name": "Van Ness Liquor Wine & Spirits",
+      "lat": 37.7927384,
+      "lng": -122.4225661
+    },
+    {
+      "name": "7-Eleven",
+      "lat": 37.808049,
+      "lng": -122.413948
+    },
+    {
+      "name": "Sutter Fine Foods",
+      "lat": 37.7884234,
+      "lng": -122.4165679
+    },
+    {
+      "name": "Save More Liquor and Grocery",
+      "lat": 37.7779289,
+      "lng": -122.4382388
+    },
+    {
+      "name": "KJ Produce Market",
+      "lat": 37.7643657,
+      "lng": -122.4622496
+    },
+    {
+      "name": "6001 California Market (Appel & Dietrich)",
+      "lat": 37.7839057,
+      "lng": -122.4819672
+    },
+    {
+      "name": "West Portal Daily",
+      "lat": 37.7404899,
+      "lng": -122.4664515
+    },
+    {
+      "name": "Miraloma Liquors",
+      "lat": 37.7444725,
+      "lng": -122.4529427
+    },
+    {
+      "name": "Eezy Freezy",
+      "lat": 37.7404952,
+      "lng": -122.4659263
+    },
+    {
+      "name": "Good Luck Market",
+      "lat": 37.7427662,
+      "lng": -122.479296
+    },
+    {
+      "name": "Harvest Urban Market",
+      "lat": 37.7764867,
+      "lng": -122.4116366
+    },
+    {
+      "name": "Rainbow Market & Deli",
+      "lat": 37.7841613,
+      "lng": -122.4175749
+    },
+    {
+      "name": "Eddy's Market",
+      "lat": 37.7638269,
+      "lng": -122.4683007
+    },
+    {
+      "name": "Guerrero Market",
+      "lat": 37.755278,
+      "lng": -122.4230438
+    },
+    {
+      "name": "Five Markets",
+      "lat": 37.7621197,
+      "lng": -122.4649701
+    },
+    {
+      "name": "Sakura",
+      "lat": 37.7641267,
+      "lng": -122.4681063
+    },
+    {
+      "name": "Parkview Market",
+      "lat": 37.7662623,
+      "lng": -122.453074
+    },
+    {
+      "name": "Sunny Country Foods",
+      "lat": 37.7643959,
+      "lng": -122.4526937
+    },
+    {
+      "name": "Gus's Community Market",
+      "lat": 37.763978,
+      "lng": -122.4128227
+    },
+    {
+      "name": "Rubin's Market",
+      "lat": 37.749437,
+      "lng": -122.413623
+    },
+    {
+      "name": "Gus's Market",
+      "lat": 37.770138,
+      "lng": -122.4477472
+    },
+    {
+      "name": "International Produce Market",
+      "lat": 37.7616133,
+      "lng": -122.4197085
+    },
+    {
+      "name": "UC Market",
+      "lat": 37.7651507,
+      "lng": -122.4601078
+    },
+    {
+      "name": "7-Eleven",
+      "lat": 37.8615616,
+      "lng": -122.494222
+    },
+    {
+      "name": "Kiki Supermarket",
+      "lat": 37.795529,
+      "lng": -122.4100247
+    },
+    {
+      "name": "Powell Grocery",
+      "lat": 37.7965633,
+      "lng": -122.4102322
+    },
+    {
+      "name": "Hyde & Pacific Liquors",
+      "lat": 37.795563,
+      "lng": -122.4182
+    },
+    {
+      "name": "Vegefarm @ San Francisco",
+      "lat": 37.7635844,
+      "lng": -122.4797634
+    },
+    {
+      "name": "Golden Bear Trading Company",
+      "lat": 37.7621737,
+      "lng": -122.4631356
+    },
+    {
+      "name": "Dong Hing Supermarket",
+      "lat": 37.7969706,
+      "lng": -122.4083521
+    },
+    {
+      "name": "Huaxing Produce Inc.",
+      "lat": 37.7968178,
+      "lng": -122.4083185
+    },
+    {
+      "name": "J & L Vegi Supermarket",
+      "lat": 37.7970928,
+      "lng": -122.4086681
+    },
+    {
+      "name": "S&B Supermarket",
+      "lat": 37.7632392,
+      "lng": -122.4816392
+    },
+    {
+      "name": "Mi Duo Duo Market",
+      "lat": 37.7631943,
+      "lng": -122.4827445
+    },
+    {
+      "name": "Heartland Healthy Food",
+      "lat": 37.7632175,
+      "lng": -122.482201
+    },
+    {
+      "name": "Irving Seafood Market",
+      "lat": 37.7635321,
+      "lng": -122.4809254
+    },
+    {
+      "name": "New Wing Cheung Store",
+      "lat": 37.763283,
+      "lng": -122.4807722
+    },
+    {
+      "name": "New Asia Market",
+      "lat": 37.7968665,
+      "lng": -122.407988
+    },
+    {
+      "name": "Sam & Son Market",
+      "lat": 37.7968956,
+      "lng": -122.410289
+    },
+    {
+      "name": "Santa Clara Natural Organic Market",
+      "lat": 37.7716152,
+      "lng": -122.4352763
+    },
+    {
+      "name": "New York Tobacco",
+      "lat": 37.7786289,
+      "lng": -122.4157915
+    },
+    {
+      "name": "Mi Ranchito Produce",
+      "lat": 37.7623886,
+      "lng": -122.4192416
+    },
+    {
+      "name": "Quic Qic Groceries",
+      "lat": 37.7626483,
+      "lng": -122.4196213
+    },
+    {
+      "name": "Mission Grocery",
+      "lat": 37.7628614,
+      "lng": -122.419641
+    },
+    {
+      "name": "Valmar Supermarket",
+      "lat": 37.7717188,
+      "lng": -122.422727
+    },
+    {
+      "name": "Little Paradise",
+      "lat": 37.7958949,
+      "lng": -122.4084053
+    },
+    {
+      "name": "Charming Sun Market Inc",
+      "lat": 37.794968,
+      "lng": -122.405911
+    },
+    {
+      "name": "Jackson Produce",
+      "lat": 37.7945907,
+      "lng": -122.4058471
+    },
+    {
+      "name": "Produce",
+      "lat": 37.7970632,
+      "lng": -122.4062417
+    },
+    {
+      "name": "Kennedy's Market",
+      "lat": 37.7363615,
+      "lng": -122.3904047
+    },
+    {
+      "name": "VeggieLand Market",
+      "lat": 37.7957121,
+      "lng": -122.4084066
+    },
+    {
+      "name": "D & G Group",
+      "lat": 37.7976215,
+      "lng": -122.4070914
+    },
+    {
+      "name": "Casa Guadalupe",
+      "lat": 37.7483339,
+      "lng": -122.4183309
+    },
+    {
+      "name": "Mi Tierra Market",
+      "lat": 37.764592,
+      "lng": -122.4194473
+    },
+    {
+      "name": "Casa Maria",
+      "lat": 37.753871,
+      "lng": -122.416268
+    },
+    {
+      "name": "Food Mart",
+      "lat": 37.7231604,
+      "lng": -122.4534241
+    },
+    {
+      "name": "Fastbreak",
+      "lat": 37.7228532,
+      "lng": -122.45296
+    },
+    {
+      "name": "Brother's Mini Market",
+      "lat": 37.7528289,
+      "lng": -122.5052671
+    },
+    {
+      "name": "City Discount Meat & Grocery Market",
+      "lat": 37.7603364,
+      "lng": -122.41941
+    },
+    {
+      "name": "Georges' Market",
+      "lat": 37.7607798,
+      "lng": -122.419462
+    },
+    {
+      "name": "AMS Market",
+      "lat": 37.73948,
+      "lng": -122.407244
+    },
+    {
+      "name": "Napoli Market",
+      "lat": 37.8021042,
+      "lng": -122.4093854
+    },
+    {
+      "name": "Produce Market",
+      "lat": 37.7651319,
+      "lng": -122.4207819
+    },
+    {
+      "name": "Casa Latina Market",
+      "lat": 37.765158,
+      "lng": -122.4201651
+    },
+    {
+      "name": "Holloway Market",
+      "lat": 37.7219732,
+      "lng": -122.454983
+    },
+    {
+      "name": "Central Haight Market",
+      "lat": 37.7702985,
+      "lng": -122.4437952
+    },
+    {
+      "name": "Richmond Market",
+      "lat": 37.7756542,
+      "lng": -122.5014571
+    },
+    {
+      "name": "Balboa Produce Market",
+      "lat": 37.7755582,
+      "lng": -122.4978814
+    },
+    {
+      "name": "Better Food Market",
+      "lat": 37.7758026,
+      "lng": -122.4928848
+    },
+    {
+      "name": "Tony Baloney's Market",
+      "lat": 37.7781839,
+      "lng": -122.409412
+    },
+    {
+      "name": "Nugget Markets",
+      "lat": 37.8992939,
+      "lng": -122.5002025
+    },
+    {
+      "name": "Jasmine Market Mediterranean Groceries",
+      "lat": 37.9694361,
+      "lng": -122.5160416
+    },
+    {
+      "name": "Foods Co",
+      "lat": 37.9345786,
+      "lng": -122.356971
+    },
+    {
+      "name": "All States Best Foods",
+      "lat": 37.7598573,
+      "lng": -122.397501
+    },
+    {
+      "name": "Mi Pueblito Market",
+      "lat": 37.7528358,
+      "lng": -122.4183448
+    },
+    {
+      "name": "Pearl Market",
+      "lat": 37.780703,
+      "lng": -122.4391164
+    },
+    {
+      "name": "Grocery Outlet",
+      "lat": 37.7797491,
+      "lng": -122.487636
+    },
+    {
+      "name": "Europa Plus",
+      "lat": 37.7806284,
+      "lng": -122.4770735
+    },
+    {
+      "name": "Fast Fill Market",
+      "lat": 37.7993684,
+      "lng": -122.4423906
+    },
+    {
+      "name": "Charlie's Market",
+      "lat": 37.7608786,
+      "lng": -122.4985935
+    },
+    {
+      "name": "La Mission Market",
+      "lat": 37.7636074,
+      "lng": -122.4193276
+    },
+    {
+      "name": "City Produce",
+      "lat": 37.7798443,
+      "lng": -122.4075317
+    },
+    {
+      "name": "Amro Market",
+      "lat": 37.8023727,
+      "lng": -122.4250252
+    },
+    {
+      "name": "Mr. Liquor",
+      "lat": 37.8053656,
+      "lng": -122.4221293
+    },
+    {
+      "name": "SunMoon Market",
+      "lat": 37.7978842,
+      "lng": -122.4076485
+    },
+    {
+      "name": "Tai Hing Market",
+      "lat": 37.7975727,
+      "lng": -122.4081496
+    },
+    {
+      "name": "Cao Kee Market",
+      "lat": 37.7977088,
+      "lng": -122.4090934
+    },
+    {
+      "name": "Summing Ho Trading Co.",
+      "lat": 37.7971173,
+      "lng": -122.4069884
+    },
+    {
+      "name": "Super Sam",
+      "lat": 37.7795814,
+      "lng": -122.4233634
+    },
+    {
+      "name": "Chung Hing Produce Co.",
+      "lat": 37.7966025,
+      "lng": -122.4099651
+    },
+    {
+      "name": "Gold Coin Trading Co",
+      "lat": 37.7966205,
+      "lng": -122.4097355
+    },
+    {
+      "name": "Hyde & Turk Market",
+      "lat": 37.7824628,
+      "lng": -122.4158417
+    },
+    {
+      "name": "SF OrganiCA",
+      "lat": 37.7824966,
+      "lng": -122.4172183
+    },
+    {
+      "name": "Jackson Market",
+      "lat": 37.7948993,
+      "lng": -122.4149473
+    },
+    {
+      "name": "Hyde St Gift and Snack Shop",
+      "lat": 37.7819539,
+      "lng": -122.4154431
+    },
+    {
+      "name": "Cadillac Market",
+      "lat": 37.7834425,
+      "lng": -122.4157583
+    },
+    {
+      "name": "Fox Market",
+      "lat": 37.783207,
+      "lng": -122.4173545
+    },
+    {
+      "name": "New Princess Market",
+      "lat": 37.7836299,
+      "lng": -122.4160786
+    },
+    {
+      "name": "Key Food Market",
+      "lat": 37.7741397,
+      "lng": -122.4309984
+    },
+    {
+      "name": "Geary & Hyde Market",
+      "lat": 37.7864467,
+      "lng": -122.416346
+    },
+    {
+      "name": "Hyde & O'Farrell Market",
+      "lat": 37.7852604,
+      "lng": -122.4164164
+    },
+    {
+      "name": "unnamed",
+      "lat": 37.7843471,
+      "lng": -122.4179009
+    },
+    {
+      "name": "Green Apple Market",
+      "lat": 37.7867497,
+      "lng": -122.419776
+    },
+    {
+      "name": "Super Mira",
+      "lat": 37.7866375,
+      "lng": -122.4298727
+    },
+    {
+      "name": "New California Market",
+      "lat": 37.7840258,
+      "lng": -122.4788199
+    },
+    {
+      "name": "Young-Ellis Food Center",
+      "lat": 37.7850021,
+      "lng": -122.412688
+    },
+    {
+      "name": "Chinatown Bargain Depot",
+      "lat": 37.7916382,
+      "lng": -122.4056942
+    },
+    {
+      "name": "Franklin Market",
+      "lat": 37.8006863,
+      "lng": -122.4259805
+    },
+    {
+      "name": "Bay Food Mini Market",
+      "lat": 37.7895104,
+      "lng": -122.4014511
+    },
+    {
+      "name": "J H Grocery and Liquor",
+      "lat": 37.7944737,
+      "lng": -122.4182553
+    },
+    {
+      "name": "Daldas Market",
+      "lat": 37.784303,
+      "lng": -122.4107195
+    },
+    {
+      "name": "Gus's Community Market",
+      "lat": 37.7742721,
+      "lng": -122.391412
+    },
+    {
+      "name": "Park Presidio Liquors",
+      "lat": 37.7851234,
+      "lng": -122.4647446
+    },
+    {
+      "name": "Saturday Farmers Market",
+      "lat": 37.9465465,
+      "lng": -122.5085752
+    },
+    {
+      "name": "Oak Gourmet",
+      "lat": 37.7742787,
+      "lng": -122.4273437
+    },
+    {
+      "name": "Stewart's Grocery",
+      "lat": 37.7851816,
+      "lng": -122.441416
+    },
+    {
+      "name": "Falletti Foods",
+      "lat": 37.7733138,
+      "lng": -122.4389402
+    },
+    {
+      "name": "Rhea's Market & Deli",
+      "lat": 37.7599503,
+      "lng": -122.4215932
+    },
+    {
+      "name": "Sam's Market",
+      "lat": 37.7474973,
+      "lng": -122.4094856
+    },
+    {
+      "name": "ABC Market",
+      "lat": 37.7495179,
+      "lng": -122.4086665
+    },
+    {
+      "name": "Stop & Shop Market",
+      "lat": 37.7489379,
+      "lng": -122.4183074
+    },
+    {
+      "name": "Bayshore Market Deli & Liquor",
+      "lat": 37.7430476,
+      "lng": -122.4055358
+    },
+    {
+      "name": "N & V Liquors & Grocery",
+      "lat": 37.7530388,
+      "lng": -122.4066359
+    },
+    {
+      "name": "Tony's Market",
+      "lat": 37.7528111,
+      "lng": -122.4074282
+    },
+    {
+      "name": "Roxie Food Center",
+      "lat": 37.7267869,
+      "lng": -122.4413672
+    },
+    {
+      "name": "Andi's Market",
+      "lat": 37.7388099,
+      "lng": -122.414204
+    },
+    {
+      "name": "Pay Little Market",
+      "lat": 37.7389842,
+      "lng": -122.4145587
+    },
+    {
+      "name": "Europa Express",
+      "lat": 37.7742945,
+      "lng": -122.509954
+    },
+    {
+      "name": "Ashbury Market",
+      "lat": 37.7670881,
+      "lng": -122.4465288
+    },
+    {
+      "name": "Fort Mason Market and Deli",
+      "lat": 37.7998816,
+      "lng": -122.427797
+    },
+    {
+      "name": "Friends Liquor Groceries",
+      "lat": 37.7860068,
+      "lng": -122.4331305
+    },
+    {
+      "name": "Golden Natural Foods",
+      "lat": 37.7688849,
+      "lng": -122.4292652
+    },
+    {
+      "name": "New India Bazar",
+      "lat": 37.7870122,
+      "lng": -122.4201097
+    },
+    {
+      "name": "U-Save Liquor & Grocery",
+      "lat": 37.7350041,
+      "lng": -122.4169502
+    },
+    {
+      "name": "23rd & Guerrero Liquor Store",
+      "lat": 37.7536836,
+      "lng": -122.4228655
+    },
+    {
+      "name": "New Potrero Market",
+      "lat": 37.7625243,
+      "lng": -122.3957876
+    },
+    {
+      "name": "Le March\u00e9 Cezanne",
+      "lat": 37.7626475,
+      "lng": -122.397181
+    },
+    {
+      "name": "RJ\u2019s market",
+      "lat": 37.8033968,
+      "lng": -122.4034072
+    },
+    {
+      "name": "Glen Park Market",
+      "lat": 37.7334515,
+      "lng": -122.4342823
+    },
+    {
+      "name": "Teddy's Market",
+      "lat": 37.7152284,
+      "lng": -122.4084473
+    },
+    {
+      "name": "Downtown Grocery",
+      "lat": 37.7838801,
+      "lng": -122.4121922
+    },
+    {
+      "name": "ExtraMile",
+      "lat": 37.9024418,
+      "lng": -122.511148
+    },
+    {
+      "name": "Western Sunset Market",
+      "lat": 37.7603023,
+      "lng": -122.5057581
+    },
+    {
+      "name": "Tommy's Market & Deli",
+      "lat": 37.7484256,
+      "lng": -122.4783682
+    },
+    {
+      "name": "23rd and Mission Produce",
+      "lat": 37.7537058,
+      "lng": -122.4187375
+    },
+    {
+      "name": "unnamed",
+      "lat": 37.7574745,
+      "lng": -122.4136153
+    },
+    {
+      "name": "Woori Food Market",
+      "lat": 37.7837595,
+      "lng": -122.4326538
+    },
+    {
+      "name": "Tigers Liquors",
+      "lat": 37.7821322,
+      "lng": -122.485026
+    },
+    {
+      "name": "Wok Shop",
+      "lat": 37.7936988,
+      "lng": -122.4060709
+    },
+    {
+      "name": "Woodlands Market",
+      "lat": 37.7890338,
+      "lng": -122.3919796
+    },
+    {
+      "name": "Mainland Market Co.",
+      "lat": 37.7801447,
+      "lng": -122.4795405
+    },
+    {
+      "name": "New World Market",
+      "lat": 37.7801094,
+      "lng": -122.4801072
+    },
+    {
+      "name": "G & Y Bakery Cafe",
+      "lat": 37.794007,
+      "lng": -122.4075782
+    },
+    {
+      "name": "Russell\u2019s",
+      "lat": 37.7917231,
+      "lng": -122.3974122
+    },
+    {
+      "name": "Sunny Market",
+      "lat": 37.7817838,
+      "lng": -122.4512893
+    },
+    {
+      "name": "Tim\u2019s Market",
+      "lat": 37.7757295,
+      "lng": -122.4313234
+    },
+    {
+      "name": "T & L Market",
+      "lat": 37.7829075,
+      "lng": -122.4629968
+    },
+    {
+      "name": "New Lien Hing Supermarket",
+      "lat": 37.7831067,
+      "lng": -122.4635644
+    },
+    {
+      "name": "Hokkaido Sashimi Marketplace",
+      "lat": 37.7802335,
+      "lng": -122.4776853
+    },
+    {
+      "name": "City Discount Market #2",
+      "lat": 37.7801867,
+      "lng": -122.4788947
+    },
+    {
+      "name": "Gourmand",
+      "lat": 37.7806414,
+      "lng": -122.4687676
+    },
+    {
+      "name": "State Market",
+      "lat": 37.7805681,
+      "lng": -122.470578
+    },
+    {
+      "name": "Yin Xing Food Company",
+      "lat": 37.7827474,
+      "lng": -122.4664396
+    },
+    {
+      "name": "Modera Liquor & Wine",
+      "lat": 37.7807228,
+      "lng": -122.4665611
+    },
+    {
+      "name": "Denhard's Market",
+      "lat": 37.7750476,
+      "lng": -122.468281
+    },
+    {
+      "name": "Food Mart",
+      "lat": 37.7647819,
+      "lng": -122.4171403
+    },
+    {
+      "name": "Tower Car Wash",
+      "lat": 37.7721424,
+      "lng": -122.4187754
+    },
+    {
+      "name": "Point Richmond Market",
+      "lat": 37.9264756,
+      "lng": -122.3858963
+    },
+    {
+      "name": "Santa Fe Market",
+      "lat": 37.9260964,
+      "lng": -122.3859269
+    },
+    {
+      "name": "unnamed",
+      "lat": 37.7823361,
+      "lng": -122.416926
+    },
+    {
+      "name": "Stardust Market",
+      "lat": 37.7810277,
+      "lng": -122.4601659
+    },
+    {
+      "name": "Island Market & Deli",
+      "lat": 37.8166546,
+      "lng": -122.3708828
+    },
+    {
+      "name": "unnamed",
+      "lat": 37.960432,
+      "lng": -122.5041521
+    },
+    {
+      "name": "Silver Produce",
+      "lat": 37.7302597,
+      "lng": -122.4045549
+    },
+    {
+      "name": "Luke's Local",
+      "lat": 37.7972287,
+      "lng": -122.4352703
+    },
+    {
+      "name": "Mid City Market",
+      "lat": 37.7008399,
+      "lng": -122.4637595
+    },
+    {
+      "name": "Lowell Market",
+      "lat": 37.7096699,
+      "lng": -122.4456009
+    },
+    {
+      "name": "Gabby\u2019s Market and Deli",
+      "lat": 37.7879258,
+      "lng": -122.3903167
+    },
+    {
+      "name": "Christa Wonderful Market",
+      "lat": 37.788685,
+      "lng": -122.442084
+    },
+    {
+      "name": "Royal Market",
+      "lat": 37.7839862,
+      "lng": -122.4432127
+    },
+    {
+      "name": "Indian Market & Liquor",
+      "lat": 37.7846931,
+      "lng": -122.4433343
+    },
+    {
+      "name": "H Mart",
+      "lat": 37.7103977,
+      "lng": -122.46765
+    },
+    {
+      "name": "ExtraMile",
+      "lat": 37.7117952,
+      "lng": -122.4558476
+    },
+    {
+      "name": "Ana's Market",
+      "lat": 37.7130572,
+      "lng": -122.4563881
+    },
+    {
+      "name": "NOPA Corner Market",
+      "lat": 37.7760934,
+      "lng": -122.4432864
+    },
+    {
+      "name": "Bait Shop Market",
+      "lat": 37.8732325,
+      "lng": -122.5059838
+    },
+    {
+      "name": "Gus's Community Market",
+      "lat": 37.7528697,
+      "lng": -122.5034368
+    },
+    {
+      "name": "EM Deli",
+      "lat": 37.7877396,
+      "lng": -122.4137255
+    },
+    {
+      "name": "Rainbow Market",
+      "lat": 37.7605884,
+      "lng": -122.4384111
+    },
+    {
+      "name": "Market Mayflower and Deli",
+      "lat": 37.7894691,
+      "lng": -122.4133918
+    },
+    {
+      "name": "Round The Clock Market",
+      "lat": 37.7894216,
+      "lng": -122.4138435
+    },
+    {
+      "name": "Fred's Food Mart",
+      "lat": 37.7863575,
+      "lng": -122.4095909
+    },
+    {
+      "name": "Pine & Jones Market",
+      "lat": 37.7905471,
+      "lng": -122.4140681
+    },
+    {
+      "name": "S&B Grocery Liquors",
+      "lat": 37.7871084,
+      "lng": -122.4186333
+    },
+    {
+      "name": "Nick's Super Market",
+      "lat": 37.7741196,
+      "lng": -122.4232073
+    },
+    {
+      "name": "Sausalito Market",
+      "lat": 37.8586486,
+      "lng": -122.4852177
+    },
+    {
+      "name": "Boss Supermarket",
+      "lat": 37.7534462,
+      "lng": -122.4912857
+    },
+    {
+      "name": "Natural Market",
+      "lat": 37.7880475,
+      "lng": -122.4321382
+    },
+    {
+      "name": "Franklin Market Deli",
+      "lat": 37.788695,
+      "lng": -122.4235471
+    },
+    {
+      "name": "Nob Hill General Store",
+      "lat": 37.7938439,
+      "lng": -122.4161675
+    },
+    {
+      "name": "Polk N Post Convenience Store",
+      "lat": 37.7867126,
+      "lng": -122.4200542
+    },
+    {
+      "name": "College Market",
+      "lat": 37.7835229,
+      "lng": -122.4224598
+    },
+    {
+      "name": "Guzman Produce Market",
+      "lat": 37.7149738,
+      "lng": -122.44207
+    },
+    {
+      "name": "Mid City Market",
+      "lat": 37.7862911,
+      "lng": -122.417614
+    },
+    {
+      "name": "Salem Grocery and Liquor",
+      "lat": 37.7861477,
+      "lng": -122.4186933
+    },
+    {
+      "name": "7-Eleven",
+      "lat": 37.7923826,
+      "lng": -122.401163
+    },
+    {
+      "name": "Indian Market and Liquor",
+      "lat": 37.7464738,
+      "lng": -122.4225349
+    },
+    {
+      "name": "Hom's Grocery and Liquor",
+      "lat": 37.763283,
+      "lng": -122.4238326
+    },
+    {
+      "name": "Maryland Market",
+      "lat": 37.7828911,
+      "lng": -122.4142279
+    },
+    {
+      "name": "T.L. Market & Deli",
+      "lat": 37.7829243,
+      "lng": -122.413955
+    },
+    {
+      "name": "Van Ness Market",
+      "lat": 37.7841367,
+      "lng": -122.4208432
+    },
+    {
+      "name": "Econo Market",
+      "lat": 37.7855184,
+      "lng": -122.4143931
+    },
+    {
+      "name": "Cigarette Depot & Market",
+      "lat": 37.7821887,
+      "lng": -122.483683
+    },
+    {
+      "name": "A-Z Market",
+      "lat": 37.7828286,
+      "lng": -122.4030064
+    },
+    {
+      "name": "Starlight Market",
+      "lat": 37.7849643,
+      "lng": -122.4129526
+    },
+    {
+      "name": "unnamed",
+      "lat": 37.7821458,
+      "lng": -122.4275578
+    },
+    {
+      "name": "Island Cove Market",
+      "lat": 37.8263913,
+      "lng": -122.3704466
+    },
+    {
+      "name": "California Produce",
+      "lat": 37.7856223,
+      "lng": -122.4195347
+    },
+    {
+      "name": "Sutter Market",
+      "lat": 37.7879798,
+      "lng": -122.419281
+    },
+    {
+      "name": "Presidio Food Market",
+      "lat": 37.797812,
+      "lng": -122.4459569
+    },
+    {
+      "name": "Grove St Market",
+      "lat": 37.7777128,
+      "lng": -122.4250043
+    },
+    {
+      "name": "Safeway",
+      "lat": 37.7746125,
+      "lng": -122.465134
+    },
+    {
+      "name": "Food Mart",
+      "lat": 37.7647759,
+      "lng": -122.4078816
+    },
+    {
+      "name": "G&H Liquor and Grocery",
+      "lat": 37.7831082,
+      "lng": -122.4125961
+    },
+    {
+      "name": "Wally's Community Market",
+      "lat": 37.7857881,
+      "lng": -122.4122648
+    },
+    {
+      "name": "Fast Fill Market",
+      "lat": 37.7737367,
+      "lng": -122.4379824
+    },
+    {
+      "name": "Brothers Market",
+      "lat": 37.7125697,
+      "lng": -122.4445857
+    },
+    {
+      "name": "Pay and Save Grocery",
+      "lat": 37.7616733,
+      "lng": -122.4236575
+    },
+    {
+      "name": "Guerrero Market & Deli",
+      "lat": 37.7598896,
+      "lng": -122.4235127
+    },
+    {
+      "name": "GGP Market",
+      "lat": 37.7527862,
+      "lng": -122.4108916
+    },
+    {
+      "name": "W-K Market Super Discount",
+      "lat": 37.7526634,
+      "lng": -122.4139194
+    },
+    {
+      "name": "Mission Groceteria",
+      "lat": 37.754389,
+      "lng": -122.4112562
+    },
+    {
+      "name": "Samy\u2019s Liquors",
+      "lat": 37.7527201,
+      "lng": -122.4089789
+    },
+    {
+      "name": "Liquor Grocery",
+      "lat": 37.7591183,
+      "lng": -122.4096004
+    },
+    {
+      "name": "King\u2019 Market",
+      "lat": 37.7560867,
+      "lng": -122.4095998
+    },
+    {
+      "name": "I.C.U.",
+      "lat": 37.7836406,
+      "lng": -122.4157598
+    },
+    {
+      "name": "California & Lyon Market",
+      "lat": 37.7875505,
+      "lng": -122.4455577
+    },
+    {
+      "name": "J and S Produce",
+      "lat": 37.7296251,
+      "lng": -122.4045663
+    },
+    {
+      "name": "Valencia Exotic Cigars & Liquors",
+      "lat": 37.7568069,
+      "lng": -122.4209668
+    },
+    {
+      "name": "Mulan's Market",
+      "lat": 37.7537324,
+      "lng": -122.4911443
+    },
+    {
+      "name": "Chong Hing Supermarket",
+      "lat": 37.7965886,
+      "lng": -122.4085606
+    },
+    {
+      "name": "ExtraMile",
+      "lat": 37.7807789,
+      "lng": -122.458364
+    },
+    {
+      "name": "Royal Market",
+      "lat": 37.7802753,
+      "lng": -122.4767481
+    },
+    {
+      "name": "Bourbon County",
+      "lat": 37.7820065,
+      "lng": -122.4824572
+    },
+    {
+      "name": "Jack\u2019s Market",
+      "lat": 37.781776,
+      "lng": -122.3962152
+    },
+    {
+      "name": "Niell\u2019s Grocery & Liquor",
+      "lat": 37.781124,
+      "lng": -122.395368
+    },
+    {
+      "name": "Sonic Mart",
+      "lat": 37.7805203,
+      "lng": -122.4676606
+    },
+    {
+      "name": "Loop",
+      "lat": 37.7531744,
+      "lng": -122.388364
+    },
+    {
+      "name": "Willow on the Green",
+      "lat": 37.7634661,
+      "lng": -122.4664294
+    },
+    {
+      "name": "Your Market",
+      "lat": 37.7591827,
+      "lng": -122.5078743
+    },
+    {
+      "name": "El Rio Produce",
+      "lat": 37.7822334,
+      "lng": -122.4830843
+    },
+    {
+      "name": "Safeway",
+      "lat": 37.7969036,
+      "lng": -122.3985422
+    },
+    {
+      "name": "Plaza Snacks & Deli",
+      "lat": 37.7808783,
+      "lng": -122.4132553
+    },
+    {
+      "name": "Bay Food Market",
+      "lat": 37.7808371,
+      "lng": -122.4116839
+    },
+    {
+      "name": "Fruit Barn",
+      "lat": 37.7247268,
+      "lng": -122.459482
+    },
+    {
+      "name": "Food Basket Market",
+      "lat": 37.7754314,
+      "lng": -122.4259306
+    },
+    {
+      "name": "Grocery Outlet",
+      "lat": 37.9597203,
+      "lng": -122.5080891
+    },
+    {
+      "name": "unnamed",
+      "lat": 37.7802498,
+      "lng": -122.4855391
+    },
+    {
+      "name": "All Fresh Market",
+      "lat": 37.724573,
+      "lng": -122.4587607
+    },
+    {
+      "name": "Alcatraz Market",
+      "lat": 37.8063854,
+      "lng": -122.4213818
+    },
+    {
+      "name": "unnamed",
+      "lat": 37.7565389,
+      "lng": -122.5016701
+    },
+    {
+      "name": "M & W Market",
+      "lat": 37.7549065,
+      "lng": -122.3979356
+    },
+    {
+      "name": "Parkside Market",
+      "lat": 37.7744644,
+      "lng": -122.4429242
+    },
+    {
+      "name": "Tip Top Market",
+      "lat": 37.7833669,
+      "lng": -122.4105073
+    },
+    {
+      "name": "Ed's Market",
+      "lat": 37.7830042,
+      "lng": -122.4116354
+    },
+    {
+      "name": "SF Discount Market",
+      "lat": 37.7833078,
+      "lng": -122.4140198
+    },
+    {
+      "name": "Empire Market",
+      "lat": 37.7836392,
+      "lng": -122.4140931
+    },
+    {
+      "name": "Radman's Produce Market",
+      "lat": 37.7828339,
+      "lng": -122.4129286
+    },
+    {
+      "name": "Tahona Mercado",
+      "lat": 37.7920843,
+      "lng": -122.4158236
+    },
+    {
+      "name": "Bret Harte Super Grocery",
+      "lat": 37.9629387,
+      "lng": -122.5203578
+    },
+    {
+      "name": "Welcome Supermarket",
+      "lat": 37.7759233,
+      "lng": -122.4086566
+    },
+    {
+      "name": "Vic\u2019s Grocery Liquor",
+      "lat": 37.7492676,
+      "lng": -122.4161464
+    },
+    {
+      "name": "SOMA Produce",
+      "lat": 37.7806576,
+      "lng": -122.4085845
+    },
+    {
+      "name": "I. C. U. Market",
+      "lat": 37.780502,
+      "lng": -122.4084054
+    },
+    {
+      "name": "6th Gift & More",
+      "lat": 37.7805908,
+      "lng": -122.4079973
+    },
+    {
+      "name": "Chaat Corner Indian Grocery",
+      "lat": 37.7835778,
+      "lng": -122.3989177
+    },
+    {
+      "name": "unnamed",
+      "lat": 37.7057111,
+      "lng": -122.4070092
+    },
+    {
+      "name": "Wo Chong Company",
+      "lat": 37.7949166,
+      "lng": -122.4076271
+    },
+    {
+      "name": "Dai Lee Food Inc.",
+      "lat": 37.7950712,
+      "lng": -122.4077393
+    },
+    {
+      "name": "Hop Hing Market",
+      "lat": 37.7969816,
+      "lng": -122.4086457
+    },
+    {
+      "name": "Civic Center Market",
+      "lat": 37.7784827,
+      "lng": -122.4153964
+    },
+    {
+      "name": "Hayes Market",
+      "lat": 37.7764031,
+      "lng": -122.4277764
+    },
+    {
+      "name": "Nick's Foods",
+      "lat": 37.7731747,
+      "lng": -122.4214564
+    },
+    {
+      "name": "Central Park Natural",
+      "lat": 37.7738194,
+      "lng": -122.447838
+    },
+    {
+      "name": "Samiramis Imports",
+      "lat": 37.7492175,
+      "lng": -122.4183513
+    },
+    {
+      "name": "La Loma Produce",
+      "lat": 37.7514372,
+      "lng": -122.4185751
+    },
+    {
+      "name": "Mainstay Markets",
+      "lat": 37.7578731,
+      "lng": -122.3878755
+    },
+    {
+      "name": "Rosenberg's Market",
+      "lat": 37.764629,
+      "lng": -122.43329
+    },
+    {
+      "name": "Produce Land",
+      "lat": 37.7942479,
+      "lng": -122.4059294
+    },
+    {
+      "name": "Circle K",
+      "lat": 37.7170763,
+      "lng": -122.4410589
+    },
+    {
+      "name": "Adel Market",
+      "lat": 37.7164747,
+      "lng": -122.4408246
+    },
+    {
+      "name": "Mission Food Center",
+      "lat": 37.7592127,
+      "lng": -122.4192758
+    },
+    {
+      "name": "Jasmine Market",
+      "lat": 37.7587948,
+      "lng": -122.4189408
+    },
+    {
+      "name": "Epicurean Trader",
+      "lat": 37.7652928,
+      "lng": -122.432112
+    },
+    {
+      "name": "Isaac's Market",
+      "lat": 37.7556103,
+      "lng": -122.4142349
+    },
+    {
+      "name": "Quarts n Pints",
+      "lat": 37.7537866,
+      "lng": -122.489952
+    },
+    {
+      "name": "Noriega Market",
+      "lat": 37.7537708,
+      "lng": -122.4901268
+    },
+    {
+      "name": "unnamed",
+      "lat": 37.9556283,
+      "lng": -122.35733
+    },
+    {
+      "name": "That's It",
+      "lat": 37.7539648,
+      "lng": -122.4184381
+    },
+    {
+      "name": "Luke's Local",
+      "lat": 37.7646119,
+      "lng": -122.4662511
+    },
+    {
+      "name": "Noe Valley Market",
+      "lat": 37.7657173,
+      "lng": -122.4334374
+    },
+    {
+      "name": "Pacific Food Mart",
+      "lat": 37.7855621,
+      "lng": -122.4364045
+    },
+    {
+      "name": "Sausalito Mini Mart",
+      "lat": 37.8574002,
+      "lng": -122.4813835
+    },
+    {
+      "name": "7-Eleven",
+      "lat": 37.9254748,
+      "lng": -122.3603331
+    },
+    {
+      "name": "M&K Market",
+      "lat": 37.7788922,
+      "lng": -122.4664235
+    },
+    {
+      "name": "Ha Mini Mart",
+      "lat": 37.7943706,
+      "lng": -122.4064339
+    },
+    {
+      "name": "Loop",
+      "lat": 37.7882865,
+      "lng": -122.4356708
+    },
+    {
+      "name": "K&J Market",
+      "lat": 37.7222067,
+      "lng": -122.3931933
+    },
+    {
+      "name": "El Chavo Supermercado",
+      "lat": 37.7236406,
+      "lng": -122.4365258
+    },
+    {
+      "name": "George's Market",
+      "lat": 37.7523349,
+      "lng": -122.4150307
+    },
+    {
+      "name": "Golden Eagle Market",
+      "lat": 37.7586007,
+      "lng": -122.421469
+    },
+    {
+      "name": "unnamed",
+      "lat": 37.7241797,
+      "lng": -122.4024955
+    },
+    {
+      "name": "Precita Food Mart",
+      "lat": 37.7468052,
+      "lng": -122.4183516
+    },
+    {
+      "name": "Ricci's Market",
+      "lat": 37.7529801,
+      "lng": -122.4079916
+    },
+    {
+      "name": "La Lomita Market",
+      "lat": 37.7573816,
+      "lng": -122.4144149
+    },
+    {
+      "name": "El Chico Produce #4",
+      "lat": 37.7525808,
+      "lng": -122.4112447
+    },
+    {
+      "name": "Indian Spices and Grocery",
+      "lat": 37.7552568,
+      "lng": -122.4202736
+    },
+    {
+      "name": "Foods Co",
+      "lat": 37.7676245,
+      "lng": -122.4161193
+    },
+    {
+      "name": "Safeway",
+      "lat": 37.8044499,
+      "lng": -122.4328308
+    },
+    {
+      "name": "Safeway",
+      "lat": 37.7434345,
+      "lng": -122.4741162
+    },
+    {
+      "name": "Luke's Local Grocery",
+      "lat": 37.7996691,
+      "lng": -122.4087833
+    },
+    {
+      "name": "Cash & Carry",
+      "lat": 37.7705244,
+      "lng": -122.4184388
+    },
+    {
+      "name": "United Markets",
+      "lat": 37.9706233,
+      "lng": -122.5198115
+    },
+    {
+      "name": "Safeway",
+      "lat": 37.6996207,
+      "lng": -122.481658
+    },
+    {
+      "name": "Foods Co",
+      "lat": 37.7297434,
+      "lng": -122.3988207
+    },
+    {
+      "name": "Azteca Supermarket",
+      "lat": 37.9728441,
+      "lng": -122.5239818
+    },
+    {
+      "name": "Smart & Final",
+      "lat": 37.7822881,
+      "lng": -122.465175
+    },
+    {
+      "name": "Safeway",
+      "lat": 37.754188,
+      "lng": -122.488855
+    },
+    {
+      "name": "Safeway",
+      "lat": 37.7725365,
+      "lng": -122.5093538
+    },
+    {
+      "name": "Safeway",
+      "lat": 37.7312406,
+      "lng": -122.4500508
+    },
+    {
+      "name": "Safeway",
+      "lat": 37.7435687,
+      "lng": -122.4389462
+    },
+    {
+      "name": "Safeway",
+      "lat": 37.7691101,
+      "lng": -122.4283215
+    },
+    {
+      "name": "Good Life Grocery",
+      "lat": 37.7388952,
+      "lng": -122.4166679
+    },
+    {
+      "name": "Safeway",
+      "lat": 37.7432508,
+      "lng": -122.4224516
+    },
+    {
+      "name": "Safeway",
+      "lat": 37.9702712,
+      "lng": -122.5291874
+    },
+    {
+      "name": "Safeway",
+      "lat": 37.8941182,
+      "lng": -122.531365
+    },
+    {
+      "name": "Safeway",
+      "lat": 37.899281,
+      "lng": -122.5146802
+    },
+    {
+      "name": "Safeway",
+      "lat": 37.9279119,
+      "lng": -122.517718
+    },
+    {
+      "name": "Miraloma Market",
+      "lat": 37.7437795,
+      "lng": -122.4536954
+    },
+    {
+      "name": "Arguello Market",
+      "lat": 37.7756528,
+      "lng": -122.4581435
+    },
+    {
+      "name": "Chef Bowl, Inc.",
+      "lat": 37.7982889,
+      "lng": -122.4099485
+    },
+    {
+      "name": "Mollie Stone's",
+      "lat": 37.7885533,
+      "lng": -122.4345222
+    },
+    {
+      "name": "Roxie\u2019s Market & Deli",
+      "lat": 37.7604783,
+      "lng": -122.4663802
+    },
+    {
+      "name": "Haight Street Market",
+      "lat": 37.7702039,
+      "lng": -122.4476308
+    },
+    {
+      "name": "Luke's Local",
+      "lat": 37.7650528,
+      "lng": -122.4495368
+    },
+    {
+      "name": "Bryan's Grocery",
+      "lat": 37.7864539,
+      "lng": -122.4508481
+    },
+    {
+      "name": "Mollie Stone's",
+      "lat": 37.744743,
+      "lng": -122.452308
+    },
+    {
+      "name": "22nd & Irving Market",
+      "lat": 37.7631811,
+      "lng": -122.4805503
+    },
+    {
+      "name": "25th Irving Market",
+      "lat": 37.763014,
+      "lng": -122.4840885
+    },
+    {
+      "name": "Canyon Market",
+      "lat": 37.7340694,
+      "lng": -122.4338202
+    },
+    {
+      "name": "Other Avenues Grocery Co-op",
+      "lat": 37.760676,
+      "lng": -122.5043529
+    },
+    {
+      "name": "Parkside Farmers Market",
+      "lat": 37.7429808,
+      "lng": -122.4722613
+    },
+    {
+      "name": "Sunset Super",
+      "lat": 37.7380924,
+      "lng": -122.4973752
+    },
+    {
+      "name": "Grocery Outlet",
+      "lat": 37.7084987,
+      "lng": -122.4060028
+    },
+    {
+      "name": "Grocery Outlet",
+      "lat": 37.731046,
+      "lng": -122.4090582
+    },
+    {
+      "name": "Safeway",
+      "lat": 37.7199299,
+      "lng": -122.4389783
+    },
+    {
+      "name": "Safeway",
+      "lat": 37.7668779,
+      "lng": -122.409297
+    },
+    {
+      "name": "Driver's Market",
+      "lat": 37.8593434,
+      "lng": -122.4862567
+    },
+    {
+      "name": "Mollie Stone's Markets",
+      "lat": 37.8666217,
+      "lng": -122.4995719
+    },
+    {
+      "name": "Golden Gate Market",
+      "lat": 37.8497176,
+      "lng": -122.4809484
+    },
+    {
+      "name": "Cardenas",
+      "lat": 37.9613234,
+      "lng": -122.5000115
+    },
+    {
+      "name": "Food Barn",
+      "lat": 37.9595365,
+      "lng": -122.3573805
+    },
+    {
+      "name": "Manila Oriental Market",
+      "lat": 37.7303235,
+      "lng": -122.4289844
+    },
+    {
+      "name": "Grocery Outlet",
+      "lat": 37.753123,
+      "lng": -122.4158643
+    },
+    {
+      "name": "Good Earth Natural Foods",
+      "lat": 37.8808347,
+      "lng": -122.5256512
+    },
+    {
+      "name": "Richmond New May Wah Supermarket",
+      "lat": 37.7825989,
+      "lng": -122.466956
+    },
+    {
+      "name": "Mill Valley Market",
+      "lat": 37.9068618,
+      "lng": -122.547408
+    },
+    {
+      "name": "Andy's Local Market",
+      "lat": 37.9732239,
+      "lng": -122.484162
+    },
+    {
+      "name": "Smart & Final",
+      "lat": 37.9572944,
+      "lng": -122.5067867
+    },
+    {
+      "name": "The Market",
+      "lat": 37.7765395,
+      "lng": -122.4168067
+    },
+    {
+      "name": "Andronico's",
+      "lat": 37.7822204,
+      "lng": -122.4930603
+    },
+    {
+      "name": "Lucky",
+      "lat": 37.7330423,
+      "lng": -122.4894545
+    }
+  ],
+  "premium_grocery": [
+    {
+      "name": "Whole Foods Market",
+      "lat": 37.7811499,
+      "lng": -122.3997789
+    },
+    {
+      "name": "Haight Fillmore Whole Foods Co.",
+      "lat": 37.7719921,
+      "lng": -122.4305641
+    },
+    {
+      "name": "Trader Joe's",
+      "lat": 37.7265935,
+      "lng": -122.4762074
+    },
+    {
+      "name": "Whole Foods Market",
+      "lat": 37.7900899,
+      "lng": -122.4234142
+    },
+    {
+      "name": "Trader Joe's",
+      "lat": 37.7709988,
+      "lng": -122.4077368
+    },
+    {
+      "name": "Bi-Rite Market",
+      "lat": 37.7965466,
+      "lng": -122.4217072
+    },
+    {
+      "name": "Whole Foods Market",
+      "lat": 37.7237981,
+      "lng": -122.4546813
+    },
+    {
+      "name": "Valencia Whole Foods",
+      "lat": 37.7570209,
+      "lng": -122.4208606
+    },
+    {
+      "name": "Trader Joe's",
+      "lat": 37.8054807,
+      "lng": -122.4137896
+    },
+    {
+      "name": "Trader Joe's",
+      "lat": 37.7907686,
+      "lng": -122.4179305
+    },
+    {
+      "name": "Whole Foods Market",
+      "lat": 37.7687435,
+      "lng": -122.4270651
+    },
+    {
+      "name": "Trader Joe's",
+      "lat": 37.7001684,
+      "lng": -122.4822883
+    },
+    {
+      "name": "Trader Joe's",
+      "lat": 37.937841,
+      "lng": -122.5149545
+    },
+    {
+      "name": "Trader Joe's",
+      "lat": 37.969678,
+      "lng": -122.5165256
+    },
+    {
+      "name": "Whole Foods Market",
+      "lat": 37.7643298,
+      "lng": -122.4027236
+    },
+    {
+      "name": "Trader Joe's",
+      "lat": 37.785398,
+      "lng": -122.4056288
+    },
+    {
+      "name": "Balboa Bi-rite Market",
+      "lat": 37.7761327,
+      "lng": -122.4853733
+    },
+    {
+      "name": "Whole Foods Market",
+      "lat": 37.7290661,
+      "lng": -122.4763228
+    },
+    {
+      "name": "Trader Joe's",
+      "lat": 37.7781179,
+      "lng": -122.4264269
+    },
+    {
+      "name": "Trader Joe's",
+      "lat": 37.7833886,
+      "lng": -122.4478393
+    },
+    {
+      "name": "Whole Foods Market",
+      "lat": 37.9713331,
+      "lng": -122.5168325
+    },
+    {
+      "name": "Whole Foods Market",
+      "lat": 37.8960542,
+      "lng": -122.5362425
+    },
+    {
+      "name": "Rainbow Grocery Coop",
+      "lat": 37.7690607,
+      "lng": -122.4150738
+    },
+    {
+      "name": "Whole Foods Market",
+      "lat": 37.7520191,
+      "lng": -122.4309055
+    },
+    {
+      "name": "Whole Foods Market",
+      "lat": 37.7695531,
+      "lng": -122.4527946
+    },
+    {
+      "name": "Bi-Rite Market",
+      "lat": 37.7748031,
+      "lng": -122.4374873
+    },
+    {
+      "name": "Whole Foods Market",
+      "lat": 37.9025874,
+      "lng": -122.5260435
+    },
+    {
+      "name": "Sprouts Farmers Market",
+      "lat": 37.9686971,
+      "lng": -122.5231615
+    }
+  ],
+  "bar": [
+    {
+      "name": "Woods Lowside",
+      "lat": 37.7721448,
+      "lng": -122.4310153
+    },
+    {
+      "name": "Toronado",
+      "lat": 37.77191,
+      "lng": -122.4312219
+    },
+    {
+      "name": "Molotov's",
+      "lat": 37.7720543,
+      "lng": -122.4317624
+    },
+    {
+      "name": "Noc Noc",
+      "lat": 37.7718891,
+      "lng": -122.4314192
+    },
+    {
+      "name": "Danny Coyle's",
+      "lat": 37.7718647,
+      "lng": -122.4332636
+    },
+    {
+      "name": "The Page",
+      "lat": 37.7721197,
+      "lng": -122.4370577
+    },
+    {
+      "name": "Martuni's",
+      "lat": 37.7721282,
+      "lng": -122.4227728
+    },
+    {
+      "name": "The Green Heron",
+      "lat": 37.7696815,
+      "lng": -122.4487116
+    },
+    {
+      "name": "Magnolia SF",
+      "lat": 37.7703394,
+      "lng": -122.4451944
+    },
+    {
+      "name": "The Gold Cane",
+      "lat": 37.7697699,
+      "lng": -122.4480112
+    },
+    {
+      "name": "Mary's",
+      "lat": 37.7700421,
+      "lng": -122.4460642
+    },
+    {
+      "name": "Aub Zam Zam",
+      "lat": 37.7696002,
+      "lng": -122.4493023
+    },
+    {
+      "name": "Comstock Saloon",
+      "lat": 37.7969638,
+      "lng": -122.4056426
+    },
+    {
+      "name": "Mr. Bing's",
+      "lat": 37.7971431,
+      "lng": -122.4058551
+    },
+    {
+      "name": "Irish Times",
+      "lat": 37.7940403,
+      "lng": -122.4015526
+    },
+    {
+      "name": "Old Ship Saloon",
+      "lat": 37.7977871,
+      "lng": -122.4007139
+    },
+    {
+      "name": "Pops",
+      "lat": 37.7529503,
+      "lng": -122.4083499
+    },
+    {
+      "name": "Kilowatt",
+      "lat": 37.7649743,
+      "lng": -122.4232405
+    },
+    {
+      "name": "The Wooden Nickel",
+      "lat": 37.766838,
+      "lng": -122.4156342
+    },
+    {
+      "name": "Shotwell's",
+      "lat": 37.7587423,
+      "lng": -122.4156655
+    },
+    {
+      "name": "Verdi Club",
+      "lat": 37.7632862,
+      "lng": -122.4079125
+    },
+    {
+      "name": "Elixir",
+      "lat": 37.7649242,
+      "lng": -122.4243046
+    },
+    {
+      "name": "Dalva",
+      "lat": 37.7647708,
+      "lng": -122.4224623
+    },
+    {
+      "name": "John Foley's Dueling Piano Bar",
+      "lat": 37.7862572,
+      "lng": -122.4086732
+    },
+    {
+      "name": "Local Tap",
+      "lat": 37.779906,
+      "lng": -122.394321
+    },
+    {
+      "name": "21st Amendment Brewery",
+      "lat": 37.782448,
+      "lng": -122.3925769
+    },
+    {
+      "name": "Tempest",
+      "lat": 37.7812256,
+      "lng": -122.4062574
+    },
+    {
+      "name": "Specs Bar",
+      "lat": 37.7976427,
+      "lng": -122.40599
+    },
+    {
+      "name": "Cafe Tosca",
+      "lat": 37.7975454,
+      "lng": -122.4059615
+    },
+    {
+      "name": "15 Romolo",
+      "lat": 37.7982178,
+      "lng": -122.4063692
+    },
+    {
+      "name": "Grant and Green",
+      "lat": 37.7995962,
+      "lng": -122.4074738
+    },
+    {
+      "name": "The Boardroom",
+      "lat": 37.7994533,
+      "lng": -122.4105373
+    },
+    {
+      "name": "Custom Lounge",
+      "lat": 37.7786408,
+      "lng": -122.409904
+    },
+    {
+      "name": "Cigar Bar",
+      "lat": 37.7970564,
+      "lng": -122.4034628
+    },
+    {
+      "name": "Tunnel Top",
+      "lat": 37.7902413,
+      "lng": -122.4072909
+    },
+    {
+      "name": "Kennedy's Irish Pub & Curry House",
+      "lat": 37.8041003,
+      "lng": -122.4153272
+    },
+    {
+      "name": "ABV",
+      "lat": 37.7649457,
+      "lng": -122.4235379
+    },
+    {
+      "name": "Aces",
+      "lat": 37.7883091,
+      "lng": -122.416671
+    },
+    {
+      "name": "Buena Vista",
+      "lat": 37.8065169,
+      "lng": -122.4207744
+    },
+    {
+      "name": "Tonic",
+      "lat": 37.7986951,
+      "lng": -122.4221753
+    },
+    {
+      "name": "The Royal Oak",
+      "lat": 37.7970245,
+      "lng": -122.4221958
+    },
+    {
+      "name": "Shanghai Kelly's",
+      "lat": 37.7958344,
+      "lng": -122.4216053
+    },
+    {
+      "name": "Harper & Rye",
+      "lat": 37.7922403,
+      "lng": -122.421214
+    },
+    {
+      "name": "Swig",
+      "lat": 37.7867153,
+      "lng": -122.4125033
+    },
+    {
+      "name": "Columbus Cafe",
+      "lat": 37.7996933,
+      "lng": -122.408424
+    },
+    {
+      "name": "House of Shields",
+      "lat": 37.7882367,
+      "lng": -122.4012873
+    },
+    {
+      "name": "Delirium",
+      "lat": 37.764764,
+      "lng": -122.4227284
+    },
+    {
+      "name": "The Orbit Room",
+      "lat": 37.7706731,
+      "lng": -122.4252744
+    },
+    {
+      "name": "Bourbon and Branch",
+      "lat": 37.785912,
+      "lng": -122.4131628
+    },
+    {
+      "name": "Clooney's Pub",
+      "lat": 37.7504256,
+      "lng": -122.4203499
+    },
+    {
+      "name": "Dovre Club",
+      "lat": 37.7489951,
+      "lng": -122.4205203
+    },
+    {
+      "name": "Buckshot",
+      "lat": 37.7813625,
+      "lng": -122.4607762
+    },
+    {
+      "name": "The Chieftain Irish Pub & Restaurant",
+      "lat": 37.7814985,
+      "lng": -122.4052119
+    },
+    {
+      "name": "Owl Tree",
+      "lat": 37.7877507,
+      "lng": -122.4118412
+    },
+    {
+      "name": "Level III",
+      "lat": 37.7881935,
+      "lng": -122.4103007
+    },
+    {
+      "name": "Lost Cat",
+      "lat": 37.7878201,
+      "lng": -122.4113142
+    },
+    {
+      "name": "Binu Bonu",
+      "lat": 37.7386468,
+      "lng": -122.4685481
+    },
+    {
+      "name": "The Dubliner",
+      "lat": 37.7377005,
+      "lng": -122.4696762
+    },
+    {
+      "name": "After Hours SF",
+      "lat": 37.7421604,
+      "lng": -122.4989551
+    },
+    {
+      "name": "Rye",
+      "lat": 37.7866698,
+      "lng": -122.4145242
+    },
+    {
+      "name": "Bottle Club Pub",
+      "lat": 37.7867295,
+      "lng": -122.4124048
+    },
+    {
+      "name": "The Mortimer",
+      "lat": 37.7869597,
+      "lng": -122.4124456
+    },
+    {
+      "name": "Geary Club",
+      "lat": 37.7865056,
+      "lng": -122.4159328
+    },
+    {
+      "name": "The Outsider",
+      "lat": 37.78623,
+      "lng": -122.4179928
+    },
+    {
+      "name": "Ha-Ra",
+      "lat": 37.7860732,
+      "lng": -122.4176448
+    },
+    {
+      "name": "Hanaro",
+      "lat": 37.7859078,
+      "lng": -122.4189262
+    },
+    {
+      "name": "Bloodhound",
+      "lat": 37.77581,
+      "lng": -122.4088161
+    },
+    {
+      "name": "Mission Bar",
+      "lat": 37.7540276,
+      "lng": -122.4184414
+    },
+    {
+      "name": "Jasper's",
+      "lat": 37.786117,
+      "lng": -122.4115193
+    },
+    {
+      "name": "Johnny Foley's Irish House",
+      "lat": 37.7862372,
+      "lng": -122.408751
+    },
+    {
+      "name": "Lush Lounge",
+      "lat": 37.7881395,
+      "lng": -122.420349
+    },
+    {
+      "name": "McTeague's Saloon",
+      "lat": 37.788382,
+      "lng": -122.4203937
+    },
+    {
+      "name": "El Lopo",
+      "lat": 37.7890756,
+      "lng": -122.4205448
+    },
+    {
+      "name": "Pittsburgh's Pub",
+      "lat": 37.7602405,
+      "lng": -122.5071774
+    },
+    {
+      "name": "AJ's Bar",
+      "lat": 37.7781961,
+      "lng": -122.4157435
+    },
+    {
+      "name": "Golden Gate Yacht Club",
+      "lat": 37.8077247,
+      "lng": -122.4426038
+    },
+    {
+      "name": "St. Francis Yacht Club",
+      "lat": 37.8072388,
+      "lng": -122.446947
+    },
+    {
+      "name": "Red Jack Saloon",
+      "lat": 37.8059987,
+      "lng": -122.409847
+    },
+    {
+      "name": "Up and Under",
+      "lat": 37.9254563,
+      "lng": -122.384655
+    },
+    {
+      "name": "Rite Spot Cafe",
+      "lat": 37.7638277,
+      "lng": -122.4150115
+    },
+    {
+      "name": "Casa Barajas / Chug Pub",
+      "lat": 37.7652442,
+      "lng": -122.4781609
+    },
+    {
+      "name": "The Connection",
+      "lat": 37.7099557,
+      "lng": -122.4498831
+    },
+    {
+      "name": "Restaurante-Pupuser\u00eda Ilobasco",
+      "lat": 37.7278009,
+      "lng": -122.4039937
+    },
+    {
+      "name": "Judnich's",
+      "lat": 37.7253753,
+      "lng": -122.4028439
+    },
+    {
+      "name": "Fat Beli Deli",
+      "lat": 37.7288873,
+      "lng": -122.404354
+    },
+    {
+      "name": "Dogpatch Saloon",
+      "lat": 37.7580357,
+      "lng": -122.3885258
+    },
+    {
+      "name": "Nihon",
+      "lat": 37.7686749,
+      "lng": -122.4154254
+    },
+    {
+      "name": "Smuggler's Cove",
+      "lat": 37.7793996,
+      "lng": -122.423343
+    },
+    {
+      "name": "Atlas Tap Room",
+      "lat": 37.7878983,
+      "lng": -122.4001637
+    },
+    {
+      "name": "Top of the Mark",
+      "lat": 37.7916237,
+      "lng": -122.4104078
+    },
+    {
+      "name": "Chelsea Place",
+      "lat": 37.7901588,
+      "lng": -122.4079122
+    },
+    {
+      "name": "Lookout",
+      "lat": 37.7643689,
+      "lng": -122.4333114
+    },
+    {
+      "name": "Twenty Five Lusk",
+      "lat": 37.778429,
+      "lng": -122.3943226
+    },
+    {
+      "name": "The Hyde Out",
+      "lat": 37.7908937,
+      "lng": -122.4172479
+    },
+    {
+      "name": "The Saloon",
+      "lat": 37.7985549,
+      "lng": -122.4070947
+    },
+    {
+      "name": "Butter",
+      "lat": 37.7710719,
+      "lng": -122.4132775
+    },
+    {
+      "name": "The View Lounge",
+      "lat": 37.7854136,
+      "lng": -122.4043265
+    },
+    {
+      "name": "Yerba Buena Bar",
+      "lat": 37.787564,
+      "lng": -122.3989958
+    },
+    {
+      "name": "DaDa Bar",
+      "lat": 37.7881751,
+      "lng": -122.4002205
+    },
+    {
+      "name": "Madarae",
+      "lat": 37.7885478,
+      "lng": -122.398145
+    },
+    {
+      "name": "Wreck Room",
+      "lat": 37.7911616,
+      "lng": -122.4171865
+    },
+    {
+      "name": "Dimples",
+      "lat": 37.7856379,
+      "lng": -122.4302408
+    },
+    {
+      "name": "Club Mari's / Mogura",
+      "lat": 37.7851137,
+      "lng": -122.4321864
+    },
+    {
+      "name": "Sutter Station Tavern",
+      "lat": 37.7898697,
+      "lng": -122.4009729
+    },
+    {
+      "name": "Trad'r Sam",
+      "lat": 37.7802406,
+      "lng": -122.485657
+    },
+    {
+      "name": "620 Jones",
+      "lat": 37.7870952,
+      "lng": -122.4128807
+    },
+    {
+      "name": "Wildhawk",
+      "lat": 37.7602548,
+      "lng": -122.4207752
+    },
+    {
+      "name": "Executive Order",
+      "lat": 37.7832783,
+      "lng": -122.4060429
+    },
+    {
+      "name": "Church Key",
+      "lat": 37.7998739,
+      "lng": -122.4073409
+    },
+    {
+      "name": "The Dubliner",
+      "lat": 37.7517362,
+      "lng": -122.4283247
+    },
+    {
+      "name": "The Valley Tavern",
+      "lat": 37.7514698,
+      "lng": -122.4331353
+    },
+    {
+      "name": "The Peaks",
+      "lat": 37.7509841,
+      "lng": -122.434183
+    },
+    {
+      "name": "State Room",
+      "lat": 37.9733445,
+      "lng": -122.529035
+    },
+    {
+      "name": "International Sports Club",
+      "lat": 37.8038977,
+      "lng": -122.4151415
+    },
+    {
+      "name": "Fly Bar & Restaurant",
+      "lat": 37.7767623,
+      "lng": -122.4379485
+    },
+    {
+      "name": "Southern Pacific Brewing",
+      "lat": 37.7601311,
+      "lng": -122.4139896
+    },
+    {
+      "name": "Bar Agricole",
+      "lat": 37.7712823,
+      "lng": -122.4130526
+    },
+    {
+      "name": "Scarlet Lounge",
+      "lat": 37.7831179,
+      "lng": -122.4638239
+    },
+    {
+      "name": "The Bitter End",
+      "lat": 37.7828409,
+      "lng": -122.4640435
+    },
+    {
+      "name": "Make Out Room",
+      "lat": 37.7553007,
+      "lng": -122.419366
+    },
+    {
+      "name": "Zombie Village",
+      "lat": 37.785513,
+      "lng": -122.413076
+    },
+    {
+      "name": "Press Club",
+      "lat": 37.7859991,
+      "lng": -122.4044428
+    },
+    {
+      "name": "Azucar Lounge",
+      "lat": 37.7739747,
+      "lng": -122.411637
+    },
+    {
+      "name": "Holy Water",
+      "lat": 37.7393085,
+      "lng": -122.4182852
+    },
+    {
+      "name": "Ireland's 32",
+      "lat": 37.7813471,
+      "lng": -122.4614374
+    },
+    {
+      "name": "Presidio Yacht Club",
+      "lat": 37.8340022,
+      "lng": -122.474413
+    },
+    {
+      "name": "The Pig & Whistle",
+      "lat": 37.782045,
+      "lng": -122.4491653
+    },
+    {
+      "name": "Pink Elephant",
+      "lat": 37.7867615,
+      "lng": -122.4004371
+    },
+    {
+      "name": "Rocks Den",
+      "lat": 37.7272028,
+      "lng": -122.4327193
+    },
+    {
+      "name": "Pissed Off Pete's",
+      "lat": 37.7255163,
+      "lng": -122.4343609
+    },
+    {
+      "name": "St. Mary's Pub",
+      "lat": 37.7354739,
+      "lng": -122.4245037
+    },
+    {
+      "name": "The Liberties",
+      "lat": 37.7552542,
+      "lng": -122.4233571
+    },
+    {
+      "name": "Tonga Room & Hurricane Bar",
+      "lat": 37.792141,
+      "lng": -122.410008
+    },
+    {
+      "name": "Homestead",
+      "lat": 37.7604101,
+      "lng": -122.4146785
+    },
+    {
+      "name": "Monroe San Francisco",
+      "lat": 37.7979623,
+      "lng": -122.4049362
+    },
+    {
+      "name": "Bullitt",
+      "lat": 37.7970951,
+      "lng": -122.4221642
+    },
+    {
+      "name": "Candlestick Park Sports Bar",
+      "lat": 37.7784531,
+      "lng": -122.392018
+    },
+    {
+      "name": "Lava Restaurant & Lounge",
+      "lat": 37.7806466,
+      "lng": -122.3964816
+    },
+    {
+      "name": "Public House",
+      "lat": 37.7778936,
+      "lng": -122.3910462
+    },
+    {
+      "name": "The Occidental Cigar Club",
+      "lat": 37.7916682,
+      "lng": -122.4036534
+    },
+    {
+      "name": "Irish Bank",
+      "lat": 37.7904363,
+      "lng": -122.404722
+    },
+    {
+      "name": "Murphy's",
+      "lat": 37.7900928,
+      "lng": -122.4040639
+    },
+    {
+      "name": "The Summer Place",
+      "lat": 37.7898391,
+      "lng": -122.4105921
+    },
+    {
+      "name": "Tope",
+      "lat": 37.8001651,
+      "lng": -122.4073582
+    },
+    {
+      "name": "Cinnabar",
+      "lat": 37.7847871,
+      "lng": -122.4126504
+    },
+    {
+      "name": "Shovels Bar",
+      "lat": 37.7822886,
+      "lng": -122.4172138
+    },
+    {
+      "name": "Murio's Trophy Room",
+      "lat": 37.7692181,
+      "lng": -122.4522109
+    },
+    {
+      "name": "Bistro Gambrinus",
+      "lat": 37.7756308,
+      "lng": -122.446947
+    },
+    {
+      "name": "St. Regis Hotel Lobby Bar",
+      "lat": 37.7860568,
+      "lng": -122.4013648
+    },
+    {
+      "name": "El Rio",
+      "lat": 37.7467497,
+      "lng": -122.4193292
+    },
+    {
+      "name": "QBar",
+      "lat": 37.7616024,
+      "lng": -122.4352611
+    },
+    {
+      "name": "Twin Peaks Tavern",
+      "lat": 37.7624007,
+      "lng": -122.434998
+    },
+    {
+      "name": "Blush! Wine Bar",
+      "lat": 37.7612906,
+      "lng": -122.4352312
+    },
+    {
+      "name": "Copper",
+      "lat": 37.7610207,
+      "lng": -122.434589
+    },
+    {
+      "name": "The Edge",
+      "lat": 37.7607436,
+      "lng": -122.4359987
+    },
+    {
+      "name": "Toad Hall",
+      "lat": 37.7609305,
+      "lng": -122.4358979
+    },
+    {
+      "name": "Raven Bar",
+      "lat": 37.7757691,
+      "lng": -122.4088971
+    },
+    {
+      "name": "Cellar Door",
+      "lat": 37.79842,
+      "lng": -122.435945
+    },
+    {
+      "name": "Union Square Sports Bar",
+      "lat": 37.7846208,
+      "lng": -122.409519
+    },
+    {
+      "name": "The Sycamore",
+      "lat": 37.762774,
+      "lng": -122.4196292
+    },
+    {
+      "name": "Bender's Bar and Grill",
+      "lat": 37.7602344,
+      "lng": -122.4171637
+    },
+    {
+      "name": "Hi Tops",
+      "lat": 37.7649986,
+      "lng": -122.4318228
+    },
+    {
+      "name": "Bar 49",
+      "lat": 37.7644304,
+      "lng": -122.432524
+    },
+    {
+      "name": "The Mix",
+      "lat": 37.7610642,
+      "lng": -122.434509
+    },
+    {
+      "name": "Royal Cuckoo",
+      "lat": 37.7453753,
+      "lng": -122.4202222
+    },
+    {
+      "name": "Cervecer\u00eda de MateVeza",
+      "lat": 37.761163,
+      "lng": -122.4285438
+    },
+    {
+      "name": "Goemon Izakaya",
+      "lat": 37.7815231,
+      "lng": -122.4929563
+    },
+    {
+      "name": "Variety Club Preview Room",
+      "lat": 37.7896193,
+      "lng": -122.4015992
+    },
+    {
+      "name": "Hi-Lo Club",
+      "lat": 37.7899499,
+      "lng": -122.4206855
+    },
+    {
+      "name": "The PUB@SFSU",
+      "lat": 37.7221622,
+      "lng": -122.4788561
+    },
+    {
+      "name": "Mauna Loa Cocktails",
+      "lat": 37.7973699,
+      "lng": -122.4356968
+    },
+    {
+      "name": "The Phone Booth",
+      "lat": 37.7508668,
+      "lng": -122.4162912
+    },
+    {
+      "name": "Pandora Karaoke Bar",
+      "lat": 37.7841206,
+      "lng": -122.4105077
+    },
+    {
+      "name": "Rickhouse",
+      "lat": 37.7904964,
+      "lng": -122.403818
+    },
+    {
+      "name": "The Buccaneer",
+      "lat": 37.7966476,
+      "lng": -122.422051
+    },
+    {
+      "name": "Am\u00e9lie",
+      "lat": 37.7931005,
+      "lng": -122.421082
+    },
+    {
+      "name": "Local Edition",
+      "lat": 37.7875747,
+      "lng": -122.4032007
+    },
+    {
+      "name": "Wild Side West",
+      "lat": 37.7390299,
+      "lng": -122.4171535
+    },
+    {
+      "name": "Sunshine Coast: Hookah Fusion Bar",
+      "lat": 37.7704969,
+      "lng": -122.443983
+    },
+    {
+      "name": "Asiento",
+      "lat": 37.7577226,
+      "lng": -122.409452
+    },
+    {
+      "name": "Geneva Pub",
+      "lat": 37.7141742,
+      "lng": -122.4364796
+    },
+    {
+      "name": "Nectar Wine Lounge",
+      "lat": 37.8001664,
+      "lng": -122.437654
+    },
+    {
+      "name": "Campus - San Francisco",
+      "lat": 37.8002095,
+      "lng": -122.4402624
+    },
+    {
+      "name": "Gambit Lounge",
+      "lat": 37.77638,
+      "lng": -122.42589
+    },
+    {
+      "name": "Last Drop Tavern",
+      "lat": 37.7899317,
+      "lng": -122.4086344
+    },
+    {
+      "name": "Sool Bar and Lounge",
+      "lat": 37.7900206,
+      "lng": -122.4056559
+    },
+    {
+      "name": "Rock Bar",
+      "lat": 37.7440923,
+      "lng": -122.4220729
+    },
+    {
+      "name": "Woods Polk Station",
+      "lat": 37.7976947,
+      "lng": -122.4222726
+    },
+    {
+      "name": "SPiN SF",
+      "lat": 37.7841938,
+      "lng": -122.3992108
+    },
+    {
+      "name": "Brass Tacks",
+      "lat": 37.7768231,
+      "lng": -122.4243782
+    },
+    {
+      "name": "The Sherwood Cocktails and Lounge",
+      "lat": 37.7389501,
+      "lng": -122.4676699
+    },
+    {
+      "name": "McCarthy\u2018s Irish Bar",
+      "lat": 37.740405,
+      "lng": -122.466539
+    },
+    {
+      "name": "Miraloma Club",
+      "lat": 37.7438818,
+      "lng": -122.4536779
+    },
+    {
+      "name": "Dragon Lounge",
+      "lat": 37.742708,
+      "lng": -122.4809329
+    },
+    {
+      "name": "The Bar on Dolores",
+      "lat": 37.7437445,
+      "lng": -122.4246216
+    },
+    {
+      "name": "Route 101",
+      "lat": 37.7881229,
+      "lng": -122.421632
+    },
+    {
+      "name": "Philosophers Club",
+      "lat": 37.7408294,
+      "lng": -122.4654436
+    },
+    {
+      "name": "Yancy's Saloon",
+      "lat": 37.7641987,
+      "lng": -122.4658639
+    },
+    {
+      "name": "Golden Gate Tap Room",
+      "lat": 37.78893,
+      "lng": -122.408703
+    },
+    {
+      "name": "Shoji",
+      "lat": 37.7866435,
+      "lng": -122.3997471
+    },
+    {
+      "name": "Novela",
+      "lat": 37.787049,
+      "lng": -122.4013107
+    },
+    {
+      "name": "Natoma Cabana",
+      "lat": 37.7875676,
+      "lng": -122.3985473
+    },
+    {
+      "name": "Mucky Duck",
+      "lat": 37.7637154,
+      "lng": -122.4664518
+    },
+    {
+      "name": "Lone Palm",
+      "lat": 37.7552947,
+      "lng": -122.4229151
+    },
+    {
+      "name": "Foghorn Taproom",
+      "lat": 37.7642843,
+      "lng": -122.4637059
+    },
+    {
+      "name": "Fireside Bar",
+      "lat": 37.7639974,
+      "lng": -122.4643912
+    },
+    {
+      "name": "The Little Shamrock",
+      "lat": 37.7657847,
+      "lng": -122.4667058
+    },
+    {
+      "name": "The Nite Cap",
+      "lat": 37.7853121,
+      "lng": -122.4161155
+    },
+    {
+      "name": "Moby Dick",
+      "lat": 37.7608676,
+      "lng": -122.4337728
+    },
+    {
+      "name": "Tony Nik's Cafe",
+      "lat": 37.8000247,
+      "lng": -122.408984
+    },
+    {
+      "name": "Finnegans Wake",
+      "lat": 37.7653081,
+      "lng": -122.4500311
+    },
+    {
+      "name": "The Brixton",
+      "lat": 37.7973068,
+      "lng": -122.4345787
+    },
+    {
+      "name": "ZHUZH",
+      "lat": 37.7908156,
+      "lng": -122.4198906
+    },
+    {
+      "name": "Last Rites",
+      "lat": 37.7678129,
+      "lng": -122.429452
+    },
+    {
+      "name": "Afterwork Bar",
+      "lat": 37.7770322,
+      "lng": -122.4231714
+    },
+    {
+      "name": "Key Klub",
+      "lat": 37.7899577,
+      "lng": -122.4113323
+    },
+    {
+      "name": "Stock in Trade",
+      "lat": 37.8000847,
+      "lng": -122.4356751
+    },
+    {
+      "name": "Cafe Muse",
+      "lat": 37.7955278,
+      "lng": -122.4184582
+    },
+    {
+      "name": "HolyCraft Brewery",
+      "lat": 37.7973254,
+      "lng": -122.4099995
+    },
+    {
+      "name": "Vieni Vieni",
+      "lat": 37.7989822,
+      "lng": -122.4090381
+    },
+    {
+      "name": "Grasslands Bar & Lounge",
+      "lat": 37.7963509,
+      "lng": -122.4053256
+    },
+    {
+      "name": "Happy Billiard",
+      "lat": 37.7966358,
+      "lng": -122.4053859
+    },
+    {
+      "name": "The Devil's Acre",
+      "lat": 37.7976771,
+      "lng": -122.4061685
+    },
+    {
+      "name": "Sugar Lounge",
+      "lat": 37.7768319,
+      "lng": -122.4225489
+    },
+    {
+      "name": "The Interval",
+      "lat": 37.8067715,
+      "lng": -122.4321258
+    },
+    {
+      "name": "Silver Spur",
+      "lat": 37.7636372,
+      "lng": -122.4785512
+    },
+    {
+      "name": "Fool's Errand",
+      "lat": 37.7755565,
+      "lng": -122.4380591
+    },
+    {
+      "name": "Jackalope",
+      "lat": 37.7869651,
+      "lng": -122.4197889
+    },
+    {
+      "name": "The Cinch Saloon",
+      "lat": 37.7927364,
+      "lng": -122.4212524
+    },
+    {
+      "name": "Trick Dog",
+      "lat": 37.7592203,
+      "lng": -122.4111877
+    },
+    {
+      "name": "Stoa Bar",
+      "lat": 37.7715719,
+      "lng": -122.433863
+    },
+    {
+      "name": "Buddha",
+      "lat": 37.7952077,
+      "lng": -122.4065929
+    },
+    {
+      "name": "Red's Place",
+      "lat": 37.7961449,
+      "lng": -122.4064364
+    },
+    {
+      "name": "Shannon Arms",
+      "lat": 37.7429041,
+      "lng": -122.4760224
+    },
+    {
+      "name": "The Sage & Drifter",
+      "lat": 37.7639038,
+      "lng": -122.4726646
+    },
+    {
+      "name": "Birba",
+      "lat": 37.7777921,
+      "lng": -122.4241711
+    },
+    {
+      "name": "Cresta's",
+      "lat": 37.7971395,
+      "lng": -122.4221708
+    },
+    {
+      "name": "Bow Bow Cocktails",
+      "lat": 37.7975853,
+      "lng": -122.4070757
+    },
+    {
+      "name": "Li Po Cocktail Lounge",
+      "lat": 37.7954225,
+      "lng": -122.4064547
+    },
+    {
+      "name": "Mothership",
+      "lat": 37.7468805,
+      "lng": -122.4192506
+    },
+    {
+      "name": "The Treasury",
+      "lat": 37.7912711,
+      "lng": -122.4010896
+    },
+    {
+      "name": "Fat Cat x The Mantis",
+      "lat": 37.7452716,
+      "lng": -122.4199359
+    },
+    {
+      "name": "The Knockout",
+      "lat": 37.7451409,
+      "lng": -122.420005
+    },
+    {
+      "name": "Pagan Idol",
+      "lat": 37.7907035,
+      "lng": -122.403638
+    },
+    {
+      "name": "540 Club",
+      "lat": 37.7830596,
+      "lng": -122.4651657
+    },
+    {
+      "name": "Tiki Haven",
+      "lat": 37.754295,
+      "lng": -122.4781838
+    },
+    {
+      "name": "oneup bar",
+      "lat": 37.7543453,
+      "lng": -122.4770736
+    },
+    {
+      "name": "Flanahan's Pub",
+      "lat": 37.7528613,
+      "lng": -122.504526
+    },
+    {
+      "name": "Mission Hill Saloon",
+      "lat": 37.7633159,
+      "lng": -122.4071599
+    },
+    {
+      "name": "The Blue Room",
+      "lat": 37.7896538,
+      "lng": -122.4118742
+    },
+    {
+      "name": "Beauty Bar",
+      "lat": 37.7603764,
+      "lng": -122.4190503
+    },
+    {
+      "name": "Glen Park Station",
+      "lat": 37.7341553,
+      "lng": -122.4341305
+    },
+    {
+      "name": "The Royale",
+      "lat": 37.7875509,
+      "lng": -122.415188
+    },
+    {
+      "name": "The Rumpus Room",
+      "lat": 37.7818459,
+      "lng": -122.4100401
+    },
+    {
+      "name": "Ocean Ale House",
+      "lat": 37.7242174,
+      "lng": -122.4567727
+    },
+    {
+      "name": "Pied Piper",
+      "lat": 37.7883976,
+      "lng": -122.4020921
+    },
+    {
+      "name": "Caf\u00e9 Prague",
+      "lat": 37.7955107,
+      "lng": -122.4009685
+    },
+    {
+      "name": "111 Minna Gallery",
+      "lat": 37.7874657,
+      "lng": -122.3993218
+    },
+    {
+      "name": "Pig in a Pickle",
+      "lat": 37.9275971,
+      "lng": -122.516811
+    },
+    {
+      "name": "Boardroom",
+      "lat": 37.7988897,
+      "lng": -122.4086539
+    },
+    {
+      "name": "Balancoire",
+      "lat": 37.7561254,
+      "lng": -122.4184756
+    },
+    {
+      "name": "Bus Stop",
+      "lat": 37.7976041,
+      "lng": -122.4307094
+    },
+    {
+      "name": "Bartlett Hall",
+      "lat": 37.7864629,
+      "lng": -122.408778
+    },
+    {
+      "name": "Neck of the Woods",
+      "lat": 37.7831255,
+      "lng": -122.4637116
+    },
+    {
+      "name": "Dahlia",
+      "lat": 37.768386,
+      "lng": -122.4198601
+    },
+    {
+      "name": "The Crafty Fox",
+      "lat": 37.7698488,
+      "lng": -122.4203472
+    },
+    {
+      "name": "Pacific Cocktail Haven",
+      "lat": 37.7893351,
+      "lng": -122.4095272
+    },
+    {
+      "name": "Bar 821",
+      "lat": 37.7771532,
+      "lng": -122.4384162
+    },
+    {
+      "name": "Doc's Clock",
+      "lat": 37.7583654,
+      "lng": -122.4188042
+    },
+    {
+      "name": "El Farolito Bar",
+      "lat": 37.7526946,
+      "lng": -122.4183324
+    },
+    {
+      "name": "delarosa",
+      "lat": 37.8003603,
+      "lng": -122.4390753
+    },
+    {
+      "name": "mini bar",
+      "lat": 37.7773892,
+      "lng": -122.4384608
+    },
+    {
+      "name": "Family",
+      "lat": 37.7820272,
+      "lng": -122.4492858
+    },
+    {
+      "name": "TimeOut Tavern",
+      "lat": 37.7860803,
+      "lng": -122.4398627
+    },
+    {
+      "name": "unnamed",
+      "lat": 37.8002782,
+      "lng": -122.4413801
+    },
+    {
+      "name": "Black Magic Voodoo Lounge",
+      "lat": 37.8014288,
+      "lng": -122.4248369
+    },
+    {
+      "name": "Chief Sullivan's",
+      "lat": 37.7995354,
+      "lng": -122.4097428
+    },
+    {
+      "name": "Gino and Carlo",
+      "lat": 37.799719,
+      "lng": -122.4081417
+    },
+    {
+      "name": "Convivium Enoteca",
+      "lat": 37.7997661,
+      "lng": -122.4077954
+    },
+    {
+      "name": "Score",
+      "lat": 37.798171,
+      "lng": -122.405187
+    },
+    {
+      "name": "Palmer's",
+      "lat": 37.7906305,
+      "lng": -122.4340699
+    },
+    {
+      "name": "Duster's",
+      "lat": 37.7986289,
+      "lng": -122.4075152
+    },
+    {
+      "name": "The Barrel Room",
+      "lat": 37.7941595,
+      "lng": -122.4015076
+    },
+    {
+      "name": "Patriot House",
+      "lat": 37.7950723,
+      "lng": -122.3987013
+    },
+    {
+      "name": "Noren Izakaya",
+      "lat": 37.800358,
+      "lng": -122.4110142
+    },
+    {
+      "name": "Obscenity Bar & Lounge",
+      "lat": 37.789209,
+      "lng": -122.4097357
+    },
+    {
+      "name": "Jonell's",
+      "lat": 37.7847489,
+      "lng": -122.4129205
+    },
+    {
+      "name": "Green Sports Bar",
+      "lat": 37.7975872,
+      "lng": -122.4222394
+    },
+    {
+      "name": "Together Lounge",
+      "lat": 37.7581814,
+      "lng": -122.388527
+    },
+    {
+      "name": "Richmond Republic Draught House",
+      "lat": 37.7830174,
+      "lng": -122.4662352
+    },
+    {
+      "name": "Madrone Art Bar",
+      "lat": 37.7741994,
+      "lng": -122.4374971
+    },
+    {
+      "name": "Bar Fluxus",
+      "lat": 37.7902514,
+      "lng": -122.4049416
+    },
+    {
+      "name": "Bell Tower",
+      "lat": 37.7943038,
+      "lng": -122.4212799
+    },
+    {
+      "name": "The Napper Tandy",
+      "lat": 37.7524748,
+      "lng": -122.4164736
+    },
+    {
+      "name": "El Trebol",
+      "lat": 37.7554153,
+      "lng": -122.4175471
+    },
+    {
+      "name": "Evil Eye",
+      "lat": 37.7500359,
+      "lng": -122.4180938
+    },
+    {
+      "name": "Zinz Wine Bar",
+      "lat": 37.9258893,
+      "lng": -122.5301449
+    },
+    {
+      "name": "Vinorosso Enoteca",
+      "lat": 37.7390486,
+      "lng": -122.4153708
+    },
+    {
+      "name": "Bar None",
+      "lat": 37.797663,
+      "lng": -122.4319104
+    },
+    {
+      "name": "Victory Hall & Parlor",
+      "lat": 37.7789359,
+      "lng": -122.3940943
+    },
+    {
+      "name": "Churchill",
+      "lat": 37.7678473,
+      "lng": -122.4291843
+    },
+    {
+      "name": "Blooms Saloon",
+      "lat": 37.7627366,
+      "lng": -122.3960042
+    },
+    {
+      "name": "Ruby Wine",
+      "lat": 37.7624711,
+      "lng": -122.3969617
+    },
+    {
+      "name": "Whitechapel",
+      "lat": 37.7822987,
+      "lng": -122.4188956
+    },
+    {
+      "name": "The Great Northern",
+      "lat": 37.7676612,
+      "lng": -122.4065246
+    },
+    {
+      "name": "Black Hammer Brewing",
+      "lat": 37.780655,
+      "lng": -122.3969947
+    },
+    {
+      "name": "Final final",
+      "lat": 37.7985479,
+      "lng": -122.44584
+    },
+    {
+      "name": "The Plough and the Stars",
+      "lat": 37.7832553,
+      "lng": -122.4605138
+    },
+    {
+      "name": "Woods Outbound",
+      "lat": 37.7603154,
+      "lng": -122.5055935
+    },
+    {
+      "name": "The Halfway Club",
+      "lat": 37.7143665,
+      "lng": -122.436924
+    },
+    {
+      "name": "unnamed",
+      "lat": 37.9057532,
+      "lng": -122.5487109
+    },
+    {
+      "name": "The City Club",
+      "lat": 37.7650324,
+      "lng": -122.417997
+    },
+    {
+      "name": "Woods Island Club",
+      "lat": 37.8170938,
+      "lng": -122.3708292
+    },
+    {
+      "name": "Kozy Kar",
+      "lat": 37.791365,
+      "lng": -122.4207198
+    },
+    {
+      "name": "Ruth\u2019s at Treat Street",
+      "lat": 37.7526938,
+      "lng": -122.4131711
+    },
+    {
+      "name": "East Brother Beer Company",
+      "lat": 37.9174603,
+      "lng": -122.3758074
+    },
+    {
+      "name": "Fillmore Billiards",
+      "lat": 37.7837256,
+      "lng": -122.4326455
+    },
+    {
+      "name": "Black cat",
+      "lat": 37.7839108,
+      "lng": -122.4144505
+    },
+    {
+      "name": "Charmaine's rooftop bar",
+      "lat": 37.780993,
+      "lng": -122.4122888
+    },
+    {
+      "name": "20 Spot",
+      "lat": 37.7584304,
+      "lng": -122.4204199
+    },
+    {
+      "name": "The Laughing Monk",
+      "lat": 37.77574,
+      "lng": -122.4460528
+    },
+    {
+      "name": "Liquid Gold",
+      "lat": 37.7905812,
+      "lng": -122.417187
+    },
+    {
+      "name": "Thee Parkside",
+      "lat": 37.7651806,
+      "lng": -122.399908
+    },
+    {
+      "name": "The Blarney Stone",
+      "lat": 37.7801268,
+      "lng": -122.4799495
+    },
+    {
+      "name": "Boomerang",
+      "lat": 37.7542699,
+      "lng": -122.4791847
+    },
+    {
+      "name": "Happy Lounge",
+      "lat": 37.7810461,
+      "lng": -122.4597222
+    },
+    {
+      "name": "Kell\u2019s",
+      "lat": 37.7964373,
+      "lng": -122.4040582
+    },
+    {
+      "name": "Maggie McGarrys",
+      "lat": 37.7994205,
+      "lng": -122.4074577
+    },
+    {
+      "name": "Lincoln Park Bar & Grill",
+      "lat": 37.7823521,
+      "lng": -122.4943464
+    },
+    {
+      "name": "High Treason",
+      "lat": 37.7828417,
+      "lng": -122.4641076
+    },
+    {
+      "name": "Would You Believe? Cocktails",
+      "lat": 37.7809733,
+      "lng": -122.4695178
+    },
+    {
+      "name": "The Hearth",
+      "lat": 37.780611,
+      "lng": -122.4697821
+    },
+    {
+      "name": "O'Keeffe's",
+      "lat": 37.7773986,
+      "lng": -122.462826
+    },
+    {
+      "name": "Overtime",
+      "lat": 37.7812248,
+      "lng": -122.4638605
+    },
+    {
+      "name": "White Cap",
+      "lat": 37.7418792,
+      "lng": -122.5048589
+    },
+    {
+      "name": "Mr. Tipple's Recording Studio",
+      "lat": 37.7763736,
+      "lng": -122.418569
+    },
+    {
+      "name": "Midnight Sun",
+      "lat": 37.7608265,
+      "lng": -122.43432
+    },
+    {
+      "name": "Friend's Bar",
+      "lat": 37.7318373,
+      "lng": -122.4479698
+    },
+    {
+      "name": "Luau Lounge Tiki Bar",
+      "lat": 37.8112453,
+      "lng": -122.4103446
+    },
+    {
+      "name": "Bodega Wine Bar",
+      "lat": 37.8012883,
+      "lng": -122.411387
+    },
+    {
+      "name": "La Rocca's Corner",
+      "lat": 37.8032002,
+      "lng": -122.4146113
+    },
+    {
+      "name": "Stookey's Club Moderne",
+      "lat": 37.7896441,
+      "lng": -122.4119492
+    },
+    {
+      "name": "Propagation",
+      "lat": 37.7871545,
+      "lng": -122.4164929
+    },
+    {
+      "name": "Sutter Pub & Restaurant",
+      "lat": 37.7889112,
+      "lng": -122.4120659
+    },
+    {
+      "name": "Festa Wine & Cocktail Lounge",
+      "lat": 37.7851784,
+      "lng": -122.4316091
+    },
+    {
+      "name": "Harry's Bar",
+      "lat": 37.7883367,
+      "lng": -122.4335814
+    },
+    {
+      "name": "Clock Bar",
+      "lat": 37.787738,
+      "lng": -122.4087185
+    },
+    {
+      "name": "Cityscape Lounge",
+      "lat": 37.7853003,
+      "lng": -122.4109326
+    },
+    {
+      "name": "Persona",
+      "lat": 37.7887317,
+      "lng": -122.4115659
+    },
+    {
+      "name": "Elements Bar and Lounge",
+      "lat": 37.7862923,
+      "lng": -122.4073527
+    },
+    {
+      "name": "California Wine Merchant",
+      "lat": 37.8004562,
+      "lng": -122.4382664
+    },
+    {
+      "name": "Pond Farm Brewing Company",
+      "lat": 37.9743297,
+      "lng": -122.540625
+    },
+    {
+      "name": "upcider",
+      "lat": 37.7876712,
+      "lng": -122.4199677
+    },
+    {
+      "name": "R Bar",
+      "lat": 37.7879068,
+      "lng": -122.4198211
+    },
+    {
+      "name": "Zeki's Bar",
+      "lat": 37.7910182,
+      "lng": -122.4161898
+    },
+    {
+      "name": "The Beehive",
+      "lat": 37.7594191,
+      "lng": -122.4215245
+    },
+    {
+      "name": "Fort Point Beer Company",
+      "lat": 37.760967,
+      "lng": -122.421689
+    },
+    {
+      "name": "The Nag's Head",
+      "lat": 37.7806294,
+      "lng": -122.477013
+    },
+    {
+      "name": "Kona\u2019s Street Market",
+      "lat": 37.7870835,
+      "lng": -122.4032843
+    },
+    {
+      "name": "San Francisco Brewing Co.",
+      "lat": 37.80564,
+      "lng": -122.4232131
+    },
+    {
+      "name": "Savoy Tivoli",
+      "lat": 37.8002745,
+      "lng": -122.4074183
+    },
+    {
+      "name": "Terminus",
+      "lat": 37.7937667,
+      "lng": -122.3967216
+    },
+    {
+      "name": "Pagoda",
+      "lat": 37.7857142,
+      "lng": -122.4299995
+    },
+    {
+      "name": "Fermentation Lab",
+      "lat": 37.7857024,
+      "lng": -122.4300336
+    },
+    {
+      "name": "Sequoia Sake tasting room",
+      "lat": 37.74044,
+      "lng": -122.4031529
+    },
+    {
+      "name": "Barebottle Taproom",
+      "lat": 37.7399113,
+      "lng": -122.4091302
+    },
+    {
+      "name": "The Library",
+      "lat": 37.7858838,
+      "lng": -122.4132729
+    },
+    {
+      "name": "SF Eagle",
+      "lat": 37.7699933,
+      "lng": -122.4133375
+    },
+    {
+      "name": "Powerhouse",
+      "lat": 37.7731291,
+      "lng": -122.4121937
+    },
+    {
+      "name": "Lion's Den Bar & Lounge",
+      "lat": 37.7957379,
+      "lng": -122.4062528
+    },
+    {
+      "name": "Members Only",
+      "lat": 37.7871752,
+      "lng": -122.4181867
+    },
+    {
+      "name": "Fermentation Lab",
+      "lat": 37.7783946,
+      "lng": -122.4155015
+    },
+    {
+      "name": "San Francsco Brewing Co",
+      "lat": 37.7680641,
+      "lng": -122.399683
+    },
+    {
+      "name": "Anina",
+      "lat": 37.7768284,
+      "lng": -122.424297
+    },
+    {
+      "name": "The Lark Bar",
+      "lat": 37.7879097,
+      "lng": -122.4027988
+    },
+    {
+      "name": "The European",
+      "lat": 37.7870831,
+      "lng": -122.4114078
+    },
+    {
+      "name": "Resolute",
+      "lat": 37.7866893,
+      "lng": -122.4144477
+    },
+    {
+      "name": "H\u00f4tel Biron",
+      "lat": 37.7736071,
+      "lng": -122.4218682
+    },
+    {
+      "name": "Bar Part Time",
+      "lat": 37.7681534,
+      "lng": -122.424176
+    },
+    {
+      "name": "Harmonic Brewing",
+      "lat": 37.7687441,
+      "lng": -122.3868985
+    },
+    {
+      "name": "Barley",
+      "lat": 37.7866795,
+      "lng": -122.4197651
+    },
+    {
+      "name": "The Social Study",
+      "lat": 37.7841757,
+      "lng": -122.4325036
+    },
+    {
+      "name": "Young's Kung Fu Action Theatre & Laundry",
+      "lat": 37.7858747,
+      "lng": -122.4181987
+    },
+    {
+      "name": "Royal Exchange",
+      "lat": 37.7941594,
+      "lng": -122.3991541
+    },
+    {
+      "name": "Winery Collective",
+      "lat": 37.8075245,
+      "lng": -122.4203304
+    },
+    {
+      "name": "Nightingale",
+      "lat": 37.7903654,
+      "lng": -122.4041287
+    },
+    {
+      "name": "El Trebol #2",
+      "lat": 37.7526405,
+      "lng": -122.4137221
+    },
+    {
+      "name": "Millay",
+      "lat": 37.7676721,
+      "lng": -122.4282827
+    },
+    {
+      "name": "Gilman Brewing",
+      "lat": 37.7011786,
+      "lng": -122.470545
+    },
+    {
+      "name": "ENO Wine Bar",
+      "lat": 37.7879166,
+      "lng": -122.4087576
+    },
+    {
+      "name": "Secret Bar & Lounge",
+      "lat": 37.7833726,
+      "lng": -122.4191125
+    },
+    {
+      "name": "uccello Lounge",
+      "lat": 37.7777196,
+      "lng": -122.4195624
+    },
+    {
+      "name": "Cold Drinks Bar",
+      "lat": 37.7978985,
+      "lng": -122.407759
+    },
+    {
+      "name": "Moongate Lounge",
+      "lat": 37.7936719,
+      "lng": -122.4065757
+    },
+    {
+      "name": "Ora Wine Bar",
+      "lat": 37.7909836,
+      "lng": -122.4209223
+    },
+    {
+      "name": "Lone Star Saloon",
+      "lat": 37.7721566,
+      "lng": -122.4108479
+    },
+    {
+      "name": "Kaiy\u014d Rooftop",
+      "lat": 37.7787752,
+      "lng": -122.3923716
+    },
+    {
+      "name": "Hotel Utah Saloon",
+      "lat": 37.7793831,
+      "lng": -122.3981059
+    },
+    {
+      "name": "The Horseshoe",
+      "lat": 37.8008439,
+      "lng": -122.4369311
+    },
+    {
+      "name": "B-Side",
+      "lat": 37.7762192,
+      "lng": -122.4216327
+    },
+    {
+      "name": "Nari",
+      "lat": 37.7855979,
+      "lng": -122.4286408
+    },
+    {
+      "name": "EZ5 Cocktails",
+      "lat": 37.794122,
+      "lng": -122.404378
+    },
+    {
+      "name": "Blind Pig",
+      "lat": 37.7925492,
+      "lng": -122.4062138
+    },
+    {
+      "name": "Mother",
+      "lat": 37.7648164,
+      "lng": -122.4213338
+    },
+    {
+      "name": "Skylark",
+      "lat": 37.7648183,
+      "lng": -122.4215576
+    },
+    {
+      "name": "Buddy",
+      "lat": 37.7554502,
+      "lng": -122.4171081
+    },
+    {
+      "name": "Third Rail",
+      "lat": 37.7606299,
+      "lng": -122.388354
+    },
+    {
+      "name": "Club Kristi",
+      "lat": 37.7853308,
+      "lng": -122.4175548
+    },
+    {
+      "name": "Bar TZA",
+      "lat": 37.7574019,
+      "lng": -122.4187743
+    },
+    {
+      "name": "Royal Cuckoo Market",
+      "lat": 37.7603692,
+      "lng": -122.4186233
+    },
+    {
+      "name": "True Laurel",
+      "lat": 37.7594967,
+      "lng": -122.4114886
+    },
+    {
+      "name": "Jolenes Bar",
+      "lat": 37.765597,
+      "lng": -122.4133319
+    },
+    {
+      "name": "El Chato",
+      "lat": 37.7575118,
+      "lng": -122.4094386
+    },
+    {
+      "name": "Alchemist",
+      "lat": 37.779374,
+      "lng": -122.3931598
+    },
+    {
+      "name": "Woodbury",
+      "lat": 37.7793221,
+      "lng": -122.3930975
+    },
+    {
+      "name": "Riggers loft",
+      "lat": 37.9054306,
+      "lng": -122.3648419
+    },
+    {
+      "name": "Wine Down",
+      "lat": 37.7840748,
+      "lng": -122.3983137
+    },
+    {
+      "name": "Decant SF",
+      "lat": 37.7756341,
+      "lng": -122.409533
+    },
+    {
+      "name": "Sam's Tavern",
+      "lat": 37.7909636,
+      "lng": -122.4035751
+    },
+    {
+      "name": "Bar VIA",
+      "lat": 37.7792467,
+      "lng": -122.3908206
+    },
+    {
+      "name": "Heartwood",
+      "lat": 37.7942741,
+      "lng": -122.4020082
+    },
+    {
+      "name": "The Vault Garden",
+      "lat": 37.7922622,
+      "lng": -122.403564
+    },
+    {
+      "name": "Fizzees",
+      "lat": 37.7813147,
+      "lng": -122.4620298
+    },
+    {
+      "name": "Mission Bay Wine Bar at Thrive City",
+      "lat": 37.7684244,
+      "lng": -122.3864865
+    },
+    {
+      "name": "Harrington's Bar & Grill",
+      "lat": 37.7940242,
+      "lng": -122.3990871
+    },
+    {
+      "name": "?",
+      "lat": 37.775343,
+      "lng": -122.40285
+    },
+    {
+      "name": "Emperor Norton's Boozeland",
+      "lat": 37.7826643,
+      "lng": -122.4172601
+    },
+    {
+      "name": "Fort Point Beer Co.",
+      "lat": 37.7957855,
+      "lng": -122.3939649
+    },
+    {
+      "name": "Lost Marbles",
+      "lat": 37.7826521,
+      "lng": -122.4680842
+    },
+    {
+      "name": "Ballast Point Tasting Room & Kitchen",
+      "lat": 37.7664408,
+      "lng": -122.3934451
+    },
+    {
+      "name": "Enterprise Brewing Company",
+      "lat": 37.7771618,
+      "lng": -122.410704
+    },
+    {
+      "name": "The Socialite",
+      "lat": 37.8083677,
+      "lng": -122.4135411
+    },
+    {
+      "name": "Left Door",
+      "lat": 37.7975942,
+      "lng": -122.4307445
+    },
+    {
+      "name": "Seven Square Taproom",
+      "lat": 37.7859023,
+      "lng": -122.3965903
+    },
+    {
+      "name": "Aunt Charlies Lounge",
+      "lat": 37.7830303,
+      "lng": -122.4113803
+    },
+    {
+      "name": "Buena Vida Cantina",
+      "lat": 37.7810493,
+      "lng": -122.4026799
+    },
+    {
+      "name": "Hole In The Wall",
+      "lat": 37.7729234,
+      "lng": -122.4124752
+    },
+    {
+      "name": "Driftwood",
+      "lat": 37.7745531,
+      "lng": -122.4104282
+    },
+    {
+      "name": "Casements",
+      "lat": 37.7594304,
+      "lng": -122.4189869
+    },
+    {
+      "name": "Hop Oast",
+      "lat": 37.748524,
+      "lng": -122.4085736
+    },
+    {
+      "name": "Saison Cellar & Wine Bar",
+      "lat": 37.7782501,
+      "lng": -122.393788
+    },
+    {
+      "name": "Saison Cellar & Wine Bar: Member's Cellar",
+      "lat": 37.7783062,
+      "lng": -122.3936992
+    },
+    {
+      "name": "Louie's Bar",
+      "lat": 37.7893105,
+      "lng": -122.3999338
+    },
+    {
+      "name": "Punsch Bar",
+      "lat": 37.7827313,
+      "lng": -122.4092532
+    },
+    {
+      "name": "The Comet Club",
+      "lat": 37.7982107,
+      "lng": -122.4358728
+    },
+    {
+      "name": "The Sea Star",
+      "lat": 37.7607437,
+      "lng": -122.3884137
+    },
+    {
+      "name": "Linden Room",
+      "lat": 37.776529,
+      "lng": -122.4227507
+    },
+    {
+      "name": "unnamed",
+      "lat": 37.8083416,
+      "lng": -122.4139934
+    },
+    {
+      "name": "Radio Habana",
+      "lat": 37.7551095,
+      "lng": -122.4207974
+    },
+    {
+      "name": "Woods Outbound",
+      "lat": 37.7603112,
+      "lng": -122.5055953
+    },
+    {
+      "name": "Paris 75",
+      "lat": 37.7978376,
+      "lng": -122.4058578
+    },
+    {
+      "name": "Bamboo Hut",
+      "lat": 37.7979485,
+      "lng": -122.405093
+    },
+    {
+      "name": "Rikki's",
+      "lat": 37.7652703,
+      "lng": -122.431471
+    },
+    {
+      "name": "Indie Darling",
+      "lat": 37.780965,
+      "lng": -122.4105181
+    },
+    {
+      "name": "The Red Tail",
+      "lat": 37.7640194,
+      "lng": -122.4638179
+    },
+    {
+      "name": "Lagom Bar",
+      "lat": 37.782573,
+      "lng": -122.4090446
+    },
+    {
+      "name": "Casanova Lounge",
+      "lat": 37.7643859,
+      "lng": -122.4216786
+    },
+    {
+      "name": "The Stud",
+      "lat": 37.7761653,
+      "lng": -122.4083643
+    },
+    {
+      "name": "unnamed",
+      "lat": 37.7605716,
+      "lng": -122.4103873
+    },
+    {
+      "name": "Las Margaritas",
+      "lat": 37.752297,
+      "lng": -122.4192534
+    },
+    {
+      "name": "No Name Bar",
+      "lat": 37.8566744,
+      "lng": -122.4803309
+    },
+    {
+      "name": "Smitty\u2019s",
+      "lat": 37.8595488,
+      "lng": -122.4868008
+    },
+    {
+      "name": "OneUP Lounge",
+      "lat": 37.7892704,
+      "lng": -122.4072866
+    },
+    {
+      "name": "Laszlo",
+      "lat": 37.7564579,
+      "lng": -122.4190265
+    },
+    {
+      "name": "Sky Bar",
+      "lat": 37.7951943,
+      "lng": -122.4025399
+    },
+    {
+      "name": "Gold Bar Distillery",
+      "lat": 37.8168273,
+      "lng": -122.3710281
+    },
+    {
+      "name": "Fieldwork Brewing Company",
+      "lat": 37.9275853,
+      "lng": -122.5173259
+    },
+    {
+      "name": "Silk Road Bar",
+      "lat": 37.7855417,
+      "lng": -122.408418
+    },
+    {
+      "name": "Scarlet Fox Wine Bar",
+      "lat": 37.7742877,
+      "lng": -122.4441734
+    },
+    {
+      "name": "Etcetera Wine Bar",
+      "lat": 37.7602888,
+      "lng": -122.421319
+    },
+    {
+      "name": "Cellarmaker",
+      "lat": 37.7457503,
+      "lng": -122.4196363
+    },
+    {
+      "name": "Two Pitchers Brewing Company",
+      "lat": 37.7528475,
+      "lng": -122.5048416
+    },
+    {
+      "name": "Arcana",
+      "lat": 37.7566653,
+      "lng": -122.4190806
+    },
+    {
+      "name": "Latin American Club",
+      "lat": 37.7554302,
+      "lng": -122.4206643
+    }
+  ],
+  "farmers_market": [
+    {
+      "name": "Fort Mason Farmer's Market",
+      "lat": 37.8061667,
+      "lng": -122.4315658
+    },
+    {
+      "name": "Associated Students Farmer's Market",
+      "lat": 37.7226102,
+      "lng": -122.4805093
+    },
+    {
+      "name": "The Village Market",
+      "lat": 37.7233534,
+      "lng": -122.4823518
+    },
+    {
+      "name": "Lehr's German Specialties",
+      "lat": 37.7455169,
+      "lng": -122.426721
+    },
+    {
+      "name": "Simple",
+      "lat": 37.7655385,
+      "lng": -122.450054
+    },
+    {
+      "name": "Amal's Deli",
+      "lat": 37.7702885,
+      "lng": -122.4457035
+    },
+    {
+      "name": "Tuong Phong",
+      "lat": 37.7844939,
+      "lng": -122.4166314
+    },
+    {
+      "name": "Amigos",
+      "lat": 37.7847633,
+      "lng": -122.4146073
+    },
+    {
+      "name": "unnamed",
+      "lat": 37.7540969,
+      "lng": -122.4184633
+    },
+    {
+      "name": "Fida Market",
+      "lat": 37.7660549,
+      "lng": -122.4196272
+    },
+    {
+      "name": "The SF Market",
+      "lat": 37.7411787,
+      "lng": -122.3949507
+    },
+    {
+      "name": "Stonestown Farmers Market",
+      "lat": 37.7302007,
+      "lng": -122.4790236
+    },
+    {
+      "name": "Stonestown Farmers Market",
+      "lat": 37.7301174,
+      "lng": -122.4799993
+    },
+    {
+      "name": "Ferry Plaza Farmers Market",
+      "lat": 37.7952753,
+      "lng": -122.3923704
+    },
+    {
+      "name": "Mellow Mercado",
+      "lat": 37.7921582,
+      "lng": -122.4015253
+    },
+    {
+      "name": "Anjotitos Patry",
+      "lat": 37.7514061,
+      "lng": -122.4182021
+    },
+    {
+      "name": "Win Yen Co.",
+      "lat": 37.7531218,
+      "lng": -122.4184041
+    },
+    {
+      "name": "Mega Trading Co.",
+      "lat": 37.753193,
+      "lng": -122.4184131
+    },
+    {
+      "name": "Clement St. Farmers Market",
+      "lat": 37.7830983,
+      "lng": -122.4612258
+    },
+    {
+      "name": "Alemany Farmers Market",
+      "lat": 37.7359725,
+      "lng": -122.4100436
+    },
+    {
+      "name": "SoMa StrEat Food Park",
+      "lat": 37.769836,
+      "lng": -122.4119088
+    },
+    {
+      "name": "London Fireplace Showroom",
+      "lat": 37.8814387,
+      "lng": -122.5256035
+    }
+  ]
+}

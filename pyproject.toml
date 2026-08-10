@@ -24,10 +24,12 @@ dependencies = [
     "httpx>=0.28.1",
     "lxml>=6.1.0",
     "markdownify>=1.2.2",
+    "numpy>=2.5.2",
     "playwright>=1.59.0",
     "pydantic>=2.13.4",
     "python-dotenv>=1.2.1",
     "rich>=14.3.1",
+    "scipy>=1.18.0",
 ]
 
 [project.scripts]
