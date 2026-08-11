@@ -24,8 +24,44 @@ The committed demo fixture is `fixtures/demo.sqlite`. It keeps enriched listing
 facts, photo reviews, and cached route rows. It removes private conversations,
 attachments, pending URLs, contact fields, and the chosen home.
 
+## How the pieces connect
+
+CasitaMash **reads** the fixture and **writes** only to a separate gitignored
+database (`tmp/mash.sqlite`). Comparisons never mutate the committed demo file.
+
+```mermaid
+flowchart LR
+  subgraph fixture["fixtures/demo.sqlite"]
+    listings[listings]
+    votes[votes]
+    walk_cache[walk_cache]
+    photo[llm_photo_reviews]
+  end
+
+  subgraph mash["tmp/mash.sqlite gitignored"]
+    reviewers[reviewers]
+    comparisons[comparisons]
+    fit_cache[fit_cache]
+    sessions[sessions]
+  end
+
+  listings -->|read features / photos / routes| mash
+  votes -.->|bootstrap seed only| comparisons
+  reviewers --> comparisons
+  comparisons --> fit_cache
+```
+
+Mash tables (see `src/casita/mash/db.py`):
+
+| Table | Purpose |
+| --- | --- |
+| `reviewers` | Name plus ranked feature order for the session |
+| `comparisons` | Pairwise picks, skips, and hypothetical rounds |
+| `fit_cache` | Cached `w` / `u` fit per reviewer |
+| `sessions` | Optional end-of-session notes |
+
 ## Ways This Could Go Further
 
-The schema could be diagrammed, migrations could be formalized, or the fixture
-build could become a checked script. Today, the schema is intentionally close
-to the personal tool that produced it.
+Migrations could be formalized, or the fixture build could become a checked
+script. Today, the schema is intentionally close to the personal tool that
+produced it.

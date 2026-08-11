@@ -16,6 +16,7 @@ CLI.
 | Enrichment and ranking | `llm.py`, `rank.py`, `walk.py`, `dedup.py` |
 | Static rendering | `html.py`, `listing_page.py` |
 | Optional private deploy | `cloud_sync.py`, `publish` command |
+| **CasitaMash** (this fork) | `src/casita/mash/` — pairwise UI on `:8766`, BT fit `w·x + u`, comparisons in gitignored `tmp/mash.sqlite`; CLI `casita mash` / `mash anchors` |
 
 ## Rough Edges
 
@@ -30,4 +31,5 @@ These are facts about the current codebase, not a ranked task list:
   through environment variables.
 - Rendering is string-based Python rather than templates.
 
-The demo exists so these rough edges can be explored without credentials.
+The offline demo and mash paths exist so these rough edges can be explored
+without credentials.

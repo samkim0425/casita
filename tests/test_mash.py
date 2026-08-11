@@ -197,7 +197,31 @@ def test_break_even_hides_nonsense():
     assert model.break_even_price(fit, feats, target_score=1e6) is None
 
 
-def test_why_line_includes_third_feature_when_meaningful():
+def test_score_parts_splits_feature_fit_and_leftover():
+    names = ["price"]
+    feats = _feat("home", price=3000, price_per_bed=1500, price_per_sqft=3, beds=2)
+    fit = model.FitResult(
+        names=names,
+        w=np.array([-1.0]),
+        u={"home": 0.4},
+        keys=["home"],
+        knots={},
+        means={"price": 3000.0},
+        scales={"price": 500.0},
+        lambda_w=1.0,
+        lambda_u=1.0,
+        heldout_acc=0.5,
+        n_comparisons=5,
+        active_features=[],
+    )
+    feature_fit, leftover, total = model.score_parts(fit, feats)
+    assert leftover == pytest.approx(0.4)
+    assert total == pytest.approx(feature_fit + leftover)
+    assert model.score_listing(fit, feats) == pytest.approx(total)
+    from casita.mash.ui import _leftover_note, _rank_table
+    row = {"title": "1 Main", "score": total, "leftover": leftover, "n_shown": 2}
+    assert "leftover +0.40" in _leftover_note(row)
+    assert "leftover" in _rank_table([row])
     names = ["beds", "baths", "price_per_bed"]
     a = _feat(
         "a", price=6500, price_per_bed=3250, price_per_sqft=5,
@@ -248,19 +272,22 @@ def test_why_line_includes_third_feature_when_meaningful():
 
 
 def test_normalize_feature_order_keeps_locked_metrics():
-    assert features.normalize_feature_order([]) == ["price_per_bed", "price_per_sqft"]
+    assert features.normalize_feature_order([]) == [
+        "price", "price_per_bed", "price_per_sqft",
+    ]
     assert features.normalize_feature_order(["trail"]) == [
-        "trail", "price_per_bed", "price_per_sqft",
+        "trail", "price", "price_per_bed", "price_per_sqft",
     ]
-    assert features.normalize_feature_order(["price_per_sqft", "grocery", "price_per_bed"]) == [
-        "price_per_sqft", "grocery", "price_per_bed",
+    assert features.normalize_feature_order(
+        ["price_per_sqft", "grocery", "price_per_bed"]
+    ) == ["price_per_sqft", "grocery", "price_per_bed", "price"]
+    assert features.card_feature_order(["trail", "price_per_bed", "dogs", "price_per_sqft"])[:6] == [
+        "price", "beds", "baths", "price_per_bed", "sqft", "price_per_sqft",
     ]
-    assert features.card_feature_order(["trail", "price_per_bed"])[:4] == [
-        "price", "beds", "baths", "sqft",
+    assert features.card_feature_order(["trail", "price_per_bed", "dogs", "price_per_sqft"])[6:] == [
+        "trail", "dogs",
     ]
-    assert features.card_feature_order(["trail", "price_per_bed"])[4:] == [
-        "trail", "price_per_bed", "price_per_sqft",
-    ]
+    assert features.FEATURE_LABELS["price"] == "Total Rent"
 
 
 def test_bootstrap_excludes_gone_notes():
@@ -289,3 +316,110 @@ def test_gone_bootstrap_seed(tmp_path, monkeypatch):
         assert mash_db.comparison_count(mc, "other") == 0
         assert mash_db.comparison_count(mc, "fixture_seed") == 1
     conn.close()
+
+
+def test_mash_anchors_collect_curated_and_poi():
+    from casita.mash.anchors import collect_anchor_groups, format_anchors_text
+
+    groups = collect_anchor_groups()
+    ids = {g["id"] for g in groups}
+    assert {"beaches", "bakeries", "trails", "ferry", "grocery", "bar"} <= ids
+    beaches = next(g for g in groups if g["id"] == "beaches")
+    assert any("Baker Beach" in item["name"] for item in beaches["items"])
+    grocery = next(g for g in groups if g["id"] == "grocery")
+    assert len(grocery["items"]) >= 1
+    text = format_anchors_text(groups)
+    assert "Baker Beach" in text
+    assert "poi_anchors.json" in text
+    assert "No Maps" in text or "no Maps" in text
+
+
+def test_dedupe_photo_urls_and_empty_card():
+    from casita.mash.features import dedupe_photo_urls
+    from casita.mash.ui import card_html, listing_photos
+
+    assert dedupe_photo_urls(["a", "a", "", "b", "a"]) == ["a", "b"]
+    empty = _feat("e", price=3000, is_sf=1.0)
+    empty.photos = []
+    empty.cover_url = None
+    empty.photo_count = 0
+    html = card_html(empty, ["trail"], "left")
+    assert "No photos for this listing" in html
+    assert "View photos" not in html
+    assert listing_photos(empty) == []
+
+    dup = _feat("d", price=3000, is_sf=1.0)
+    dup.photos = ["http://x/1.jpg", "http://x/1.jpg", "http://x/2.jpg"]
+    dup.cover_url = "http://x/1.jpg"
+    assert listing_photos(dup) == ["http://x/1.jpg", "http://x/2.jpg"]
+    html2 = card_html(dup, ["trail"], "right")
+    assert "View photos (2)" in html2
+
+
+def test_mash_results_and_card_html_snapshot_strings():
+    """Lock a few results/card HTML contracts so copy regressions fail loudly."""
+    from casita.mash.ui import card_html, results_page
+
+    movers = [
+        {"feature": "view", "label": "View", "share": 0.4},
+        {"feature": "condition", "label": "Condition", "share": 0.3},
+    ]
+    compared = [{
+        "key": "z:1",
+        "title": "123 Main St",
+        "score": 1.25,
+        "feature_fit": 0.85,
+        "leftover": 0.40,
+        "n_shown": 3,
+        "never_shown": False,
+        "url": "https://example.com/listing",
+        "source": "zillow",
+        "cover_url": "https://example.com/a.jpg",
+    }]
+    unseen = [{
+        "key": "z:2",
+        "title": "456 Side St",
+        "score": 0.9,
+        "feature_fit": 0.9,
+        "leftover": 0.0,
+        "n_shown": 0,
+        "never_shown": True,
+        "url": "",
+        "source": "redfin",
+        "cover_url": "",
+    }]
+
+    mid = results_page("sam", compared, unseen, movers, n=5, concluded=False)
+    assert "Current Standings" in mid
+    assert "Also scoring well (not shown yet)" in mid
+    assert "For nerds" in mid
+    assert "w·x" in mid
+    assert "What moves rankings" in mid
+    assert "View and condition are the strongest feature weights right now." in mid
+    assert "View — 40%" in mid
+    assert "leftover +0.40" in mid
+    assert "Exchange rates" not in mid
+    assert "held-out" not in mid.lower()
+
+    done = results_page("sam", compared, unseen, movers, n=5, concluded=True)
+    assert "Your Results" in done
+    assert "Also scoring well" not in done
+    assert "not shown yet" in done  # merged ranking still badges unseen
+
+    feat = _feat(
+        "c", price=4200, price_per_bed=2100, price_per_sqft=4.2,
+        beds=2, baths=1, sqft=1000, trail=12, dogs=1.0, is_sf=1.0,
+    )
+    feat.address = "789 Lake St"
+    feat.neighborhood = "Inner Richmond"
+    feat.url = "https://example.com/c"
+    card = card_html(feat, ["dogs", "trail", "price_per_sqft"], "left")
+    # Fixed rent/size block precedes optional ranked features.
+    for label in ("Total Rent", "Beds/Baths", "$ / bed", "Area (sq ft)", "$ / sqft"):
+        assert label in card
+    assert card.index("Total Rent") < card.index("Beds/Baths")
+    assert card.index("Beds/Baths") < card.index("$ / bed")
+    assert card.index("$ / bed") < card.index("Area (sq ft)")
+    assert card.index("Area (sq ft)") < card.index("$ / sqft")
+    assert card.index("$ / sqft") < card.index("Dogs")
+    assert 'data-overlay="left"' in card

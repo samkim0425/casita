@@ -1208,7 +1208,21 @@ def demo(fixture: Path, host: str, port: int):
             console.print("\n[yellow]demo server stopped[/yellow]")
 
 
-@cli.command(name="mash")
+@cli.group(name="mash", invoke_without_command=True)
+@click.pass_context
+def mash_group(ctx):
+    """CasitaMash — pairwise preference UI, or inspect route anchors.
+
+    \b
+      uv run casita mash              # start the compare UI
+      uv run casita mash serve        # same
+      uv run casita mash anchors      # print beaches / bakeries / groceries
+    """
+    if ctx.invoked_subcommand is None:
+        ctx.invoke(mash_serve)
+
+
+@mash_group.command(name="serve")
 @click.option(
     "--fixture",
     type=click.Path(exists=True, dir_okay=False, path_type=Path),
@@ -1223,8 +1237,8 @@ def demo(fixture: Path, host: str, port: int):
     default=None,
     help="Optional rendered site dir for /listing detail links.",
 )
-def mash_cmd(fixture: Path, host: str, port: int, site_dir: Path | None):
-    """CasitaMash — pairwise preference learning UI (additive; does not alter browse)."""
+def mash_serve(fixture: Path, host: str, port: int, site_dir: Path | None):
+    """Start the CasitaMash pairwise UI (additive; does not alter browse)."""
     import shutil
 
     demo_db = ROOT / "tmp" / "demo.sqlite"
@@ -1253,9 +1267,18 @@ def mash_cmd(fixture: Path, host: str, port: int, site_dir: Path | None):
     os.environ["CASITA_DB_PATH"] = str(demo_db)
     os.environ["CASITA_ROUTE_CACHE_DB"] = str(demo_db)
     os.environ["CASITA_ROUTES_OFFLINE"] = "1"
-    from .mash import serve as mash_serve
+    from .mash import serve as mash_serve_http
     console.print(f"[green]mash:[/green] http://{host}:{port}/mash/")
-    mash_serve(demo_db, host=host, port=port, site_dir=site_dir)
+    console.print(f"[green]anchors:[/green] http://{host}:{port}/mash/anchors")
+    mash_serve_http(demo_db, host=host, port=port, site_dir=site_dir)
+
+
+@mash_group.command(name="anchors")
+def mash_anchors():
+    """Print curated walk.py anchors + committed mash POI anchors (no Maps)."""
+    from .mash.anchors import format_anchors_text
+
+    click.echo(format_anchors_text())
 
 
 # ---------------------------------------------------------------------------

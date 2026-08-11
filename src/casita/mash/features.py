@@ -29,11 +29,11 @@ PICKABLE_FEATURES = [
     "is_sf",
 ]
 
-# Always on the card and always selected in ranking — can reorder, cannot remove.
-RANKABLE_LOCKED = ["price_per_bed", "price_per_sqft"]
+# Always selected in ranking — can reorder, cannot remove.
+RANKABLE_LOCKED = ["price", "price_per_bed", "price_per_sqft"]
 
-# Structural card rows (not ranked on the features screen).
-CARD_FIXED = ["price", "beds", "baths", "sqft"]
+# Structural card rows — always first, in this order (beds+baths render as one row).
+CARD_FIXED = ["price", "beds", "baths", "price_per_bed", "sqft", "price_per_sqft"]
 
 
 def base_listing_key(key: str) -> str:
@@ -60,7 +60,7 @@ def normalize_feature_order(order: list[str] | None) -> list[str]:
 
 
 def card_feature_order(feature_order: list[str]) -> list[str]:
-    """Card rows: structural fields first, then the reviewer's ranked features."""
+    """Card rows: fixed rent/size block first, then the reviewer's ranked features."""
     ranked = normalize_feature_order(feature_order)
     show: list[str] = []
     for f in CARD_FIXED:
@@ -75,14 +75,15 @@ def card_feature_order(feature_order: list[str]) -> list[str]:
 ALWAYS_SHOW = ["price", "beds", "baths", "price_per_bed", "sqft", "price_per_sqft"]
 
 ALWAYS_SHOW_COPY = (
-    "Rent, beds/baths, and area (sq ft) always show on every card. "
-    "$ / bed and $ / sqft are always selected — rank them, but you can’t remove them"
+    "Add features you care about, then use ↑ / ↓ to rank them (order matters!). "
+    "Total rent, $/bed, and $/sqft are always selected."
 )
 
 FEATURE_LABELS = {
-    "price": "Rent",
+    "price": "Total Rent",
     "price_per_bed": "$ / bed",
     "price_per_sqft": "$ / sqft",
+
     "trail": "Distance to trail",
     "beach": "Distance to beach",
     "bakery": "Distance to bakery",
@@ -180,21 +181,36 @@ def _q(val: str | None, mapping: dict) -> tuple[float | None, bool]:
     return None, False
 
 
+def dedupe_photo_urls(urls: list[str] | None) -> list[str]:
+    """Preserve order; drop empties and exact URL duplicates."""
+    out: list[str] = []
+    seen: set[str] = set()
+    for raw in urls or []:
+        u = (raw or "").strip()
+        if not u or u in seen:
+            continue
+        seen.add(u)
+        out.append(u)
+    return out
+
+
 def cover_photos(L: Listing, review: dict | None) -> tuple[str | None, list[str]]:
-    photos = list(L.photos or [])
-    if L.image_url and L.image_url not in photos:
-        photos = [L.image_url] + photos
+    photos = dedupe_photo_urls(list(L.photos or []))
+    if L.image_url and L.image_url.strip() and L.image_url not in photos:
+        photos = [L.image_url.strip()] + photos
+    photos = dedupe_photo_urls(photos)
     if not review:
-        return (photos[0] if photos else L.image_url), photos
+        return (photos[0] if photos else None), photos
     drops = set(review.get("drop_indices") or [])
     kept = [p for i, p in enumerate(photos) if i not in drops]
     if not kept:
-        kept = photos
+        kept = list(photos)
     bi = review.get("best_photo_index")
     if bi is not None and photos and 0 <= bi < len(photos) and bi not in drops:
         best = photos[bi]
         kept = [best] + [p for p in kept if p != best]
-    cover = kept[0] if kept else L.image_url
+    kept = dedupe_photo_urls(kept)
+    cover = kept[0] if kept else None
     return cover, kept
 
 

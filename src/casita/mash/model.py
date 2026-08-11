@@ -232,8 +232,16 @@ def fit(
 
 
 def score_listing(fit: FitResult, feats: ListingFeatures) -> float:
+    feature_fit, leftover, total = score_parts(fit, feats)
+    return total
+
+
+def score_parts(fit: FitResult, feats: ListingFeatures) -> tuple[float, float, float]:
+    """Return (feature fit w·x, leftover u, total score)."""
     x = vectorize(feats, fit.names, fit.knots, fit.means, fit.scales)
-    return float(x @ fit.w + fit.u.get(feats.key, 0.0))
+    feature_fit = float(x @ fit.w)
+    leftover = float(fit.u.get(feats.key, 0.0))
+    return feature_fit, leftover, feature_fit + leftover
 
 
 def predict_proba(fit: FitResult, a: ListingFeatures, b: ListingFeatures) -> float:
@@ -241,16 +249,12 @@ def predict_proba(fit: FitResult, a: ListingFeatures, b: ListingFeatures) -> flo
 
 
 def feature_importance(fit: FitResult, top_n: int = 10) -> list[dict]:
-    """Rank base features by |w| (standardized design → comparable magnitudes)."""
-    from .features import FEATURE_LABELS, ROUTE_FEATURES
+    """Rank base features by |w| share (skip hinges / known-flags)."""
+    from .features import FEATURE_LABELS
 
-    lower_better = {
-        "price", "price_per_bed", "price_per_sqft",
-        *ROUTE_FEATURES,
-    }
     rows: list[tuple[float, str, float]] = []
     for i, name in enumerate(fit.names):
-        if "__hinge" in name:
+        if "__hinge" in name or name.endswith("__known"):
             continue
         w = float(fit.w[i])
         aw = abs(w)
@@ -261,34 +265,12 @@ def feature_importance(fit: FitResult, top_n: int = 10) -> list[dict]:
     total = sum(a for a, _, _ in rows) or 1.0
     out = []
     for aw, name, w in rows[:top_n]:
-        label = FEATURE_LABELS.get(name, name.replace("_", " "))
-        low = label.lower()
-        if name in ROUTE_FEATURES:
-            place = low.replace("distance to ", "")
-            phrase = (
-                f"Closer {place} pulls scores up"
-                if w < 0
-                else f"Farther {place} pulls scores up"
-            )
-        elif name in lower_better:
-            phrase = (
-                f"Lower {low} pulls scores up"
-                if w < 0
-                else f"Higher {low} pulls scores up"
-            )
-        else:
-            phrase = (
-                f"Better {low} pulls scores up"
-                if w > 0
-                else f"Worse {low} pulls scores up"
-            )
         out.append({
             "feature": name,
-            "label": label,
+            "label": FEATURE_LABELS.get(name, name.replace("_", " ")),
             "abs_w": aw,
             "share": aw / total,
             "weight": w,
-            "line": phrase,
         })
     return out
 

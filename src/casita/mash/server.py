@@ -116,13 +116,13 @@ class MashState:
         scored = []
         for key, feats in fmap.items():
             if fit:
-                sc = model.score_listing(fit, feats)
+                feature_fit, leftover, sc = model.score_parts(fit, feats)
             else:
-                sc = 0.0
-            scored.append((sc, key, feats))
+                feature_fit, leftover, sc = 0.0, 0.0, 0.0
+            scored.append((sc, key, feats, feature_fit, leftover))
         scored.sort(reverse=True)
         top_score = scored[0][0] if scored else 0.0
-        for sc, key, feats in scored:
+        for sc, key, feats, feature_fit, leftover in scored:
             title = feats.address or feats.neighborhood or key
             be = None
             if fit and not feats.known.get("price") and scored:
@@ -131,6 +131,8 @@ class MashState:
                 "key": key,
                 "title": title,
                 "score": sc,
+                "feature_fit": feature_fit,
+                "leftover": leftover,
                 "never_shown": key not in shown,
                 "n_shown": shown_counts.get(key, 0),
                 "detail": feats.detail_path,
@@ -189,6 +191,10 @@ def make_handler(state: MashState):
                     ).fetchall()
                     existing = {r["name"]: int(r["n"]) for r in rows}
                 return self._send(200, ui.landing(existing).encode())
+
+            if path == "/mash/anchors":
+                from . import anchors as mash_anchors
+                return self._send(200, ui.anchors_page(mash_anchors.collect_anchor_groups()).encode())
 
             if path == "/mash/api/reviewer":
                 qs = parse_qs(u.query)

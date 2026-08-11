@@ -45,10 +45,11 @@ def display_text(s: str | None) -> str:
 
 
 BASE_CSS = """
+:root{--mash-crimson:#920004}
 *{box-sizing:border-box}
-html,body{margin:0;padding:0;background:#f6f1ea;color:#1a1a1a;
+html,body{margin:0;padding:0;background:#ffffff;color:#222222;
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
-a{color:#920004}
+a{color:var(--mash-crimson)}
 header.mash{
   background:#920004;color:#f6f1ea;padding:14px 18px;
   display:flex;align-items:baseline;justify-content:space-between;gap:12px;
@@ -58,19 +59,20 @@ header.mash .tag{opacity:0.85;font-size:13px}
 header.mash .who{font-size:12px;opacity:0.8}
 main{max-width:1100px;margin:0 auto;padding:18px}
 .btn{
-  display:inline-block;background:#920004;color:#f6f1ea;border:2px solid #5c0002;
+  display:inline-block;background:var(--mash-crimson);color:#f6f1ea;border:2px solid #5c0002;
   padding:10px 16px;font-size:14px;font-weight:700;cursor:pointer;text-decoration:none}
-.btn.secondary{background:#f6f1ea;color:#920004}
+.btn.secondary{background:#ffffff;color:var(--mash-crimson);border:1px solid var(--mash-crimson)}
+.btn.secondary:hover{background:var(--mash-crimson);color:#ffffff}
 .btn:disabled{opacity:0.4;cursor:not-allowed}
-.panel{background:#fff;border:2px solid #1a1a1a;padding:18px;margin:14px 0}
+.panel{background:#ffffff;border:1px solid #cccccc;padding:18px;margin:14px 0}
 input[type=text]{width:100%;max-width:360px;padding:10px;border:2px solid #1a1a1a;font-size:16px}
 .muted{color:#666;font-size:13px}
 .banner{
   background:#fff3cd;border:2px solid #920004;padding:12px 14px;margin:12px 0;
   display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
 .warn-box{
-  background:#fff3cd;border:2px solid #920004;padding:12px 14px;margin:12px 0;
-  font-size:13px;font-weight:700;line-height:1.4}
+  background:#ffffff;border:1px solid #cccccc;padding:12px 14px;margin:12px 0;
+  font-size:13px;font-weight:700;line-height:1.4;color:#222222}
 .why{font-size:14px;margin:8px 0 14px;font-weight:600}
 .standings-note{font-size:13px;color:#666;margin:0 0 12px}
 .standings-head{
@@ -99,15 +101,20 @@ input[type=text]{width:100%;max-width:360px;padding:10px;border:2px solid #1a1a1
   background:#1a1a1a;color:#f6f1ea;border:3px solid #920004;
   padding:12px 14px;margin:0 0 12px;font-weight:700;font-size:14px}
 .cover{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:#ddd}
-.cover-wrap{position:relative}
+.cover-empty{
+  width:100%;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;
+  background:#e8e2da;color:#666;font-size:14px;font-weight:700;text-align:center;
+  padding:16px;border-bottom:2px solid #1a1a1a}
+.cover-wrap{position:relative;cursor:pointer}
+.cover-wrap.no-photos{cursor:default}
 .cover-wrap:hover .cover{filter:brightness(0.85)}
 .photo-btn{
   position:absolute;right:10px;bottom:10px;z-index:2;
   background:#920004;color:#f6f1ea;border:2px solid #5c0002;
   padding:6px 10px;font-size:12px;font-weight:700;cursor:pointer;
-  filter:brightness(1);transition:filter 0.12s ease}
+  filter:brightness(1);transition:filter 0.12s ease;pointer-events:none}
 .cover-wrap:hover .photo-btn{filter:brightness(1.18)}
-.photo-btn:hover{filter:brightness(1.25)}
+.ov-empty{padding:40px 16px;text-align:center;color:#666;font-weight:600}
 .body{padding:10px 12px 14px;cursor:pointer}
 .body:hover:not(:has(a:hover)){outline:3px solid #920004;outline-offset:-3px}
 .row a{font-weight:700;text-decoration:underline;text-underline-offset:2px}
@@ -124,28 +131,45 @@ table.rank a{font-weight:700;text-decoration:underline;text-underline-offset:2px
 .badge.soft{background:#888}
 .actions{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
 .actions.end{justify-content:flex-end}
+.feat-head{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  flex-wrap:wrap;margin:0 0 10px}
+.feat-head h2{margin:0;flex:1;min-width:0}
 .feat-list{list-style:none;padding:0;margin:0}
-.feat-list li{
-  display:flex;align-items:center;gap:10px;padding:8px;border:2px solid #1a1a1a;margin:6px 0;
-  background:#fff;cursor:grab}
-.feat-list li.picked{background:#fce8e9}
-.feat-list li.locked{background:#f7ebe5}
-.feat-list li.dragging{opacity:0.45}
+.feat-list > li{
+  display:grid;grid-template-columns:28px 1fr;gap:8px;align-items:center;
+  margin:0;padding:0;border:none;background:transparent;cursor:default}
+.feat-list > li .feat-row{
+  display:flex;align-items:center;gap:10px;padding:10px 12px;
+  border:1px solid #cccccc;border-radius:0;background:#ffffff;min-height:48px;
+  margin-top:-1px}
+.feat-list > li:first-child .feat-row{margin-top:0}
+.feat-list > li:nth-child(even) .feat-row{background:#f7f7f7}
+.feat-label{font-weight:700;font-size:15px;flex:1;min-width:0;color:#222222}
+.feat-actions{display:flex;align-items:center;gap:8px;margin-left:auto;flex-shrink:0}
+.feat-chevs{display:flex;gap:6px}
+.feat-chev{
+  width:32px;height:32px;border-radius:0;border:1px solid #cccccc;
+  background:#ffffff;color:#222222;cursor:pointer;padding:0;
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:12px;line-height:1;font-weight:800}
+.feat-chev:hover:not(:disabled){border-color:var(--mash-crimson);color:var(--mash-crimson)}
+.feat-chev:disabled{color:#dddddd;border-color:#dddddd;cursor:not-allowed}
 .feat-section-label{
-  font-size:14px;font-weight:800;margin:18px 0 8px;color:#1a1a1a;
-  letter-spacing:0.02em}
-.feat-list.drop-zone{
-  min-height:56px;padding:8px;border:2px dashed #920004;background:#fff}
-.feat-list.drop-zone.drag-over{background:#fce8e9}
-.feat-list.available{
-  min-height:56px;padding:8px;border:2px dashed #aaa;background:#fafafa}
-.feat-list.available.drag-over{border-color:#920004;background:#fce8e9}
-.feat-empty{font-size:13px;color:#666;padding:10px;margin:0}
-.feat-list li .tog{margin-left:auto;cursor:pointer}
-.feat-list li.locked .tog{display:none}
+  font-size:12px;font-weight:700;margin:18px 0 8px;color:#444444;
+  letter-spacing:0.05em}
+.feat-list.available{min-height:56px;padding:0;border:none;background:transparent}
+.feat-empty{font-size:13px;color:#666666;padding:10px;margin:0}
+.feat-list .tog,.feat-lock{
+  display:inline-block;font-size:12px;padding:6px 10px;border-radius:0;
+  background:#ffffff;font-weight:700;white-space:nowrap;line-height:1.25;
+  box-sizing:border-box}
+.feat-list .tog{
+  cursor:pointer;color:var(--mash-crimson);border:1px solid var(--mash-crimson)}
+.feat-list .tog:hover{background:var(--mash-crimson);color:#ffffff}
 .feat-lock{
-  font-size:11px;font-weight:700;color:#920004;margin-left:auto;white-space:nowrap}
-.rank-num{width:24px;font-weight:800;color:#920004}
+  color:#666666;border:1px solid #cccccc}
+.rank-num{width:24px;font-weight:800;color:var(--mash-crimson);text-align:right}
 table.rates,table.rank{width:100%;border-collapse:collapse;font-size:13px}
 table.rates th,table.rates td,table.rank th,table.rank td{
   border:1px solid #1a1a1a;padding:8px;text-align:left}
@@ -175,7 +199,16 @@ a.podium-card:hover{outline:3px solid #920004;outline-offset:2px}
   display:none;position:fixed;inset:0;background:rgba(0,0,0,0.72);z-index:50;
   align-items:center;justify-content:center;padding:20px}
 .overlay.open{display:flex}
-.overlay-inner{background:#fff;border:3px solid #1a1a1a;max-width:900px;width:100%;max-height:90vh;overflow:auto;padding:12px}
+.overlay-inner{
+  position:relative;background:#fff;border:3px solid #1a1a1a;
+  max-width:900px;width:100%;max-height:90vh;overflow:auto;padding:44px 12px 12px}
+.ov-close{
+  position:absolute;top:8px;right:8px;z-index:2;
+  width:36px;height:36px;border:1px solid #cccccc;border-radius:0;
+  background:#ffffff;color:#222222;font-size:24px;line-height:1;
+  cursor:pointer;padding:0;
+  display:inline-flex;align-items:center;justify-content:center}
+.ov-close:hover{border-color:#920004;color:#920004}
 .busy{
   display:none;position:fixed;inset:0;z-index:100;
   background:rgba(26,26,26,0.55);
@@ -189,6 +222,7 @@ a.podium-card:hover{outline:3px solid #920004;outline-offset:2px}
   animation:busy-spin 0.75s linear infinite}
 @keyframes busy-spin{to{transform:rotate(360deg)}}
 .leave-inner{max-width:420px;padding:22px}
+.leave-inner .ov-close{top:10px;right:10px}
 .leave-inner h3{margin:0 0 10px;font-size:18px}
 .leave-inner p{margin:0 0 10px;font-size:14px;line-height:1.45}
 .thumbs{display:flex;gap:6px;overflow-x:auto;margin-top:8px}
@@ -278,11 +312,27 @@ def landing(existing: dict[str, int] | None = None) -> str:
   <p><input id="name" type="text" placeholder="your name" autocomplete="username"></p>
   <p id="resume" class="muted"></p>
   <button class="btn" id="go">Continue →</button>
+  <p class="muted" style="margin-top:16px">
+    <a href="/mash/anchors">Inspect route anchors</a>
+    (beaches, bakeries, trails, groceries.. what we measure distance against)
+  </p>
+</div>
+<div class="busy" id="busy" aria-hidden="true" aria-busy="false">
+  <div class="busy-spinner" role="status" aria-label="Loading"></div>
 </div>
 <script>
 const known = document.getElementById('known');
 const name = document.getElementById('name');
 const resume = document.getElementById('resume');
+const go = document.getElementById('go');
+function showBusy() {{
+  const el = document.getElementById('busy');
+  el.classList.add('open');
+  el.setAttribute('aria-busy', 'true');
+  el.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  go.disabled = true;
+}}
 if (known) known.onchange = () => {{ if (known.value) name.value = known.value; }};
 name.oninput = async () => {{
   const r = await fetch('/mash/api/reviewer?name=' + encodeURIComponent(name.value.trim()));
@@ -290,16 +340,56 @@ name.oninput = async () => {{
   if (j.exists) resume.textContent = "You've done " + j.count + " comparisons so far. Continue?";
   else resume.textContent = j.name ? "Welcome! Find your next home." : "";
 }};
-document.getElementById('go').onclick = async () => {{
+go.onclick = async () => {{
   const n = name.value.trim();
   if (!n) return;
-  const r = await fetch('/mash/api/reviewer', {{method:'POST', headers:{{'Content-Type':'application/json'}},
-    body: JSON.stringify({{name:n}})}});
-  const j = await r.json();
-  location.href = j.next;
+  showBusy();
+  try {{
+    const r = await fetch('/mash/api/reviewer', {{method:'POST', headers:{{'Content-Type':'application/json'}},
+      body: JSON.stringify({{name:n}})}});
+    const j = await r.json();
+    location.href = j.next || '/mash/features';
+  }} catch (e) {{
+    document.getElementById('busy').classList.remove('open');
+    go.disabled = false;
+    document.body.style.overflow = '';
+    resume.textContent = "Couldn't start the session. Try again.";
+  }}
 }};
+name.addEventListener('keydown', (e) => {{
+  if (e.key === 'Enter') go.click();
+}});
 </script>"""
     return page("CasitaMash", body)
+
+
+def anchors_page(groups: list[dict]) -> str:
+    sections = []
+    for g in groups:
+        rows = "".join(
+            f"<tr><td>{_e(item['name'])}</td>"
+            f"<td>{item['lat']:.4f}</td><td>{item['lng']:.4f}</td></tr>"
+            if item.get("lat") is not None and item.get("lng") is not None
+            else f"<tr><td>{_e(item['name'])}</td><td>—</td><td>—</td></tr>"
+            for item in g["items"]
+        )
+        sections.append(
+            f'<h3>{_e(g["title"])} <span class="muted">({len(g["items"])})</span></h3>'
+            f'<p class="standings-note">{_e(g["source"])}</p>'
+            f'<table class="rates"><tr><th>Name</th><th>Lat</th><th>Lng</th></tr>{rows}</table>'
+        )
+    body = f"""
+<div class="actions" style="margin:0 0 14px">
+  <a class="btn" href="/mash/">← Back</a>
+</div>
+<div class="panel">
+  <h2>Route anchors</h2>
+  <p class="muted">These are the places CasitaMash measures distance against.
+  Curated lists live in <code>walk.py</code>; grocery/bar/market come from committed
+  <code>fixtures/poi_anchors.json</code>. No Google Maps calls.</p>
+  {"".join(sections)}
+</div>"""
+    return page("Route anchors — CasitaMash", body)
 
 
 def features_page(reviewer: str, order: list[str], estimate: tuple[int, int]) -> str:
@@ -309,44 +399,24 @@ def features_page(reviewer: str, order: list[str], estimate: tuple[int, int]) ->
         if f not in order:
             order.append(f)
     selected = list(order)
-
-    def _item(f: str, *, in_selected: bool, rank: int | None) -> str:
-        is_locked = f in locked
-        cls = "picked" + (" locked" if is_locked else "")
-        rank_txt = str(rank) if in_selected and rank is not None else "·"
-        if is_locked:
-            tail = '<span class="feat-lock">Always on</span>'
-        elif in_selected:
-            tail = '<button type="button" class="btn secondary tog">Remove</button>'
-        else:
-            tail = '<button type="button" class="btn secondary tog">Add</button>'
-        return (
-            f'<li draggable="true" data-f="{_e(f)}" data-locked="{1 if is_locked else 0}" class="{cls}">'
-            f'<span class="rank-num">{rank_txt}</span>'
-            f'<span>{_e(FEATURE_LABELS.get(f, f))}</span>'
-            f"{tail}</li>"
-        )
-
-    selected_html = "".join(_item(f, in_selected=True, rank=i + 1) for i, f in enumerate(selected))
     body = f"""
 <div class="panel">
-  <h2>What features do you care most about?</h2>
-  <p class="muted">Add features to Selected, then drag to rank them (order matters!). {ALWAYS_SHOW_COPY}.</p>
+  <div class="feat-head">
+    <h2>What features do you care most about?</h2>
+    <button class="btn" id="start">Start comparing →</button>
+  </div>
+  <p class="muted">{ALWAYS_SHOW_COPY}</p>
   <div class="warn-box">Warning: these picks cannot be changed for this session. If you want to compare across different features, sign out and start a new session.</div>
   <p id="cost"><strong>0 optional features picked.</strong></p>
 
   <div class="feat-section-label">Selected features</div>
-  <ul class="feat-list drop-zone" id="selected">{selected_html}</ul>
+  <ul class="feat-list" id="selected"></ul>
 
   <div class="feat-section-label">Not selected</div>
   <ul class="feat-list available" id="available"></ul>
   <p class="feat-empty" id="availEmpty" hidden>All features are selected.</p>
 
   <p class="muted" id="warn"></p>
-  <div class="actions">
-    <button class="btn" id="start">Start comparing →</button>
-    <a class="btn secondary" href="/mash/api/logout">Sign out</a>
-  </div>
 </div>
 <script>
 const LOCKED = {json.dumps(locked)};
@@ -361,11 +431,11 @@ function renderCost() {{
   const n = optionalCount();
   let t;
   if (n === 0) {{
-    t = '<strong>0 optional features picked.</strong> $ / bed and $ / sqft stay selected. Add more features if you want — each adds roughly 10 comparisons.';
+    t = '<strong>0 optional features picked.</strong> Total Rent, $ / bed, and $ / sqft stay selected. Add more features if you want — each adds roughly 10 comparisons.';
   }} else {{
     const lo = 20 + n * 10;
     const hi = lo + n * 10;
-    t = '<strong>' + n + ' optional feature(s) picked</strong> (plus $ / bed and $ / sqft). About ' + lo + '–' + hi +
+    t = '<strong>' + n + ' optional feature(s) picked</strong> (plus Total Rent, $ / bed, and $ / sqft). About ' + lo + '–' + hi +
       ' comparisons before the numbers hold still.';
   }}
   document.getElementById('cost').innerHTML = t;
@@ -373,20 +443,44 @@ function renderCost() {{
     "Past eight optional features, the numbers probably won't hold still in a normal sitting." : "";
 }}
 
+function moveFeature(f, dir) {{
+  const i = order.indexOf(f);
+  const j = i + dir;
+  if (i < 0 || j < 0 || j >= order.length) return;
+  const tmp = order[i];
+  order[i] = order[j];
+  order[j] = tmp;
+  sync();
+}}
+
 function liHtml(f, inSelected, rank) {{
   const locked = LOCKED.includes(f);
-  const cls = 'picked' + (locked ? ' locked' : '');
-  const rankTxt = inSelected ? String(rank) : '·';
-  let tail;
-  if (locked) tail = '<span class="feat-lock">Always on</span>';
-  else if (inSelected) tail = '<button type="button" class="btn secondary tog">Remove</button>';
-  else tail = '<button type="button" class="btn secondary tog">Add</button>';
-  return '<li draggable="true" data-f="'+f+'" data-locked="'+(locked?1:0)+'" class="'+cls+'">' +
-    '<span class="rank-num">'+rankTxt+'</span><span>'+(labels[f]||f)+'</span>'+tail+'</li>';
+  const cls = (inSelected ? 'picked' : '') + (locked ? ' locked' : '');
+  const rankTxt = inSelected ? String(rank) : '';
+  const label = labels[f] || f;
+  let actions = '';
+  if (inSelected) {{
+    const upDis = rank <= 1 ? ' disabled' : '';
+    const downDis = rank >= order.length ? ' disabled' : '';
+    actions =
+      '<span class="feat-chevs">' +
+        '<button type="button" class="feat-chev up" aria-label="Move up"'+upDis+'>▲</button>' +
+        '<button type="button" class="feat-chev down" aria-label="Move down"'+downDis+'>▼</button>' +
+      '</span>';
+    if (locked) actions += '<span class="feat-lock">Always on</span>';
+    else actions += '<button type="button" class="btn secondary tog">Remove</button>';
+  }} else {{
+    actions = '<button type="button" class="btn secondary tog">Add</button>';
+  }}
+  return '<li data-f="'+f+'" data-locked="'+(locked?1:0)+'" class="'+cls.trim()+'">' +
+    '<span class="rank-num">'+rankTxt+'</span>' +
+    '<div class="feat-row">' +
+      '<span class="feat-label">'+label+'</span>' +
+      '<span class="feat-actions">'+actions+'</span>' +
+    '</div></li>';
 }}
 
 function sync() {{
-  // keep locked present
   LOCKED.forEach(f => {{ if (!order.includes(f)) order.push(f); }});
   const sel = document.getElementById('selected');
   const avail = document.getElementById('available');
@@ -399,20 +493,8 @@ function sync() {{
   renderCost();
 }}
 
-let dragF = null;
 function bindItems() {{
   document.querySelectorAll('#selected li, #available li').forEach(li => {{
-    li.addEventListener('dragstart', (e) => {{
-      dragF = li.dataset.f;
-      li.classList.add('dragging');
-      e.dataTransfer.effectAllowed = 'move';
-      e.dataTransfer.setData('text/plain', dragF);
-    }});
-    li.addEventListener('dragend', () => {{
-      li.classList.remove('dragging');
-      dragF = null;
-      document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
-    }});
     const tog = li.querySelector('.tog');
     if (tog) tog.onclick = () => {{
       const f = li.dataset.f;
@@ -422,53 +504,12 @@ function bindItems() {{
       else order.push(f);
       sync();
     }};
-  }});
-  // reorder within selected by dragging over items
-  document.querySelectorAll('#selected li').forEach(li => {{
-    li.addEventListener('dragover', (e) => {{
-      e.preventDefault();
-      e.dataTransfer.dropEffect = 'move';
-    }});
-    li.addEventListener('drop', (e) => {{
-      e.preventDefault();
-      e.stopPropagation();
-      const f = dragF || e.dataTransfer.getData('text/plain');
-      if (!f) return;
-      const target = li.dataset.f;
-      if (f === target) return;
-      const from = order.indexOf(f);
-      if (from >= 0) order.splice(from, 1);
-      const to = order.indexOf(target);
-      order.splice(to < 0 ? order.length : to, 0, f);
-      sync();
-    }});
+    const up = li.querySelector('.feat-chev.up');
+    const down = li.querySelector('.feat-chev.down');
+    if (up) up.onclick = (e) => {{ e.stopPropagation(); moveFeature(li.dataset.f, -1); }};
+    if (down) down.onclick = (e) => {{ e.stopPropagation(); moveFeature(li.dataset.f, 1); }};
   }});
 }}
-
-function wireZone(el, onDrop) {{
-  el.addEventListener('dragover', (e) => {{
-    e.preventDefault();
-    el.classList.add('drag-over');
-    e.dataTransfer.dropEffect = 'move';
-  }});
-  el.addEventListener('dragleave', () => el.classList.remove('drag-over'));
-  el.addEventListener('drop', (e) => {{
-    e.preventDefault();
-    el.classList.remove('drag-over');
-    const f = dragF || e.dataTransfer.getData('text/plain');
-    if (f) onDrop(f);
-  }});
-}}
-wireZone(document.getElementById('selected'), (f) => {{
-  if (!order.includes(f)) order.push(f);
-  sync();
-}});
-wireZone(document.getElementById('available'), (f) => {{
-  if (LOCKED.includes(f)) return;
-  const i = order.indexOf(f);
-  if (i >= 0) order.splice(i, 1);
-  sync();
-}});
 
 document.getElementById('start').onclick = async () => {{
   LOCKED.forEach(f => {{ if (!order.includes(f)) order.push(f); }});
@@ -516,6 +557,17 @@ def format_beds_baths(feats: ListingFeatures) -> str:
     return f"{beds} / {baths}"
 
 
+def listing_photos(feats: ListingFeatures) -> list[str]:
+    """Deduped photo URLs for cards / overlay (cover first if missing from list)."""
+    from .features import dedupe_photo_urls
+
+    photos = dedupe_photo_urls(list(feats.photos or []))
+    cover = (feats.cover_url or "").strip()
+    if cover and cover not in photos:
+        photos = [cover] + photos
+    return photos
+
+
 def card_html(feats: ListingFeatures, feature_order: list[str], side: str) -> str:
     addr = _e(display_text(feats.address or feats.neighborhood or feats.key))
     rows = f'<div class="addr">{addr}</div>'
@@ -553,15 +605,25 @@ def card_html(feats: ListingFeatures, feature_order: list[str], side: str) -> st
             f'<div class="hyp-banner">Not a real listing — hypothetical</div>'
             f'<div class="hyp-note">{_e(feats.hyp_note or "what-if version of this home")}</div>'
         )
-    cover = _e(feats.cover_url or "")
-    n_photos = len(feats.photos) or (1 if feats.cover_url else 0)
+    photos = listing_photos(feats)
+    if photos:
+        cover_block = (
+            f'<div class="cover-wrap" data-overlay="{side}" role="button" '
+            f'tabindex="0" title="View photos" aria-label="View photos ({len(photos)})">'
+            f'<img class="cover" src="{_e(photos[0])}" alt="">'
+            f'<span class="photo-btn">View photos ({len(photos)})</span>'
+            f'</div>'
+        )
+    else:
+        cover_block = (
+            '<div class="cover-wrap no-photos">'
+            '<div class="cover-empty">No photos for this listing</div>'
+            '</div>'
+        )
     return f"""
 <article class="card{" hyp" if feats.is_hypothetical else ""}" data-side="{side}" data-key="{_e(feats.key)}">
   {hyp}
-  <div class="cover-wrap">
-    <img class="cover" src="{cover}" alt="">
-    <button type="button" class="photo-btn" data-overlay="{side}">View photos ({n_photos})</button>
-  </div>
+  {cover_block}
   <div class="body" data-pick="{_e(feats.key)}">{rows}</div>
 </article>"""
 
@@ -580,7 +642,7 @@ def play_page(
         ban = f"""<div class="banner"><div>{_e(banner)}</div>
           <a class="btn" href="/mash/results?done=1">See Results →</a></div>"""
     standings_btn = ""
-    if not banner:
+    if not banner and n > 0:
         standings_btn = """
 <div class="actions end">
   <a class="btn" href="/mash/results">Current Standings</a>
@@ -597,10 +659,9 @@ def play_page(
 </div>
 {standings_btn}
 <div class="overlay" id="ov"><div class="overlay-inner">
-  <button class="btn secondary" id="ovClose">Close</button>
-  <img id="ovMain" style="width:100%;max-height:60vh;object-fit:contain;margin-top:8px" alt="">
+  <button type="button" class="ov-close" id="ovClose" aria-label="Close">×</button>
+  <img id="ovMain" style="width:100%;max-height:60vh;object-fit:contain" alt="">
   <div class="thumbs" id="ovThumbs"></div>
-  <div id="ovExtra" class="muted" style="margin-top:10px"></div>
 </div></div>
 <div class="busy" id="busy" aria-hidden="true" aria-busy="false">
   <div class="busy-spinner" role="status" aria-label="Loading"></div>
@@ -608,8 +669,8 @@ def play_page(
 <script>
 const state = {{
   reviewer: {json.dumps(reviewer)},
-  left: {json.dumps({"key": left.key, "photos": left.photos, "source": left.source, "photo_count": left.photo_count, "is_hyp": left.is_hypothetical, "values": left.values, "known": left.known})},
-  right: {json.dumps({"key": right.key, "photos": right.photos, "source": right.source, "photo_count": right.photo_count, "is_hyp": right.is_hypothetical, "values": right.values, "known": right.known})},
+  left: {json.dumps({"key": left.key, "photos": listing_photos(left), "source": left.source, "photo_count": len(listing_photos(left)), "is_hyp": left.is_hypothetical, "values": left.values, "known": left.known})},
+  right: {json.dumps({"key": right.key, "photos": listing_photos(right), "source": right.source, "photo_count": len(listing_photos(right)), "is_hyp": right.is_hypothetical, "values": right.values, "known": right.known})},
   feature_order: {json.dumps(feature_order)},
   strategy: {json.dumps(why)},
   shown_at: new Date().toISOString(),
@@ -663,8 +724,10 @@ document.querySelectorAll('[data-pick]').forEach(el => {{
 }});
 function openOv(side) {{
   if (!picking) return;
-  state.overlay = true; state.overlayOpened = true; state.overlaySide = side; picking = false;
   const meta = side === 'left' ? state.left : state.right;
+  const photos = meta.photos || [];
+  if (!photos.length) return;
+  state.overlay = true; state.overlayOpened = true; state.overlaySide = side; picking = false;
   state.photoIdx = 0;
   const ov = document.getElementById('ov');
   ov.classList.add('open');
@@ -672,18 +735,34 @@ function openOv(side) {{
 }}
 function renderOv(meta) {{
   const photos = meta.photos || [];
-  document.getElementById('ovMain').src = photos[state.photoIdx] || '';
+  const main = document.getElementById('ovMain');
   const th = document.getElementById('ovThumbs');
+  if (!photos.length) {{
+    main.removeAttribute('src');
+    main.style.display = 'none';
+    th.innerHTML = '<div class="ov-empty">No photos for this listing</div>';
+    return;
+  }}
+  main.style.display = '';
+  main.src = photos[state.photoIdx] || photos[0] || '';
   th.innerHTML = photos.map((p,i) => '<img src="'+p+'" data-i="'+i+'">').join('');
   th.querySelectorAll('img').forEach(img => img.onclick = () => {{ state.photoIdx = +img.dataset.i; renderOv(meta); }});
-  const known = Object.entries(meta.known||{{}}).filter(([,v])=>v).map(([k])=>k);
-  document.getElementById('ovExtra').textContent = 'Fields known: ' + known.join(', ');
 }}
-document.querySelectorAll('[data-overlay]').forEach(el => el.onclick = (e) => {{
-  e.preventDefault();
-  e.stopPropagation();
-  if (!picking && !state.overlay) return;
-  openOv(el.dataset.overlay);
+document.querySelectorAll('[data-overlay]').forEach(el => {{
+  el.onclick = (e) => {{
+    e.preventDefault();
+    e.stopPropagation();
+    if (!picking && !state.overlay) return;
+    openOv(el.dataset.overlay);
+  }};
+  el.onkeydown = (e) => {{
+    if (e.key === 'Enter' || e.key === ' ') {{
+      e.preventDefault();
+      e.stopPropagation();
+      if (!picking && !state.overlay) return;
+      openOv(el.dataset.overlay);
+    }}
+  }};
 }});
 document.getElementById('ovClose').onclick = () => {{
   document.getElementById('ov').classList.remove('open');
@@ -732,6 +811,16 @@ def _source_link(row: dict) -> str:
     return _external_a(row["url"], _source_label(row))
 
 
+def _leftover_note(row: dict) -> str:
+    """Muted leftover u for standings — skip near-zero noise."""
+    if "leftover" not in row:
+        return ""
+    u = float(row["leftover"])
+    if abs(u) < 0.05:
+        return ""
+    return f"leftover {u:+.2f}"
+
+
 def _rank_table(rows: list[dict], start_i: int = 1, *, show_badge: bool = False) -> str:
     rank_rows = ""
     for i, row in enumerate(rows, start_i):
@@ -743,9 +832,11 @@ def _rank_table(rows: list[dict], start_i: int = 1, *, show_badge: bool = False)
         be = ""
         if row.get("break_even") is not None:
             be = f'<div class="muted">Break-even ≈ ${row["break_even"]:,.0f}/mo</div>'
+        left = _leftover_note(row)
+        left_cell = f'<div class="muted">{_e(left)}</div>' if left else ""
         rank_rows += (
             f'<tr><td>{i}</td><td>{_e(_listing_label(row))}{badge}{be}</td>'
-            f'<td>{row["score"]:.3f}</td><td>{row.get("n_shown", 0)}</td>'
+            f'<td>{row["score"]:.3f}{left_cell}</td><td>{row.get("n_shown", 0)}</td>'
             f'<td>{_source_link(row)}</td></tr>'
         )
     return (
@@ -786,11 +877,15 @@ def _podium(rows: list[dict]) -> str:
             if row.get("never_shown")
             else ""
         )
+        meta = f'#{rank} · score {row["score"]:.3f} · seen {row.get("n_shown", 0)}'
+        left = _leftover_note(row)
+        if left:
+            meta += f" · {left}"
         inner = (
             f'{img}'
             f'<div class="place">{_e(label)}</div>'
             f'<div class="name">{_e(_listing_label(row))}{badge}</div>'
-            f'<div class="meta">#{rank} · score {row["score"]:.3f} · seen {row.get("n_shown", 0)}</div>'
+            f'<div class="meta">{_e(meta)}</div>'
         )
         url = row.get("url") or ""
         if url:
@@ -807,10 +902,12 @@ def _podium(rows: list[dict]) -> str:
 
 def _movers_blurb(movers: list[dict]) -> str:
     if len(movers) >= 2:
-        a, b = movers[0], movers[1]
-        return f"{a['line']} more than {b['label'].lower()} right now."
+        a = movers[0].get("label") or movers[0].get("feature")
+        b = movers[1].get("label") or movers[1].get("feature")
+        return f"{a} and {b.lower()} are the strongest feature weights right now."
     if len(movers) == 1:
-        return f"{movers[0]['line']}."
+        a = movers[0].get("label") or movers[0].get("feature")
+        return f"{a} is the strongest feature weight right now."
     return "Not enough signal yet to see which features move rankings."
 
 
@@ -843,7 +940,7 @@ def results_page(
         else:
             compared_html = '<p class="muted">No compared listings yet — keep picking.</p>'
         unseen_html = ""
-        if unseen:
+        if compared and unseen:
             unseen_html = (
                 f'<h3 style="margin-top:28px">Also scoring well (not shown yet)</h3>'
                 f'<p class="standings-note">These weren’t in your matchups. '
@@ -851,22 +948,15 @@ def results_page(
                 f"{_rank_table(unseen, start_i=len(compared) + 1, show_badge=True)}"
             )
     heading = "Your Results" if concluded else "Current Standings"
-    compared_intro = ""
-    if not concluded:
-        compared_intro = (
-            "<h3>You’ve compared</h3>"
-            '<p class="standings-note">Every listing that showed up in at least one of your matchups, ranked by fit.</p>'
-        )
-    mover_rows = "".join(
-        f"<tr><td>{i}</td><td>{_e(m['label'])}</td>"
-        f"<td>{_e(m['line'])}</td><td>{m['share']:.0%}</td></tr>"
-        for i, m in enumerate(movers, 1)
+    mover_items = "".join(
+        f"<li>{_e(m.get('label') or m.get('feature'))} — {m['share']:.0%}</li>"
+        for m in movers
     )
-    movers_table = (
-        f'<table class="rates"><tr><th>#</th><th>Feature</th><th>Effect</th><th>|w| share</th></tr>'
-        f"{mover_rows}</table>"
-        if mover_rows
-        else '<p class="muted">No feature weights yet — keep comparing.</p>'
+    movers_block = (
+        f'<p class="standings-note">{_e(_movers_blurb(movers))}</p>'
+        f"<ul>{mover_items}</ul>"
+        if mover_items
+        else '<p class="muted">Not enough comparisons yet to see which features move rankings.</p>'
     )
     body = f"""
 <div class="actions" style="margin:0 0 14px">
@@ -877,17 +967,15 @@ def results_page(
     <h2>{_e(heading)}</h2>
     <p class="muted">{n} comparisons</p>
   </div>
-  {compared_intro}
   {compared_html}
   {unseen_html}
 </div>
 <div class="panel">
   <h2>For nerds</h2>
-  <h3>How the score works</h3>
-  <p>Score = feature fit (<code>w·x</code>) + leftover <code>u</code> (photos / vibe / unmodeled).
-  Rankings sort by that score.</p>
+  <p class="standings-note">Score = feature fit (<code>w·x</code>) + leftover <code>u</code>
+  (photos / vibe / unmodeled). Rankings sort by that total. Where leftover is
+  non-trivial, standings show it under the score.</p>
   <h3>What moves rankings</h3>
-  <p class="standings-note">{_e(_movers_blurb(movers))}</p>
-  {movers_table}
+  {movers_block}
 </div>"""
     return page(f"{heading} — CasitaMash", body, who=f"playing as {reviewer}")
