@@ -1068,3 +1068,20 @@ def test_play_page_includes_elicitation_overlay():
     assert "Extra bathroom" in html
     assert "/mash/api/elicitation" in html
     assert "elicitationSkip" not in html
+
+
+def test_play_page_skip_opens_optional_reason():
+    from casita.mash import features, ui
+    left = features.ListingFeatures(
+        key="a", values={}, known={}, routes={}, photo_count=0, source="z",
+        cover_url=None, photos=[], is_hypothetical=False,
+    )
+    right = features.ListingFeatures(
+        key="b", values={}, known={}, routes={}, photo_count=0, source="z",
+        cover_url=None, photos=[], is_hypothetical=False,
+    )
+    html = ui.play_page("sam", left, right, "why", 5, None, ["baths"])
+    assert 'id="reasonHint"' in html
+    assert "pendingSkip" in html
+    assert "openReason(null, true)" in html
+    assert "Why skip this pair?" in html

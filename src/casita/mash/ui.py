@@ -799,7 +799,7 @@ def play_page(
 <div class="overlay reason-ov" id="reasonOv" aria-hidden="true">
   <div class="overlay-inner" role="dialog" aria-labelledby="reasonTitle">
     <h3 id="reasonTitle">Reason (optional)</h3>
-    <p class="muted">Why this one? Leave blank if you just know.</p>
+    <p class="muted" id="reasonHint">Why this one? Leave blank if you just know.</p>
     <input type="text" id="pickReason" maxlength="240"
       placeholder="e.g. better light / worth the rent for the yard" autocomplete="off">
     <div class="reason-actions">
@@ -828,6 +828,7 @@ const state = {{
   overlaySide: null,
   photoIdx: 0,
   pendingWinner: null,
+  pendingSkip: false,
   reasonOpen: false,
   surpriseOpen: false,
   surpriseReason: {json.dumps((surprise_reason or "").strip() or None)},
@@ -927,14 +928,25 @@ document.getElementById('surpriseOv').addEventListener('click', (e) => {{
 }});
 if (state.surpriseReason) openSurprise();
 else if (state.elicitation) openElicitation();
-function openReason(winner) {{
+function openReason(winner, skipped) {{
   if (!picking || state.reasonOpen || state.surpriseOpen || state.elicitationOpen) return;
-  state.pendingWinner = winner;
+  state.pendingWinner = skipped ? null : winner;
+  state.pendingSkip = !!skipped;
   state.reasonOpen = true;
   picking = false;
   const ov = document.getElementById('reasonOv');
   const input = document.getElementById('pickReason');
+  const hint = document.getElementById('reasonHint');
   input.value = '';
+  if (skipped) {{
+    document.getElementById('reasonTitle').textContent = 'Reason (optional)';
+    hint.textContent = 'Why skip this pair? Leave blank if you just want the next one.';
+    input.placeholder = "e.g. both feel wrong / too similar / can't tell from photos";
+  }} else {{
+    document.getElementById('reasonTitle').textContent = 'Reason (optional)';
+    hint.textContent = 'Why this one? Leave blank if you just know.';
+    input.placeholder = 'e.g. better light / worth the rent for the yard';
+  }}
   ov.classList.add('open');
   ov.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
@@ -946,6 +958,7 @@ function closeReason(resume) {{
   ov.setAttribute('aria-hidden', 'true');
   state.reasonOpen = false;
   state.pendingWinner = null;
+  state.pendingSkip = false;
   if (resume) {{
     picking = true;
     document.body.style.overflow = '';
@@ -1026,10 +1039,11 @@ async function maybeShowRankUpdating() {{
 }}
 maybeShowRankUpdating();
 function confirmReason() {{
+  const skipped = !!state.pendingSkip;
   const winner = state.pendingWinner;
   const reason = (document.getElementById('pickReason').value || '').trim();
-  if (!winner) {{ closeReason(true); return; }}
-  commitDecide(winner, false, reason);
+  if (!skipped && !winner) {{ closeReason(true); return; }}
+  commitDecide(skipped ? null : winner, skipped, reason);
 }}
 document.getElementById('reasonConfirm').onclick = confirmReason;
 document.getElementById('reasonCancel').onclick = () => closeReason(true);
@@ -1123,7 +1137,7 @@ window.addEventListener('keydown', (e) => {{
   if (!picking) return;
   if (e.key === 'ArrowLeft') openReason(state.left.key);
   if (e.key === 'ArrowRight') openReason(state.right.key);
-  if (e.key === ' ') {{ e.preventDefault(); commitDecide(null, true, ''); }}
+  if (e.key === ' ') {{ e.preventDefault(); openReason(null, true); }}
 }});
 </script>"""
     return page("Compare — CasitaMash", body, who=f"playing as {reviewer} · {n} picks")
