@@ -464,16 +464,14 @@ function renderCost() {{
   const n = optionalCount();
   let t;
   if (n === 0) {{
-    t = '<strong>0 optional features picked.</strong> Total Rent, $ / bed, and $ / sqft stay selected. Add more features if you want — each adds roughly 10 comparisons.';
+    t = '<strong>0 optional features.</strong> Always-on: Total Rent, $/bed, $/sqft. Each added feature = longer session.';
   }} else {{
-    const lo = 20 + n * 10;
-    const hi = lo + n * 10;
-    t = '<strong>' + n + ' optional feature(s) picked</strong> (plus Total Rent, $ / bed, and $ / sqft). About ' + lo + '–' + hi +
-      ' comparisons before the numbers hold still.';
+    t = '<strong>' + n + ' optional feature' + (n === 1 ? '' : 's') + '.</strong> '
+      + 'Expect between 20–30 comparisons, longer if your choices are inconsistent.';
   }}
   document.getElementById('cost').innerHTML = t;
-  document.getElementById('warn').textContent = n > 8 ?
-    "Past eight optional features, the numbers probably won't hold still in a normal sitting." : "";
+  document.getElementById('warn').textContent = n >= 8 ?
+    '8+ optional features. Expect a longer session.' : '';
 }}
 
 function moveFeature(f, dir) {{
