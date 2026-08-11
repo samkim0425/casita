@@ -109,6 +109,190 @@ def dominated(a: ListingFeatures, b: ListingFeatures, names: list[str]) -> bool:
     return saw_any and saw_strict
 
 
+def _not_dominated_either_way(a: ListingFeatures, b: ListingFeatures, visible: list[str]) -> bool:
+    return not dominated(a, b, visible) and not dominated(b, a, visible)
+
+
+def _price_band_ok(
+    a: ListingFeatures,
+    b: ListingFeatures,
+    *,
+    max_price_gap: float = 800,
+) -> bool:
+    price_d = _feature_delta(a, b, "price")
+    beds_d = _feature_delta(a, b, "beds")
+    if price_d is not None and abs(price_d) > max_price_gap:
+        return False
+    if beds_d is not None and abs(beds_d) > 0.6:
+        return False
+    return True
+
+
+def has_memo_tradeoff(
+    a: ListingFeatures,
+    b: ListingFeatures,
+    probes: list[str] | None,
+    feature_order: list[str],
+    visible: list[str],
+) -> bool:
+    """Stricter tradeoff: probe conflict or top-ranked feature split."""
+    probe_list = [p for p in (probes or []) if p]
+    if len(probe_list) >= 2:
+        signs = [advantage(a, b, n) for n in probe_list[:3]]
+        active = sum(1 for s in signs if s != 0)
+        return active >= 2 and 1 in signs and -1 in signs
+    if len(probe_list) == 1:
+        return advantage(a, b, probe_list[0]) != 0 and has_tradeoff(a, b, visible)
+    ranked = [f for f in (feature_order or []) if f not in ALWAYS_SHOW][:2]
+    if len(ranked) >= 2:
+        return has_tradeoff(a, b, ranked)
+    if len(ranked) == 1:
+        return has_tradeoff(a, b, ranked + ["price"])
+    return has_tradeoff(a, b, visible)
+
+
+def pair_passes_filters(
+    a: ListingFeatures,
+    b: ListingFeatures,
+    *,
+    visible: list[str],
+    probes: list[str] | None,
+    feature_order: list[str],
+    strict_tradeoff: bool = True,
+    max_price_gap: float = 800,
+) -> bool:
+    if not _not_dominated_either_way(a, b, visible):
+        return False
+    if not _price_band_ok(a, b, max_price_gap=max_price_gap):
+        return False
+    if strict_tradeoff:
+        return has_memo_tradeoff(a, b, probes, feature_order, visible)
+    return has_tradeoff(a, b, visible)
+
+
+def _tradeoff_axes(
+    a: ListingFeatures,
+    b: ListingFeatures,
+    visible: list[str],
+    probes: list[str] | None,
+    feature_order: list[str],
+) -> list[str]:
+    axes: list[str] = []
+    for name in list(probes or []) + list(feature_order or []) + visible:
+        if name in axes:
+            continue
+        if advantage(a, b, name) != 0:
+            axes.append(name)
+        if len(axes) >= 3:
+            break
+    return axes
+
+
+def _listing_show_counts(seen: set[tuple[str, str]]) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    for left_key, right_key in seen:
+        counts[left_key] = counts.get(left_key, 0) + 1
+        counts[right_key] = counts.get(right_key, 0) + 1
+    return counts
+
+
+def _feat_summary(f: ListingFeatures) -> dict:
+    return {
+        "key": f.key,
+        "address": f.address or f.neighborhood or f.key,
+        "price": f.values.get("price"),
+        "beds": f.values.get("beds"),
+        "baths": f.values.get("baths"),
+        "condition": f.condition_quality or f.labels.get("condition"),
+        "light": f.light_quality or f.labels.get("light"),
+    }
+
+
+@dataclass
+class PairCandidate:
+    left: ListingFeatures
+    right: ListingFeatures
+    strategy: str
+    tradeoff_axes: list[str]
+    left_rank: int | None
+    right_rank: int | None
+    score_gap: float | None
+    heuristic_score: float
+    why_template: str
+    is_hypothetical: bool = False
+
+    def to_prompt_dict(self) -> dict:
+        return {
+            "left": _feat_summary(self.left),
+            "right": _feat_summary(self.right),
+            "strategy": self.strategy,
+            "tradeoff_axes": self.tradeoff_axes,
+            "left_rank": self.left_rank,
+            "right_rank": self.right_rank,
+            "score_gap": self.score_gap,
+            "heuristic_score": self.heuristic_score,
+            "why_template": self.why_template,
+            "is_hypothetical": self.is_hypothetical,
+        }
+
+
+def _candidate_heuristic_score(
+    a: ListingFeatures,
+    b: ListingFeatures,
+    *,
+    visible: list[str],
+    coverage: dict[str, int],
+    probes: list[str],
+    fit: FitResult | None,
+) -> float:
+    if fit is not None:
+        p = predict_proba(fit, a, b)
+        near = 1.0 - abs(p - 0.5) * 2
+        info = expected_weight_info(fit, a, b)
+        return near * info
+    return cold_start_score(a, b, visible, coverage) + _probe_boost(a, b, probes)
+
+
+def _make_candidate(
+    a: ListingFeatures,
+    b: ListingFeatures,
+    *,
+    strategy: str,
+    visible: list[str],
+    probes: list[str],
+    feature_order: list[str],
+    fit: FitResult | None,
+    coverage: dict[str, int],
+    rank_by_key: dict[str, dict] | None,
+    heuristic_score: float | None = None,
+    is_hypothetical: bool = False,
+) -> PairCandidate:
+    lk = (rank_by_key or {}).get(a.key, {})
+    rk = (rank_by_key or {}).get(b.key, {})
+    lr = lk.get("rank")
+    rr = rk.get("rank")
+    sg = None
+    if lr is not None and rr is not None:
+        sg = abs(float(lk.get("score") or 0) - float(rk.get("score") or 0))
+    hs = heuristic_score
+    if hs is None:
+        hs = _candidate_heuristic_score(
+            a, b, visible=visible, coverage=coverage, probes=probes, fit=fit,
+        )
+    return PairCandidate(
+        left=a,
+        right=b,
+        strategy=strategy,
+        tradeoff_axes=_tradeoff_axes(a, b, visible, probes, feature_order),
+        left_rank=lr,
+        right_rank=rr,
+        score_gap=sg,
+        heuristic_score=hs,
+        why_template=why_line(fit, a, b, feature_order, strategy, probe_features=probes),
+        is_hypothetical=is_hypothetical,
+    )
+
+
 def opposing_focus(a: ListingFeatures, b: ListingFeatures, names: list[str], focus: str) -> str | None:
     """Feature where the other side wins, opposite the focus winner."""
     focus_adv = advantage(a, b, focus)
@@ -292,6 +476,9 @@ def _staircase_real(
     feature_order: list[str],
     seen: set[tuple[str, str]],
     focus: str,
+    *,
+    probes: list[str] | None = None,
+    strict_tradeoff: bool = True,
 ) -> PairOffer | None:
     visible = _visible_features(feature_order)
     if focus in COST_FEATURES:
@@ -303,17 +490,14 @@ def _staircase_real(
             pk = _pair_key(a.key, b.key)
             if pk in seen or a.key == b.key:
                 continue
-            if not has_tradeoff(a, b, visible):
+            if not pair_passes_filters(
+                a, b, visible=visible, probes=probes, feature_order=feature_order,
+                strict_tradeoff=strict_tradeoff,
+            ):
                 continue
             if advantage(a, b, focus) == 0:
                 continue
             if opposing_focus(a, b, visible, focus) is None:
-                continue
-            price_d = _feature_delta(a, b, "price")
-            beds_d = _feature_delta(a, b, "beds")
-            if price_d is not None and abs(price_d) > 800:
-                continue
-            if beds_d is not None and abs(beds_d) > 0.6:
                 continue
             var = varying_count(a, b, visible)
             score = abs(_feature_delta(a, b, focus) or 0) / (1 + max(0, var - 2))
@@ -374,11 +558,192 @@ def _probe_boost(a: ListingFeatures, b: ListingFeatures, probe_features: list[st
     for name in probe_features:
         if advantage(a, b, name) != 0:
             boost += 3.0
+    if len(probe_features) == 1 and advantage(a, b, probe_features[0]) != 0:
+        boost += 8.0
     if len(probe_features) >= 2:
         signs = [advantage(a, b, n) for n in probe_features[:3]]
         if 1 in signs and -1 in signs:
             boost += 5.0
     return boost
+
+
+def candidate_pairs(
+    pool: list[ListingFeatures],
+    feature_order: list[str],
+    seen: set[tuple[str, str]],
+    fit: FitResult | None,
+    *,
+    n_comparisons: int,
+    recent_hyp: int,
+    coverage: dict[str, int] | None = None,
+    probe_features: list[str] | None = None,
+    rank_by_key: dict[str, dict] | None = None,
+    rng: random.Random | None = None,
+    cap: int = 8,
+) -> list[PairCandidate]:
+    """Build a shortlist of pair candidates for model or stub selection."""
+    rng = rng or random.Random()
+    coverage = coverage or {}
+    probes = [p for p in (probe_features or []) if p]
+    visible = _visible_features(feature_order)
+    elig = [f for f in pool if eligible(f)[0]]
+    if len(elig) < 2:
+        return []
+
+    by_key = {f.key: f for f in elig}
+    collected: dict[tuple[str, str], PairCandidate] = {}
+
+    def _add(a: ListingFeatures, b: ListingFeatures, *, strategy: str, score: float | None = None, hyp: bool = False) -> None:
+        pk = _pair_key(a.key, b.key)
+        if pk in seen and not hyp:
+            return
+        cand = _make_candidate(
+            a, b,
+            strategy=strategy,
+            visible=visible,
+            probes=probes,
+            feature_order=feature_order,
+            fit=fit,
+            coverage=coverage,
+            rank_by_key=rank_by_key,
+            heuristic_score=score,
+            is_hypothetical=hyp,
+        )
+        prev = collected.get(pk)
+        if prev is None or cand.heuristic_score > prev.heuristic_score:
+            collected[pk] = cand
+
+    def _scan_pairs(*, strict: bool) -> None:
+        sample = elig if len(elig) <= 40 else rng.sample(elig, 40)
+        for i, a in enumerate(sample):
+            for b in sample[i + 1:]:
+                if a.key == b.key:
+                    continue
+                pk = _pair_key(a.key, b.key)
+                if pk in seen:
+                    continue
+                if not pair_passes_filters(
+                    a, b, visible=visible, probes=probes, feature_order=feature_order,
+                    strict_tradeoff=strict,
+                ):
+                    continue
+                score = _candidate_heuristic_score(
+                    a, b, visible=visible, coverage=coverage, probes=probes, fit=fit,
+                )
+                strat = "probe_conflict" if probes and (
+                    _probe_boost(a, b, probes) >= 5 or len(probes) == 1
+                ) else "coverage"
+                _add(a, b, strategy=strat, score=score)
+
+    _scan_pairs(strict=True)
+    if not collected:
+        _scan_pairs(strict=False)
+
+    focus_order = [f for f in probes if f not in COST_FEATURES]
+    focus_order += [
+        f for f in (list(feature_order) or ["trail", "beach", "grocery"])
+        if f not in COST_FEATURES and f not in focus_order
+    ]
+    if not focus_order:
+        focus_order = ["trail", "beach", "grocery"]
+    if not probes:
+        rng.shuffle(focus_order)
+
+    if rank_by_key and n_comparisons > 0:
+        ranked_keys = sorted(
+            (k for k in rank_by_key if k in by_key),
+            key=lambda k: int(rank_by_key[k].get("rank") or 9999),
+        )
+        for i in range(len(ranked_keys) - 1):
+            a = by_key[ranked_keys[i]]
+            b = by_key[ranked_keys[i + 1]]
+            pk = _pair_key(a.key, b.key)
+            if pk in seen:
+                continue
+            if not pair_passes_filters(
+                a, b, visible=visible, probes=probes, feature_order=feature_order,
+                strict_tradeoff=True,
+            ):
+                if not pair_passes_filters(
+                    a, b, visible=visible, probes=probes, feature_order=feature_order,
+                    strict_tradeoff=False,
+                ):
+                    continue
+            lk = rank_by_key.get(a.key, {})
+            rk = rank_by_key.get(b.key, {})
+            gap = abs(float(lk.get("score") or 0) - float(rk.get("score") or 0))
+            score = 10.0 / (0.01 + gap)
+            _add(a, b, strategy="rank_boundary", score=score)
+
+    if n_comparisons >= 8 and feature_order:
+        for focus in focus_order[:4]:
+            offer = _staircase_real(
+                elig, feature_order, seen, focus,
+                probes=probes, strict_tradeoff=True,
+            )
+            if offer:
+                score = abs(_feature_delta(offer.left, offer.right, focus) or 0)
+                _add(offer.left, offer.right, strategy=f"staircase:{focus}", score=score)
+
+    use_hyp = (
+        n_comparisons >= 10
+        and recent_hyp < 1
+        and rng.random() < 0.18
+        and feature_order
+    )
+    if use_hyp:
+        for focus in focus_order[:3]:
+            offer = _staircase_hyp(elig, feature_order, focus, rng)
+            if offer:
+                _add(offer.left, offer.right, strategy=f"hypothetical:{focus}", score=50.0, hyp=True)
+
+    show_counts = _listing_show_counts(seen)
+    if rank_by_key and n_comparisons > 0:
+        top_keys = sorted(
+            (k for k in rank_by_key if k in by_key),
+            key=lambda k: int(rank_by_key[k].get("rank") or 9999),
+        )[:20]
+        anchors = [by_key[k] for k in top_keys[:5] if k in by_key]
+        underseen = sorted(elig, key=lambda f: show_counts.get(f.key, 0))
+        for anchor in anchors:
+            for cand in underseen[:8]:
+                if cand.key == anchor.key:
+                    continue
+                pk = _pair_key(cand.key, anchor.key)
+                if pk in seen:
+                    continue
+                if not pair_passes_filters(
+                    cand, anchor, visible=visible, probes=probes, feature_order=feature_order,
+                    strict_tradeoff=False,
+                ):
+                    continue
+                bonus = 2.0 / (1 + show_counts.get(cand.key, 0))
+                score = _candidate_heuristic_score(
+                    cand, anchor, visible=visible, coverage=coverage, probes=probes, fit=fit,
+                ) + bonus
+                _add(cand, anchor, strategy="coverage", score=score)
+
+    if not collected:
+        for i, a in enumerate(elig):
+            for b in elig[i + 1:]:
+                pk = _pair_key(a.key, b.key)
+                if pk in seen:
+                    continue
+                if not _not_dominated_either_way(a, b, visible):
+                    continue
+                if not has_tradeoff(a, b, visible):
+                    continue
+                score = _candidate_heuristic_score(
+                    a, b, visible=visible, coverage=coverage, probes=probes, fit=fit,
+                )
+                _add(a, b, strategy="fallback", score=score)
+                if len(collected) >= cap:
+                    break
+            if len(collected) >= cap:
+                break
+
+    out = sorted(collected.values(), key=lambda c: c.heuristic_score, reverse=True)
+    return out[:cap]
 
 
 def select_pair(
@@ -391,97 +756,24 @@ def select_pair(
     recent_hyp: int,
     coverage: dict[str, int] | None = None,
     probe_features: list[str] | None = None,
+    rank_by_key: dict[str, dict] | None = None,
     rng: random.Random | None = None,
 ) -> PairOffer | None:
-    """Pick next pair. Play path passes fit=None and uses memo probe_features."""
-    rng = rng or random.Random()
-    coverage = coverage or {}
-    probes = [p for p in (probe_features or []) if p]
-    visible = _visible_features(feature_order)
-    elig = [f for f in pool if eligible(f)[0]]
-    if len(elig) < 2:
-        return None
-
-    use_hyp = (
-        n_comparisons >= 10
-        and recent_hyp < 1
-        and rng.random() < 0.18
-        and feature_order
+    """Pick next pair. Thin wrapper over candidate_pairs for tests."""
+    cands = candidate_pairs(
+        pool, feature_order, seen, fit,
+        n_comparisons=n_comparisons,
+        recent_hyp=recent_hyp,
+        coverage=coverage,
+        probe_features=probe_features,
+        rank_by_key=rank_by_key,
+        rng=rng,
     )
-    focus_order = [f for f in probes if f not in COST_FEATURES]
-    focus_order += [
-        f for f in (list(feature_order) or ["trail", "beach", "grocery"])
-        if f not in COST_FEATURES and f not in focus_order
-    ]
-    if not focus_order:
-        focus_order = ["trail", "beach", "grocery"]
-    if not probes:
-        rng.shuffle(focus_order)
-
-    def _finish(offer: PairOffer) -> PairOffer:
-        offer.why_line = why_line(
-            fit, offer.left, offer.right, feature_order, offer.strategy,
-            probe_features=probes,
-        )
-        return offer
-
-    if use_hyp:
-        for focus in focus_order[:3]:
-            offer = _staircase_hyp(elig, feature_order, focus, rng)
-            if offer and has_tradeoff(offer.left, offer.right, visible):
-                return _finish(offer)
-
-    if n_comparisons >= 8 and feature_order and (probes or rng.random() < 0.45):
-        for focus in focus_order:
-            offer = _staircase_real(elig, feature_order, seen, focus)
-            if offer and has_tradeoff(offer.left, offer.right, visible):
-                return _finish(offer)
-
-    best = None
-    best_score = -1e18
-    sample = elig if len(elig) <= 40 else rng.sample(elig, 40)
-    for i, a in enumerate(sample):
-        for b in sample[i + 1:]:
-            if a.key == b.key:
-                continue
-            pk = _pair_key(a.key, b.key)
-            if pk in seen:
-                continue
-            if not has_tradeoff(a, b, visible):
-                continue
-            if probes or fit is None:
-                score = cold_start_score(a, b, visible, coverage) + _probe_boost(a, b, probes)
-            else:
-                p = predict_proba(fit, a, b)
-                near = 1.0 - abs(p - 0.5) * 2
-                info = expected_weight_info(fit, a, b)
-                score = near * info
-            if score > best_score:
-                best_score = score
-                best = (a, b)
-    if not best:
-        sample = elig
-        for i, a in enumerate(sample):
-            for b in sample[i + 1:]:
-                if a.key == b.key:
-                    continue
-                pk = _pair_key(a.key, b.key)
-                if pk in seen:
-                    continue
-                if not has_tradeoff(a, b, visible):
-                    continue
-                score = cold_start_score(a, b, visible, coverage) + _probe_boost(a, b, probes)
-                if score > best_score:
-                    best_score = score
-                    best = (a, b)
-    if not best:
+    if not cands:
         return None
-    a, b = best
-    strategy = "memo_probe" if probes else ("cold_start" if fit is None else "info_gain")
+    c = cands[0]
     return PairOffer(
-        a, b, strategy,
-        why_line(fit, a, b, feature_order, strategy, probe_features=probes),
-        False,
+        c.left, c.right, c.strategy, c.why_template, c.is_hypothetical,
     )
 
 

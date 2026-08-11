@@ -72,12 +72,11 @@ Photos and condition enter as language and vision, not lookup-table floats.
 Your feature ranking at the start sets which levers appear on the card and which themes the memo may probe next.
 The model can still mention soft signals from photos in prose, but pair steering stays inside what you ranked.
 
-Pair selection is local plumbing for latency.
-Preference learning, standings, and the moments below are model-driven.
+Next-pair choice is a short loop: local heuristics propose a few real tradeoffs (memo probes, rank boundaries, no dominated pairs); with Vertex, Gemini picks which pair to show and writes the why-line in one call.
 
 1. **Preference memo:** Gemini accumulates your picks, optional written reasons, and photo reads into plain English you can read on the play screen and results page.
 2. **Catalog rank:** Standings and per-listing reasons come from a memo-driven re-rank that runs in the background after each pick, so the order evolves while you compare.
-3. **Why-line:** One sentence above each pair cites your memo and the tradeoff on the card, so the next comparison is framed in your own emerging taste, not a fixed template.
+3. **Next pair + why-line:** Gemini chooses from the heuristic shortlist and frames the comparison in one sentence above the cards — your memo and the tradeoff on the card, not a fixed template.
 4. **Still weighing:** A short line under the why-line shows probe themes the memo has not settled yet, so the loop is legible mid-play, not only after the fact.
 5. **Surprise:** When a pick clearly contradicts the memo, the model surfaces a challenge and optional "what changed?" before you continue, so preference is negotiated rather than silently overwritten.
 6. **Quick question:** After enough picks, Gemini may ask one forced A/B when the memo still has ambiguity; your answer feeds the next memo update.
@@ -138,7 +137,7 @@ People also weigh those differently.
 There is no universal ranking to converge on.
 With about 118 eligible listings and a realistic number of comparisons, most homes show up once or not at all — you need something that generalizes from prose and photos, not one score per listing you may never see.
 
-CasitaMash uses a feature layer for **card display** and **pair selection** plumbing, but standings come from the preference memo and model rank:
+CasitaMash uses a feature layer for **card display** and **shortlist generation**; Gemini picks the next pair and standings come from the preference memo and model rank:
 
 ```
 pick (+ optional reason) → preference memo → model ranks catalog

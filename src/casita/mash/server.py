@@ -540,12 +540,22 @@ def make_handler(state: MashState):
                     fs = json.loads(r["feature_set_json"] or "[]")
                     for f in fs:
                         coverage[f] = coverage.get(f, 0) + 1
-                offer = select.select_pair(
+                ranks_sorted = sorted(
+                    model_state.get("ranks") or [],
+                    key=lambda r: -float(r.get("score") or 0),
+                )
+                rank_by_key = {
+                    r["key"]: {"rank": i + 1, "score": float(r.get("score") or 0)}
+                    for i, r in enumerate(ranks_sorted)
+                    if r.get("key")
+                }
+                candidates = select.candidate_pairs(
                     list(fmap.values()), order, seen, None,
                     n_comparisons=n, recent_hyp=recent_hyp, coverage=coverage,
                     probe_features=probes,
+                    rank_by_key=rank_by_key,
                 )
-                if not offer:
+                if not candidates:
                     return self._send(200, ui.page("Done", "<p>No more pairs.</p>", who=reviewer).encode())
                 banner = None
                 if n > 0:
@@ -561,19 +571,19 @@ def make_handler(state: MashState):
                         ]
                         if sum(1 for s in stables[-3:] if s >= 0.7) >= 2 and n >= 20:
                             banner = "Your top 20 is starting to converge. See results?"
-                fallback_why = offer.why_line
-                why_res = llm_prefs.explain_pair_why(
+                fallback_why = candidates[0].why_template
+                pick_res = llm_prefs.pick_pair_from_shortlist(
                     memo_text=pref.get("memo_text") or "",
-                    left=llm_prefs.listing_brief(offer.left),
-                    right=llm_prefs.listing_brief(offer.right),
-                    fallback_why=fallback_why,
-                    strategy=offer.strategy,
-                    probe_features=probes,
+                    candidates=[c.to_prompt_dict() for c in candidates],
                     feature_order=order,
+                    probe_features=probes,
+                    fallback_why=fallback_why,
                 )
-                why = why_res.why_line or fallback_why
+                idx = max(0, min(pick_res.chosen_index, len(candidates) - 1))
+                chosen = candidates[idx]
+                why = pick_res.why_line or chosen.why_template
                 return self._send(200, ui.play_page(
-                    reviewer, offer.left, offer.right, why, n, banner, order,
+                    reviewer, chosen.left, chosen.right, why, n, banner, order,
                     memo_text=pref.get("memo_text") or "",
                     mode=pref.get("mode") or "stub",
                     vertex_configured=bool(pref.get("vertex_configured")),

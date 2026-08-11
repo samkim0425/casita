@@ -159,6 +159,7 @@ class WhyResult:
     why_line: str
     mode: str = "stub"  # stub | vertex
     error: str | None = None
+    chosen_index: int = 0
 
 
 class PairWhyLine(BaseModel):
@@ -170,19 +171,30 @@ class PairWhyLine(BaseModel):
     )
 
 
+class PairPick(BaseModel):
+    chosen_index: int = Field(ge=0, description="Index into the candidate shortlist.")
+    why_line: str = Field(description="One sentence for the play screen.")
+
+
 _WHY_MAX_CHARS = 180
-_WHY_SYSTEM = textwrap.dedent("""
-    You write the one-line explanation above a pairwise rental comparison.
+_PAIR_PICK_SYSTEM = textwrap.dedent("""
+    You choose which pairwise rental comparison to show next and write the one-line
+    explanation above it.
 
     Rules:
-      - Exactly one sentence, plain English, under 180 characters.
-      - Voice: "I'm showing you these two because …" (or a close variant).
-      - Cite the preference memo AND a concrete tradeoff between Left and Right.
-      - Frame the tradeoff using session ranked features only (provided in the prompt).
-      - Only use facts present in the memo or the listing briefs.
+      - Pick the candidate that best tests an UNSETTLED preference in the memo.
+      - Skip candidates where one side clearly dominates on memo priorities (cheaper
+        AND better on condition/light/baths the memo cares about).
+      - Return chosen_index matching the candidate list (0-based).
+      - why_line: exactly one sentence, plain English, under 180 characters.
+      - Voice: "I'm showing you these two because …" or "Confirming your memo: …"
+      - Genuine tension → cite the tradeoff using session ranked features only.
+      - Confirmatory pick (sanity check) → say so; do not invent a fake tradeoff.
+      - Only use facts present in the memo or the candidate briefs.
       - No markdown, bullets, emoji, or quotation-mark wrapping of the whole line.
-      - Do not invent amenities, distances, or prices.
 """).strip()
+
+_WHY_SYSTEM = _PAIR_PICK_SYSTEM
 
 
 def sanitize_why_line(raw: str | None, *, fallback: str, max_chars: int = _WHY_MAX_CHARS) -> str:
@@ -289,6 +301,151 @@ def should_ask_elicitation(
     return True
 
 
+def _format_candidates_block(candidates: list[dict]) -> str:
+    lines = []
+    for i, c in enumerate(candidates):
+        left = c.get("left") or {}
+        right = c.get("right") or {}
+        axes = ", ".join(c.get("tradeoff_axes") or []) or "(none)"
+        lr = c.get("left_rank")
+        rr = c.get("right_rank")
+        ranks = f"ranks {lr}/{rr}" if lr and rr else "ranks unknown"
+        lines.append(
+            f"[{i}] strategy={c.get('strategy')} {ranks} axes={axes}\n"
+            f"    Left: {_brief_text(left)}\n"
+            f"    Right: {_brief_text(right)}\n"
+            f"    template: {(c.get('why_template') or '')[:120]}"
+        )
+    return "\n\n".join(lines) if lines else "(none)"
+
+
+def _stub_pick_index(candidates: list[dict]) -> int:
+    if not candidates:
+        return 0
+    best_i = 0
+    best_score = -1e18
+    for i, c in enumerate(candidates):
+        score = float(c.get("heuristic_score") or 0)
+        if score > best_score:
+            best_score = score
+            best_i = i
+    return best_i
+
+
+def pick_pair_from_shortlist(
+    *,
+    memo_text: str,
+    candidates: list[dict],
+    feature_order: list[str] | None = None,
+    probe_features: list[str] | None = None,
+    fallback_why: str,
+) -> WhyResult:
+    """Pick a candidate pair and write the play why-line."""
+    if not candidates:
+        fb = (fallback_why or "").strip() or (
+            "These listings differ. Your pick here will show us how you trade them off."
+        )
+        return WhyResult(why_line=fb, mode="stub", chosen_index=0)
+
+    stub_idx = _stub_pick_index(candidates)
+    stub_why = (candidates[stub_idx].get("why_template") or fallback_why or "").strip()
+    fb = stub_why or (fallback_why or "").strip() or (
+        "These listings differ. Your pick here will show us how you trade them off."
+    )
+
+    if not (memo_text or "").strip() or not vertex_available():
+        return WhyResult(why_line=fb, mode="stub", chosen_index=stub_idx)
+
+    if len(candidates) == 1:
+        try:
+            return _vertex_explain_pair_why(
+                memo_text=memo_text,
+                left=candidates[0].get("left") or {},
+                right=candidates[0].get("right") or {},
+                fallback_why=fb,
+                strategy=candidates[0].get("strategy"),
+                probe_features=probe_features,
+                feature_order=feature_order,
+            )
+        except Exception as e:
+            err = str(e)[:200]
+            print(f"  mash pick vertex err: {err}", flush=True)
+            return WhyResult(why_line=fb, mode="stub", error=err, chosen_index=0)
+
+    try:
+        return _vertex_pick_pair_from_shortlist(
+            memo_text=memo_text,
+            candidates=candidates,
+            feature_order=feature_order,
+            probe_features=probe_features,
+            fallback_why=fb,
+            stub_index=stub_idx,
+        )
+    except Exception as e:
+        err = str(e)[:200]
+        print(f"  mash pick vertex err: {err}", flush=True)
+        return WhyResult(why_line=fb, mode="stub", error=err, chosen_index=stub_idx)
+
+
+def _vertex_pick_pair_from_shortlist(
+    *,
+    memo_text: str,
+    candidates: list[dict],
+    feature_order: list[str] | None,
+    probe_features: list[str] | None,
+    fallback_why: str,
+    stub_index: int,
+) -> WhyResult:
+    from google.genai import types as gtypes
+
+    from ..llm import RANK_MODEL, _get_client
+
+    probes = ", ".join(probe_features or []) or "(none)"
+    session_vocab = format_session_probe_vocab(feature_order)
+    prompt = textwrap.dedent(f"""
+        Preference memo:
+        {(memo_text or "").strip()}
+
+        Session ranked features (center on these only):
+        {session_vocab}
+
+        Probe features from memo: {probes}
+
+        Candidate pairs ({len(candidates)} options — pick ONE by chosen_index):
+        {_format_candidates_block(candidates)}
+
+        Fallback why-line if uncertain:
+        {fallback_why}
+
+        Return chosen_index and why_line for the best candidate to show next.
+    """).strip()
+
+    client = _get_client()
+    resp = client.models.generate_content(
+        model=RANK_MODEL,
+        contents=[gtypes.Content(role="user", parts=[gtypes.Part.from_text(text=prompt)])],
+        config=gtypes.GenerateContentConfig(
+            temperature=0.2,
+            response_mime_type="application/json",
+            response_schema=PairPick,
+            system_instruction=_PAIR_PICK_SYSTEM,
+        ),
+    )
+    parsed = getattr(resp, "parsed", None)
+    if parsed is None:
+        return WhyResult(
+            why_line=fallback_why, mode="stub", error="empty pick response",
+            chosen_index=stub_index,
+        )
+    idx = int(getattr(parsed, "chosen_index", stub_index) or stub_index)
+    idx = max(0, min(idx, len(candidates) - 1))
+    raw = (getattr(parsed, "why_line", "") or "").strip()
+    cleaned = sanitize_why_line(raw, fallback="")
+    if not cleaned:
+        cleaned = (candidates[idx].get("why_template") or fallback_why).strip()
+    return WhyResult(why_line=cleaned, mode="vertex", chosen_index=idx)
+
+
 def explain_pair_why(
     *,
     memo_text: str,
@@ -300,27 +457,22 @@ def explain_pair_why(
     feature_order: list[str] | None = None,
 ) -> WhyResult:
     """Model-authored play why-line; always returns a non-empty line via fallback."""
-    fallback = (fallback_why or "").strip() or (
-        "These listings differ. Your pick here will show us how you trade them off."
+    single = [{
+        "left": left,
+        "right": right,
+        "strategy": strategy or "(none)",
+        "tradeoff_axes": list(probe_features or [])[:3],
+        "why_template": fallback_why,
+        "heuristic_score": 1.0,
+    }]
+    res = pick_pair_from_shortlist(
+        memo_text=memo_text,
+        candidates=single,
+        feature_order=feature_order,
+        probe_features=probe_features,
+        fallback_why=fallback_why,
     )
-    if not (memo_text or "").strip():
-        return WhyResult(why_line=fallback, mode="stub")
-    if not vertex_available():
-        return WhyResult(why_line=fallback, mode="stub")
-    try:
-        return _vertex_explain_pair_why(
-            memo_text=memo_text,
-            left=left,
-            right=right,
-            fallback_why=fallback,
-            strategy=strategy,
-            probe_features=probe_features,
-            feature_order=feature_order,
-        )
-    except Exception as e:
-        err = str(e)[:200]
-        print(f"  mash why vertex err: {err}", flush=True)
-        return WhyResult(why_line=fallback, mode="stub", error=err)
+    return WhyResult(why_line=res.why_line, mode=res.mode, error=res.error, chosen_index=0)
 
 
 def _vertex_explain_pair_why(

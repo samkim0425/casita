@@ -623,6 +623,116 @@ def test_select_pair_biases_toward_probe_tradeoff():
     assert keys == {"c1", "p2"} or "baths" in (offer.strategy or "") or select.advantage(offer.left, offer.right, "baths") != 0
 
 
+def test_pair_passes_filters_rejects_dominated():
+    cheap = _feat(
+        "cheap", price=5000, price_per_bed=2500, price_per_sqft=4.0,
+        trail=60, grocery=1, is_sf=1.0, beds=2, laundry=1.0, light=0.5, parking=0.5,
+    )
+    pricey = _feat(
+        "pricey", price=5200, price_per_bed=2600, price_per_sqft=5.0,
+        trail=61, grocery=1, is_sf=1.0, beds=2, laundry=1.0, light=0.5, parking=0.5,
+    )
+    visible = ["price", "price_per_bed", "price_per_sqft", "trail", "grocery", "laundry", "light", "parking"]
+    assert not select.pair_passes_filters(
+        cheap, pricey, visible=visible, probes=[], feature_order=["trail"],
+    )
+
+
+def test_has_memo_tradeoff_requires_probe_conflict():
+    a = _feat("a", price=3000, baths=1, trail=10, is_sf=1.0, beds=2, price_per_bed=1500, price_per_sqft=3)
+    b = _feat("b", price=3200, baths=2, trail=30, is_sf=1.0, beds=2, price_per_bed=1600, price_per_sqft=3.2)
+    visible = ["price", "price_per_bed", "price_per_sqft", "baths", "trail"]
+    assert select.has_memo_tradeoff(a, b, ["baths", "trail"], ["baths", "trail"], visible)
+    c = _feat("c", price=3100, baths=1, trail=12, is_sf=1.0, beds=2, price_per_bed=1550, price_per_sqft=3.1)
+    assert not select.has_memo_tradeoff(a, c, ["baths", "trail"], ["baths", "trail"], visible)
+
+
+def test_candidate_pairs_dedupes_and_caps():
+    pool = [
+        _feat(f"L{i}", price=3000 + i * 100, trail=10 + i * 5, beach=10 + i * 2,
+              is_sf=1.0, beds=2, price_per_bed=1500, price_per_sqft=3, grocery=8)
+        for i in range(10)
+    ]
+    cands = select.candidate_pairs(
+        pool, ["trail", "beach"], set(), None,
+        n_comparisons=2, recent_hyp=1, cap=8,
+        rng=__import__("random").Random(1),
+    )
+    assert len(cands) <= 8
+    keys = {select._pair_key(c.left.key, c.right.key) for c in cands}
+    assert len(keys) == len(cands)
+
+
+def test_candidate_pairs_rank_boundary_when_ranks_present():
+    pool = [
+        _feat("a", price=3000, trail=30, is_sf=1.0, beds=2, price_per_bed=1500, price_per_sqft=3),
+        _feat("b", price=3200, trail=10, is_sf=1.0, beds=2, price_per_bed=1600, price_per_sqft=3.2),
+        _feat("c", price=3100, trail=25, is_sf=1.0, beds=2, price_per_bed=1550, price_per_sqft=3.1),
+    ]
+    rank_by_key = {
+        "a": {"rank": 1, "score": 0.9},
+        "b": {"rank": 2, "score": 0.85},
+        "c": {"rank": 3, "score": 0.8},
+    }
+    cands = select.candidate_pairs(
+        pool, ["trail"], set(), None,
+        n_comparisons=5, recent_hyp=1, rank_by_key=rank_by_key,
+        rng=__import__("random").Random(0),
+    )
+    strategies = {c.strategy for c in cands}
+    assert "rank_boundary" in strategies
+
+
+def test_candidate_pairs_excludes_dominated():
+    cheap = _feat(
+        "cheap", price=5000, price_per_bed=2500, price_per_sqft=4.0,
+        trail=60, grocery=1, is_sf=1.0, beds=2,
+    )
+    pricey = _feat(
+        "pricey", price=5200, price_per_bed=2600, price_per_sqft=5.0,
+        trail=61, grocery=1, is_sf=1.0, beds=2,
+    )
+    trade = _feat(
+        "trade", price=6200, price_per_bed=3100, price_per_sqft=5.5,
+        trail=12, grocery=1, is_sf=1.0, beds=2,
+    )
+    cands = select.candidate_pairs(
+        [cheap, pricey, trade], ["trail", "grocery"], set(), None,
+        n_comparisons=0, recent_hyp=1,
+    )
+    for c in cands:
+        pk = select._pair_key(c.left.key, c.right.key)
+        assert pk != select._pair_key("cheap", "pricey")
+
+
+def test_pick_pair_from_shortlist_stub_picks_top_heuristic(monkeypatch):
+    monkeypatch.setattr("casita.mash.llm_prefs.vertex_available", lambda: False)
+    from casita.mash import llm_prefs
+    cands = [
+        {"heuristic_score": 1.0, "why_template": "low"},
+        {"heuristic_score": 9.0, "why_template": "high"},
+    ]
+    res = llm_prefs.pick_pair_from_shortlist(
+        memo_text="Prefers light.",
+        candidates=cands,
+        fallback_why="fallback",
+    )
+    assert res.mode == "stub"
+    assert res.chosen_index == 1
+    assert res.why_line == "high"
+
+
+def test_pick_pair_from_shortlist_clamps_bad_index(monkeypatch):
+    monkeypatch.setattr("casita.mash.llm_prefs.vertex_available", lambda: False)
+    from casita.mash import llm_prefs
+    cands = [{"heuristic_score": 5.0, "why_template": "only"}]
+    res = llm_prefs.pick_pair_from_shortlist(
+        memo_text="x", candidates=cands, fallback_why="fb",
+    )
+    assert res.chosen_index == 0
+    assert res.why_line == "only"
+
+
 def test_pref_job_queue_runs_serially():
     from casita.mash.jobs import PrefJob, PrefJobQueue
     import threading
