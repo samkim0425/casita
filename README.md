@@ -2,13 +2,6 @@
 
 [![Documentation](https://img.shields.io/badge/docs-casita-0b6e4f?style=for-the-badge)](https://matin.github.io/casita/)
 
-This fork adds **CasitaMash**, a FaceMash-style comparison tool on Casita's credentials-free demo fixture.
-You pick which of two listings you prefer.
-The app learns from those picks and ranks the whole catalog, including places you never saw.
-
-You do not need to see every listing.
-After enough comparisons, the model scores the rest from the features you cared about.
-That is the point: a usable order without an exhaustive tour of the catalog.
 This fork adds **CasitaMash**, a FaceMash-style comparison tool on Casita's credentials-free demo fixture. You pick which of two listings you prefer.
 Each pick (plus an optional written reason) feeds **Gemini via Vertex**, which updates a growing **preference memo**, re-ranks the catalog, and surfaces what it is still weighing — photos and condition stay in language (and vision) for that loop, not as lookup-table floats.
 Skip, labeled hypothetical trades, and latency/bias telemetry stay.
@@ -23,7 +16,6 @@ Step-by-step setup is in [`docs/getting-started.md`](docs/getting-started.md).
 
 ```bash
 uv sync
-uv run casita mash
 gcloud auth application-default login
 uv run casita mash --project YOUR_GCP_PROJECT
 ```
@@ -44,10 +36,7 @@ uv run casita mash anchors   # beaches, bakeries, groceries, trails we measure a
 
 Also at <http://127.0.0.1:8766/mash/anchors>.
 
-Everything here is offline.
 Mash reads `fixtures/demo.sqlite` and a committed POI file.
-Your comparisons live in gitignored `tmp/mash.sqlite` and never touch the fixture.
-No Vertex, Maps, GCS, or Firebase.
 Your comparisons and preference memos live in gitignored `tmp/mash.sqlite` and never touch the fixture.
 
 ```mermaid
@@ -67,11 +56,9 @@ flowchart LR
     sessions[sessions]
   end
 
-  listings -->|read features / photos / routes| mash
   listings -->|briefs / photos / raw condition| mash
   votes -.->|bootstrap seed only| comparisons
   reviewers --> comparisons
-  comparisons --> fit_cache
   comparisons --> memos
   memos --> fit_cache
 ```
@@ -117,6 +104,7 @@ More schema detail is in [`docs/data-model.md`](docs/data-model.md).
 
 ### FaceMash, on purpose
 
+I have seen *The Social Network* an embarrassing number of times.
 The dorm-window ranking scene stuck with me.
 I wanted an excuse to try and build the thing.
 
@@ -138,7 +126,6 @@ Decisions are a set of tradeoffs.
 No listing wins on everything.
 
 So my target output was a ranked list I could actually use: which places to email first, and a sense of which levers are driving that order.
-Standings show the total score and, when it matters, the leftover bit that features cannot explain (photos, vibe, stuff not on the card).
 Standings show model scores with per-listing reasons drawn from the preference memo — photos, vibe, and soft fields in language.
 
 ### The hard part: FaceMash only ranked one thing
@@ -151,58 +138,36 @@ People also weigh those differently.
 There is no universal ranking to converge on.
 With about 118 eligible listings and a realistic number of comparisons, most homes show up once or not at all — you need something that generalizes from prose and photos, not one score per listing you may never see.
 
-Plain Bradley-Terry (the Elo idea done properly for offline data) learns one number per listing.
-That breaks down here.
-With about 118 eligible listings and a realistic number of comparisons, most homes show up once or not at all.
-The model is still learning "which flat" when the useful question is "how much is this lever worth."
-It also cannot score a listing you never saw.
-
-So CasitaMash learns weights over features instead:
 CasitaMash uses a feature layer for **card display** and **pair selection** plumbing, but standings come from the preference memo and model rank:
 
 ```
-score = w · x + u
 pick (+ optional reason) → preference memo → model ranks catalog
 ```
-
-`w · x` is the part that generalizes to unseen listings.
-`u` catches whatever the columns miss.
-Learning on the order of fifteen weights takes dozens of comparisons.
-Sorting 118 listings by comparison alone takes on the order of n log n picks.
-That gap is the argument for the design.
 
 ### Why you pick features first
 
 Showing every possible row on a card buries the difference that actually decides the pair.
 CasitaMash asks you to rank the features you care about and mostly shows those.
-Fewer rows, faster reads, and the fit focuses on levers you could see while picking.
 Fewer rows, faster reads, and the pairs focus on levers you could see while picking.
 
 Your onboarding order chooses which optional features are in play.
-It does not seed the weights.
 It does not seed the memo.
 New sessions start cold.
-If your picks disagree with what you said you cared about, that shows up in the fit rather than getting papered over up front.
 If your picks disagree with what you said you cared about, that shows up in the memo rather than getting papered over up front.
 
 ## What I tried and rejected
 
 A few dead ends shaped the design more than the wins.
 
-**Pure listing Elo / Bradley-Terry.**
-Weaker held-out accuracy than the feature model.
 **Pure listing Elo.**
 One score per listing does not survive a realistic comparison count on ~118 homes.
 The multi-dimensional problem is real.
 
 **Aggressive per-person feature pruning.**
-Keeping only 3 “best” features looked smart until selection was done without peeking at the test data. 
-Then it didn’t help. L2 shrinkage already soft-pedals weak features; we don’t hard-delete them.
 Early numbers looked great until selection was done honestly inside each fold.
 Optional features stay selectable; we do not pretend zeros are insights.
 
 **Priors for new users.**
-Tempting, and every source is contaminated: another person's fit, the old ranking prompt, or your own stated order turned into fake revealed preference.
 Tempting, and every source is contaminated: another person's memo, the old ranking prompt, or your own stated order turned into fake revealed preference.
 Sessions start at zero.
 
