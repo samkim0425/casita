@@ -73,7 +73,29 @@ input[type=text]{width:100%;max-width:360px;padding:10px;border:2px solid #1a1a1
 .warn-box{
   background:#ffffff;border:1px solid #cccccc;padding:12px 14px;margin:12px 0;
   font-size:13px;font-weight:700;line-height:1.4;color:#222222}
+.stub-banner{
+  background:#f5f5f5;border:1px solid #999;padding:10px 12px;margin:10px 0;
+  font-size:13px;line-height:1.4;color:#333}
+.memo-box{
+  background:#fafafa;border:1px solid #cccccc;padding:12px 14px;margin:12px 0;
+  font-size:14px;line-height:1.45;white-space:pre-wrap}
+.memo-box h3{margin:0 0 8px;font-size:14px;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.updating{font-weight:600;color:#666;font-size:12px;letter-spacing:0.02em}
+.updating[hidden]{display:none !important}
+.reason-ov .overlay-inner{
+  max-width:440px;padding:22px 22px 18px;text-align:left}
+.reason-ov h3{margin:0 0 6px;font-size:16px}
+.reason-ov .muted{margin:0 0 12px}
+.reason-ov input[type=text]{
+  width:100%;padding:10px 12px;border:2px solid #1a1a1a;font-size:15px;
+  margin:0 0 14px}
+.reason-ov .reason-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.elicit-actions{display:flex;flex-direction:row;gap:10px;margin-top:4px}
+.elicit-actions .btn{
+  flex:1;min-width:0;text-align:center;white-space:normal;line-height:1.35;padding:12px 14px}
+.rank-reason{font-size:12px;color:#555;margin-top:2px;font-weight:400}
 .why{font-size:14px;margin:8px 0 14px;font-weight:600}
+.probe-row{font-size:13px;color:#666;margin:-6px 0 14px;line-height:1.4}
 .standings-note{font-size:13px;color:#666;margin:0 0 12px}
 .standings-head{
   display:flex;align-items:baseline;justify-content:flex-start;gap:12px;
@@ -418,11 +440,22 @@ def features_page(reviewer: str, order: list[str], estimate: tuple[int, int]) ->
 
   <p class="muted" id="warn"></p>
 </div>
+<div class="busy" id="busy" aria-hidden="true" aria-busy="false">
+  <div class="busy-spinner" role="status" aria-label="Loading"></div>
+</div>
 <script>
 const LOCKED = {json.dumps(locked)};
 let order = {json.dumps(selected)};
 const labels = {json.dumps(FEATURE_LABELS)};
 const allPickable = {json.dumps(list(PICKABLE_FEATURES))};
+
+function showBusy() {{
+  const el = document.getElementById('busy');
+  el.classList.add('open');
+  el.setAttribute('aria-busy', 'true');
+  el.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}}
 
 function optionalCount() {{
   return order.filter(f => !LOCKED.includes(f)).length;
@@ -512,10 +545,21 @@ function bindItems() {{
 }}
 
 document.getElementById('start').onclick = async () => {{
+  const btn = document.getElementById('start');
+  if (btn.disabled) return;
+  btn.disabled = true;
+  showBusy();
   LOCKED.forEach(f => {{ if (!order.includes(f)) order.push(f); }});
-  await fetch('/mash/api/features', {{method:'POST', headers:{{'Content-Type':'application/json'}},
-    body: JSON.stringify({{reviewer: {json.dumps(reviewer)}, order}})}});
-  location.href = '/mash/play';
+  try {{
+    await fetch('/mash/api/features', {{method:'POST', headers:{{'Content-Type':'application/json'}},
+      body: JSON.stringify({{reviewer: {json.dumps(reviewer)}, order}})}});
+    location.href = '/mash/play';
+  }} catch (err) {{
+    btn.disabled = false;
+    document.getElementById('busy').classList.remove('open');
+    document.body.style.overflow = '';
+    alert('Could not start comparing — try again.');
+  }}
 }};
 sync();
 </script>"""
@@ -628,6 +672,54 @@ def card_html(feats: ListingFeatures, feature_order: list[str], side: str) -> st
 </article>"""
 
 
+def _mode_banner(*, mode: str, vertex_configured: bool, last_error: str | None) -> str:
+    """Explain stub vs Vertex without pretending offline when a project is configured."""
+    if mode == "vertex":
+        return ""
+    if vertex_configured:
+        detail = ""
+        err = (last_error or "").strip()
+        if err:
+            short = err.replace("\n", " ")
+            if "BILLING" in short.upper() or "billing" in short:
+                detail = (
+                    " Last Gemini error looks like billing — enable billing on the GCP "
+                    "project, wait a few minutes, then make another pick (retries automatically)."
+                )
+            else:
+                detail = f" Last error: {_e(short[:180])}"
+        return (
+            '<div class="stub-banner">Gemini fallback — Vertex is configured, but the '
+            "last model call failed so this session is using the offline stub."
+            f"{detail}</div>"
+        )
+    return (
+        '<div class="stub-banner">Offline preference stub — for Gemini, create a GCP '
+        "project with billing and the Vertex AI API enabled, run "
+        '<code>gcloud auth application-default login</code>, then '
+        '<code>uv run casita mash --project YOUR_GCP_PROJECT</code> '
+        "(replace YOUR_GCP_PROJECT with your project id). "
+        "Skip, hypotheticals, and telemetry still work.</div>"
+    )
+
+
+def _probe_label(name: str) -> str:
+    key = (name or "").strip()
+    if not key:
+        return ""
+    return FEATURE_LABELS.get(key, key.replace("_", " ").title())
+
+
+def probe_weighing_row(probe_features: list[str] | None) -> str:
+    """One line under the why-line: memo probe themes in plain English."""
+    names = [_probe_label(p) for p in (probe_features or []) if (p or "").strip()]
+    names = [n for n in names if n][:3]
+    if not names:
+        return ""
+    joined = " · ".join(_e(n) for n in names)
+    return f'<p class="probe-row">Still weighing: {joined}</p>'
+
+
 def play_page(
     reviewer: str,
     left: ListingFeatures,
@@ -636,11 +728,32 @@ def play_page(
     n: int,
     banner: str | None,
     feature_order: list[str],
+    *,
+    memo_text: str = "",
+    mode: str = "stub",
+    vertex_configured: bool = False,
+    last_error: str | None = None,
+    surprise_reason: str | None = None,
+    probe_features: list[str] | None = None,
+    pending_elicitation: dict | None = None,
 ) -> str:
     ban = ""
     if banner:
         ban = f"""<div class="banner"><div>{_e(banner)}</div>
           <a class="btn" href="/mash/results?done=1">See Results →</a></div>"""
+    stub = _mode_banner(mode=mode, vertex_configured=vertex_configured, last_error=last_error)
+    memo_block = ""
+    if (memo_text or "").strip():
+        memo_block = (
+            '<div class="memo-box"><h3>Preference memo '
+            '<span class="updating" id="rankUpdating" hidden>Updating.</span></h3>'
+            f"{_e(memo_text.strip())}</div>"
+        )
+    else:
+        memo_block = (
+            '<p class="muted" id="rankUpdatingWrap" hidden>'
+            '<span class="updating" id="rankUpdating">Updating.</span></p>'
+        )
     standings_btn = ""
     if not banner and n > 0:
         standings_btn = """
@@ -649,15 +762,54 @@ def play_page(
 </div>"""
     body = f"""
 {ban}
+{stub}
+{memo_block}
 {"<div class=\"hyp-page\">Hypothetical round: same home, two what-ifs. Not two real listings.</div>" if left.is_hypothetical or right.is_hypothetical else ""}
 <p class="muted">{n} comparisons · ← / → to pick · space to skip · click the details to choose</p>
 <p class="why">{_e(why)}</p>
+{probe_weighing_row(probe_features)}
 <div class="grid">
   {card_html(left, feature_order, "left")}
   <div class="vs">→</div>
   {card_html(right, feature_order, "right")}
 </div>
 {standings_btn}
+<div class="overlay reason-ov" id="elicitationOv" aria-hidden="true">
+  <div class="overlay-inner" role="dialog" aria-labelledby="elicitationTitle">
+    <h3 id="elicitationTitle">Quick question</h3>
+    <p id="elicitationQuestion" style="margin:0 0 16px;font-weight:600;line-height:1.45"></p>
+    <div class="elicit-actions">
+      <button type="button" class="btn" id="elicitationChoiceA"></button>
+      <button type="button" class="btn" id="elicitationChoiceB"></button>
+    </div>
+  </div>
+</div>
+<div class="overlay reason-ov" id="surpriseOv" aria-hidden="true">
+  <div class="overlay-inner" role="dialog" aria-labelledby="surpriseTitle">
+    <h3 id="surpriseTitle">Hold on..</h3>
+    <p class="muted" style="margin:0 0 8px">That choice contradicts our preference memo.</p>
+    <p id="surpriseReason" style="margin:0 0 14px;font-weight:600;line-height:1.4"></p>
+    <p class="muted" style="margin:0 0 8px">What changed? (optional)</p>
+    <input type="text" id="surpriseReply" maxlength="240"
+      placeholder="e.g. rent mattered more / X is less important than Y" autocomplete="off">
+    <div class="reason-actions">
+      <button type="button" class="btn secondary" id="surpriseSkip">Skip</button>
+      <button type="button" class="btn" id="surpriseSave">Save</button>
+    </div>
+  </div>
+</div>
+<div class="overlay reason-ov" id="reasonOv" aria-hidden="true">
+  <div class="overlay-inner" role="dialog" aria-labelledby="reasonTitle">
+    <h3 id="reasonTitle">Reason (optional)</h3>
+    <p class="muted">Why this one? Leave blank if you just know.</p>
+    <input type="text" id="pickReason" maxlength="240"
+      placeholder="e.g. better light / worth the rent for the yard" autocomplete="off">
+    <div class="reason-actions">
+      <button type="button" class="btn secondary" id="reasonCancel">Cancel</button>
+      <button type="button" class="btn" id="reasonConfirm">Continue</button>
+    </div>
+  </div>
+</div>
 <div class="overlay" id="ov"><div class="overlay-inner">
   <button type="button" class="ov-close" id="ovClose" aria-label="Close">×</button>
   <img id="ovMain" style="width:100%;max-height:60vh;object-fit:contain" alt="">
@@ -677,6 +829,12 @@ const state = {{
   overlay: false,
   overlaySide: null,
   photoIdx: 0,
+  pendingWinner: null,
+  reasonOpen: false,
+  surpriseOpen: false,
+  surpriseReason: {json.dumps((surprise_reason or "").strip() or None)},
+  elicitationOpen: false,
+  elicitation: {json.dumps(pending_elicitation if pending_elicitation else None)},
 }};
 let picking = true;
 function showBusy() {{
@@ -686,19 +844,135 @@ function showBusy() {{
   el.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
 }}
-async function decide(winner, skipped=false) {{
-  if (!picking) return;
+function openSurprise() {{
+  if (!state.surpriseReason) return;
+  state.surpriseOpen = true;
   picking = false;
+  const ov = document.getElementById('surpriseOv');
+  document.getElementById('surpriseReason').textContent = state.surpriseReason;
+  document.getElementById('surpriseReply').value = '';
+  ov.classList.add('open');
+  ov.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => document.getElementById('surpriseReply').focus(), 0);
+}}
+async function closeSurprise(reply) {{
+  const ov = document.getElementById('surpriseOv');
+  ov.classList.remove('open');
+  ov.setAttribute('aria-hidden', 'true');
+  state.surpriseOpen = false;
+  state.surpriseReason = null;
+  try {{
+    await fetch('/mash/api/surprise', {{
+      method: 'POST',
+      headers: {{'Content-Type': 'application/json'}},
+      body: JSON.stringify({{
+        reviewer: state.reviewer,
+        reply: (reply || '').trim() || null,
+      }}),
+    }});
+  }} catch (e) {{}}
+  if (state.elicitation) {{
+    openElicitation();
+    return;
+  }}
+  picking = true;
+  document.body.style.overflow = '';
+}}
+function openElicitation() {{
+  if (!state.elicitation) return;
+  state.elicitationOpen = true;
+  picking = false;
+  const ov = document.getElementById('elicitationOv');
+  const q = state.elicitation.question || '';
+  document.getElementById('elicitationQuestion').textContent = q;
+  document.getElementById('elicitationChoiceA').textContent = state.elicitation.choice_a || 'Option A';
+  document.getElementById('elicitationChoiceB').textContent = state.elicitation.choice_b || 'Option B';
+  ov.classList.add('open');
+  ov.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => document.getElementById('elicitationChoiceA').focus(), 0);
+}}
+async function answerElicitation(choice) {{
+  const ov = document.getElementById('elicitationOv');
+  ov.classList.remove('open');
+  ov.setAttribute('aria-hidden', 'true');
+  state.elicitationOpen = false;
+  const question = (state.elicitation && state.elicitation.question) || '';
+  state.elicitation = null;
+  try {{
+    await fetch('/mash/api/elicitation', {{
+      method: 'POST',
+      headers: {{'Content-Type': 'application/json'}},
+      body: JSON.stringify({{
+        reviewer: state.reviewer,
+        question: question,
+        choice: choice,
+      }}),
+    }});
+  }} catch (e) {{}}
+  picking = true;
+  document.body.style.overflow = '';
+}}
+document.getElementById('elicitationChoiceA').onclick = () => {{
+  answerElicitation(document.getElementById('elicitationChoiceA').textContent || '');
+}};
+document.getElementById('elicitationChoiceB').onclick = () => {{
+  answerElicitation(document.getElementById('elicitationChoiceB').textContent || '');
+}};
+document.getElementById('surpriseSkip').onclick = () => closeSurprise('');
+document.getElementById('surpriseSave').onclick = () => {{
+  closeSurprise(document.getElementById('surpriseReply').value || '');
+}};
+document.getElementById('surpriseOv').addEventListener('click', (e) => {{
+  if (e.target.id === 'surpriseOv') closeSurprise('');
+}});
+if (state.surpriseReason) openSurprise();
+else if (state.elicitation) openElicitation();
+function openReason(winner) {{
+  if (!picking || state.reasonOpen || state.surpriseOpen || state.elicitationOpen) return;
+  state.pendingWinner = winner;
+  state.reasonOpen = true;
+  picking = false;
+  const ov = document.getElementById('reasonOv');
+  const input = document.getElementById('pickReason');
+  input.value = '';
+  ov.classList.add('open');
+  ov.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => input.focus(), 0);
+}}
+function closeReason(resume) {{
+  const ov = document.getElementById('reasonOv');
+  ov.classList.remove('open');
+  ov.setAttribute('aria-hidden', 'true');
+  state.reasonOpen = false;
+  state.pendingWinner = null;
+  if (resume) {{
+    picking = true;
+    document.body.style.overflow = '';
+  }}
+}}
+async function commitDecide(winner, skipped, reason) {{
+  if (state.surpriseOpen || state.elicitationOpen) return;
+  picking = false;
+  state.reasonOpen = false;
   showBusy();
-  const ov = document.getElementById('ov');
-  if (ov) ov.classList.remove('open');
+  const photoOv = document.getElementById('ov');
+  if (photoOv) photoOv.classList.remove('open');
   state.overlay = false;
+  const reasonOv = document.getElementById('reasonOv');
+  if (reasonOv) {{
+    reasonOv.classList.remove('open');
+    reasonOv.setAttribute('aria-hidden', 'true');
+  }}
   const body = {{
     reviewer: state.reviewer,
     left_key: state.left.key,
     right_key: state.right.key,
     winner: skipped ? null : winner,
     skipped: skipped,
+    reason: (reason || '').trim() || null,
     shown_at: state.shown_at,
     decided_at: new Date().toISOString(),
     overlay_opened: state.overlayOpened || false,
@@ -711,15 +985,65 @@ async function decide(winner, skipped=false) {{
   }};
   try {{
     await fetch('/mash/api/compare', {{method:'POST', headers:{{'Content-Type':'application/json'}}, body: JSON.stringify(body)}});
+    const deadline = Date.now() + 120000;
+    while (Date.now() < deadline) {{
+      await new Promise(r => setTimeout(r, 400));
+      const res = await fetch('/mash/api/pref_status?reviewer=' + encodeURIComponent(state.reviewer));
+      const st = await res.json();
+      // Advance once memo+probes land; rank may still be running.
+      if (st.memo_ready || st.phase === 'rank' || st.phase === 'idle' || st.phase === 'error'
+          || st.status === 'idle' || st.status === 'error') break;
+    }}
   }} finally {{
     location.reload();
   }}
 }}
+function setUpdatingVisible(on) {{
+  const el = document.getElementById('rankUpdating');
+  if (!el) return;
+  const wrap = document.getElementById('rankUpdatingWrap');
+  if (wrap) wrap.hidden = !on;
+  el.hidden = !on;
+}}
+function startUpdatingPulse() {{
+  const el = document.getElementById('rankUpdating');
+  if (!el || el.dataset.pulsing) return;
+  el.dataset.pulsing = '1';
+  setUpdatingVisible(true);
+  const frames = ['Updating.', 'Updating..', 'Updating...'];
+  let i = 0;
+  el._pulse = setInterval(() => {{
+    i = (i + 1) % frames.length;
+    el.textContent = frames[i];
+  }}, 400);
+}}
+async function maybeShowRankUpdating() {{
+  try {{
+    const res = await fetch('/mash/api/pref_status?reviewer=' + encodeURIComponent(state.reviewer));
+    const st = await res.json();
+    if (st.phase === 'rank' || (st.status === 'running' && st.memo_ready && !st.rank_ready)) {{
+      startUpdatingPulse();
+    }}
+  }} catch (e) {{}}
+}}
+maybeShowRankUpdating();
+function confirmReason() {{
+  const winner = state.pendingWinner;
+  const reason = (document.getElementById('pickReason').value || '').trim();
+  if (!winner) {{ closeReason(true); return; }}
+  commitDecide(winner, false, reason);
+}}
+document.getElementById('reasonConfirm').onclick = confirmReason;
+document.getElementById('reasonCancel').onclick = () => closeReason(true);
+document.getElementById('reasonOv').addEventListener('click', (e) => {{
+  if (e.target.id === 'reasonOv') closeReason(true);
+}});
 document.querySelectorAll('[data-pick]').forEach(el => {{
   el.addEventListener('click', (e) => {{
     if (!picking) return;
     if (e.target.closest('a')) return;
-    decide(el.dataset.pick);
+    if (e.target.closest('[data-overlay]')) return;
+    openReason(el.dataset.pick);
   }});
 }});
 function openOv(side) {{
@@ -773,6 +1097,24 @@ window.addEventListener('keydown', (e) => {{
     e.preventDefault();
     return;
   }}
+  if (state.surpriseOpen) {{
+    if (e.key === 'Escape') {{ e.preventDefault(); closeSurprise(''); }}
+    if (e.key === 'Enter') {{
+      e.preventDefault();
+      closeSurprise(document.getElementById('surpriseReply').value || '');
+    }}
+    return;
+  }}
+  if (state.elicitationOpen) {{
+    if (e.key === '1') {{ e.preventDefault(); document.getElementById('elicitationChoiceA').click(); }}
+    if (e.key === '2') {{ e.preventDefault(); document.getElementById('elicitationChoiceB').click(); }}
+    return;
+  }}
+  if (state.reasonOpen) {{
+    if (e.key === 'Escape') {{ e.preventDefault(); closeReason(true); }}
+    if (e.key === 'Enter') {{ e.preventDefault(); confirmReason(); }}
+    return;
+  }}
   if (state.overlay) {{
     const meta = state.overlaySide === 'left' ? state.left : state.right;
     if (e.key === 'ArrowLeft') {{ state.photoIdx = Math.max(0, state.photoIdx-1); renderOv(meta); }}
@@ -781,9 +1123,9 @@ window.addEventListener('keydown', (e) => {{
     return;
   }}
   if (!picking) return;
-  if (e.key === 'ArrowLeft') decide(state.left.key);
-  if (e.key === 'ArrowRight') decide(state.right.key);
-  if (e.key === ' ') {{ e.preventDefault(); decide(null, true); }}
+  if (e.key === 'ArrowLeft') openReason(state.left.key);
+  if (e.key === 'ArrowRight') openReason(state.right.key);
+  if (e.key === ' ') {{ e.preventDefault(); commitDecide(null, true, ''); }}
 }});
 </script>"""
     return page("Compare — CasitaMash", body, who=f"playing as {reviewer} · {n} picks")
@@ -811,16 +1153,6 @@ def _source_link(row: dict) -> str:
     return _external_a(row["url"], _source_label(row))
 
 
-def _leftover_note(row: dict) -> str:
-    """Muted leftover u for standings — skip near-zero noise."""
-    if "leftover" not in row:
-        return ""
-    u = float(row["leftover"])
-    if abs(u) < 0.05:
-        return ""
-    return f"leftover {u:+.2f}"
-
-
 def _rank_table(rows: list[dict], start_i: int = 1, *, show_badge: bool = False) -> str:
     rank_rows = ""
     for i, row in enumerate(rows, start_i):
@@ -832,11 +1164,13 @@ def _rank_table(rows: list[dict], start_i: int = 1, *, show_badge: bool = False)
         be = ""
         if row.get("break_even") is not None:
             be = f'<div class="muted">Break-even ≈ ${row["break_even"]:,.0f}/mo</div>'
-        left = _leftover_note(row)
-        left_cell = f'<div class="muted">{_e(left)}</div>' if left else ""
+        reason = (row.get("reason") or "").strip()
+        reason_cell = (
+            f'<div class="rank-reason">{_e(reason)}</div>' if reason else ""
+        )
         rank_rows += (
-            f'<tr><td>{i}</td><td>{_e(_listing_label(row))}{badge}{be}</td>'
-            f'<td>{row["score"]:.3f}{left_cell}</td><td>{row.get("n_shown", 0)}</td>'
+            f'<tr><td>{i}</td><td>{_e(_listing_label(row))}{badge}{be}{reason_cell}</td>'
+            f'<td>{row["score"]:.3f}</td><td>{row.get("n_shown", 0)}</td>'
             f'<td>{_source_link(row)}</td></tr>'
         )
     return (
@@ -878,9 +1212,6 @@ def _podium(rows: list[dict]) -> str:
             else ""
         )
         meta = f'#{rank} · score {row["score"]:.3f} · seen {row.get("n_shown", 0)}'
-        left = _leftover_note(row)
-        if left:
-            meta += f" · {left}"
         inner = (
             f'{img}'
             f'<div class="place">{_e(label)}</div>'
@@ -900,17 +1231,6 @@ def _podium(rows: list[dict]) -> str:
     return f'<div class="podium">{"".join(cards)}</div>'
 
 
-def _movers_blurb(movers: list[dict]) -> str:
-    if len(movers) >= 2:
-        a = movers[0].get("label") or movers[0].get("feature")
-        b = movers[1].get("label") or movers[1].get("feature")
-        return f"{a} and {b.lower()} are the strongest feature weights right now."
-    if len(movers) == 1:
-        a = movers[0].get("label") or movers[0].get("feature")
-        return f"{a} is the strongest feature weight right now."
-    return "Not enough signal yet to see which features move rankings."
-
-
 def results_page(
     reviewer: str,
     compared: list[dict],
@@ -919,6 +1239,10 @@ def results_page(
     n: int,
     *,
     concluded: bool = False,
+    memo_text: str = "",
+    mode: str = "stub",
+    vertex_configured: bool = False,
+    last_error: str | None = None,
 ) -> str:
     if concluded:
         ranking = list(compared) + list(unseen)
@@ -944,38 +1268,90 @@ def results_page(
             unseen_html = (
                 f'<h3 style="margin-top:28px">Also scoring well (not shown yet)</h3>'
                 f'<p class="standings-note">These weren’t in your matchups. '
-                f"We scored them from the patterns in your picks.</p>"
+                f"The preference model ranked them from your picks and memo.</p>"
                 f"{_rank_table(unseen, start_i=len(compared) + 1, show_badge=True)}"
             )
     heading = "Your Results" if concluded else "Current Standings"
+    stub = _mode_banner(mode=mode, vertex_configured=vertex_configured, last_error=last_error)
+    memo_block = (
+        '<div class="memo-box"><h3>Preference memo '
+        '<span class="updating" id="rankUpdating" hidden>Updating.</span></h3>'
+        + (
+            _e(memo_text.strip())
+            if (memo_text or "").strip()
+            else '<span class="muted">(empty — make a pick)</span>'
+        )
+        + "</div>"
+    )
     mover_items = "".join(
-        f"<li>{_e(m.get('label') or m.get('feature'))} — {m['share']:.0%}</li>"
+        f"<li>{_e(m.get('label') or m.get('feature'))}</li>"
         for m in movers
     )
     movers_block = (
-        f'<p class="standings-note">{_e(_movers_blurb(movers))}</p>'
         f"<ul>{mover_items}</ul>"
         if mover_items
-        else '<p class="muted">Not enough comparisons yet to see which features move rankings.</p>'
+        else '<p class="muted">Not enough signal yet — keep comparing (and optionally write a reason).</p>'
     )
     body = f"""
 <div class="actions" style="margin:0 0 14px">
   <a class="btn" href="/mash/play">← Return</a>
 </div>
+{stub}
+{memo_block}
 <div class="panel">
   <div class="standings-head">
     <h2>{_e(heading)}</h2>
     <p class="muted">{n} comparisons</p>
+    <span class="updating" id="standingsUpdating" hidden>Updating.</span>
   </div>
   {compared_html}
   {unseen_html}
 </div>
 <div class="panel">
   <h2>For nerds</h2>
-  <p class="standings-note">Score = feature fit (<code>w·x</code>) + leftover <code>u</code>
-  (photos / vibe / unmodeled). Rankings sort by that total. Where leftover is
-  non-trivial, standings show it under the score.</p>
-  <h3>What moves rankings</h3>
+  <p class="standings-note">Standings come from a preference memo + model rank
+  (Gemini via Vertex when configured; deterministic stub otherwise). The memo
+  updates from your picks, reasons, and photos; this page ranks the catalog
+  from that memo.</p>
+  <h3>What the memo is picking up</h3>
   {movers_block}
-</div>"""
+</div>
+<script>
+const reviewer = {json.dumps(reviewer)};
+function startUpdatingPulse(ids) {{
+  const frames = ['Updating.', 'Updating..', 'Updating...'];
+  let i = 0;
+  ids.forEach(id => {{
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.hidden = false;
+    if (el.dataset.pulsing) return;
+    el.dataset.pulsing = '1';
+    el._pulse = setInterval(() => {{
+      i = (i + 1) % frames.length;
+      el.textContent = frames[i];
+    }}, 400);
+  }});
+}}
+async function watchRank() {{
+  let sawPending = false;
+  const poll = async () => {{
+    try {{
+      const res = await fetch('/mash/api/pref_status?reviewer=' + encodeURIComponent(reviewer));
+      const st = await res.json();
+      const ranking = st.phase === 'rank' || (st.status === 'running' && st.memo_ready && !st.rank_ready);
+      if (ranking) {{
+        sawPending = true;
+        startUpdatingPulse(['rankUpdating', 'standingsUpdating']);
+      }} else if (sawPending && st.rank_ready) {{
+        location.reload();
+        return;
+      }}
+    }} catch (e) {{}}
+    setTimeout(poll, 2000);
+  }};
+  poll();
+}}
+watchRank();
+</script>"""
     return page(f"{heading} — CasitaMash", body, who=f"playing as {reviewer}")

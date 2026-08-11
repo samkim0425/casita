@@ -41,6 +41,7 @@ CREATE TABLE IF NOT EXISTS comparisons (
   right_field_count INTEGER,
   left_source TEXT,
   right_source TEXT,
+  reason TEXT,
   ts TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -61,11 +62,26 @@ CREATE TABLE IF NOT EXISTS fit_cache (
   fit_json TEXT NOT NULL,
   ts TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE IF NOT EXISTS preference_memos (
+  reviewer TEXT PRIMARY KEY,
+  memo_text TEXT NOT NULL DEFAULT '',
+  memo_json TEXT NOT NULL DEFAULT '{}',
+  mode TEXT NOT NULL DEFAULT 'stub',
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
 """
 
 
 def mash_db_path() -> Path:
     return Path(os.environ.get("CASITA_MASH_DB", str(DEFAULT_MASH_DB)))
+
+
+def _migrate(conn: sqlite3.Connection) -> None:
+    """Additive migrations for existing mash.sqlite files."""
+    cols = {r[1] for r in conn.execute("PRAGMA table_info(comparisons)").fetchall()}
+    if "reason" not in cols:
+        conn.execute("ALTER TABLE comparisons ADD COLUMN reason TEXT")
 
 
 @contextmanager
@@ -76,6 +92,7 @@ def connect():
     conn.row_factory = sqlite3.Row
     try:
         conn.executescript(SCHEMA)
+        _migrate(conn)
         yield conn
         conn.commit()
     finally:
@@ -115,7 +132,7 @@ def insert_comparison(conn: sqlite3.Connection, row: dict) -> int:
         "feature_set_json", "is_hypothetical", "hyp_left_json", "hyp_right_json", "weight",
         "tag", "shown_at", "decided_at", "overlay_opened",
         "left_photo_count", "right_photo_count", "left_field_count", "right_field_count",
-        "left_source", "right_source",
+        "left_source", "right_source", "reason",
     ]
     vals = [row.get(c) for c in cols]
     if vals[cols.index("skipped")] is None:
@@ -168,6 +185,67 @@ def load_fit(conn: sqlite3.Connection, reviewer: str) -> dict | None:
     if not row:
         return None
     return json.loads(row["fit_json"])
+
+
+def load_memo(conn: sqlite3.Connection, reviewer: str) -> dict:
+    row = conn.execute(
+        "SELECT memo_text, memo_json, mode, updated_at FROM preference_memos WHERE reviewer=?",
+        (reviewer,),
+    ).fetchone()
+    if not row:
+        return {"memo_text": "", "memo_json": {}, "mode": "stub", "updated_at": None}
+    try:
+        payload = json.loads(row["memo_json"] or "{}")
+    except json.JSONDecodeError:
+        payload = {}
+    return {
+        "memo_text": row["memo_text"] or "",
+        "memo_json": payload if isinstance(payload, dict) else {},
+        "mode": row["mode"] or "stub",
+        "updated_at": row["updated_at"],
+    }
+
+
+def save_memo(
+    conn: sqlite3.Connection,
+    reviewer: str,
+    *,
+    memo_text: str,
+    memo_json: dict | None = None,
+    mode: str = "stub",
+) -> None:
+    conn.execute(
+        "INSERT INTO preference_memos (reviewer, memo_text, memo_json, mode, updated_at) "
+        "VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP) "
+        "ON CONFLICT(reviewer) DO UPDATE SET "
+        "memo_text=excluded.memo_text, memo_json=excluded.memo_json, "
+        "mode=excluded.mode, updated_at=CURRENT_TIMESTAMP",
+        (reviewer, memo_text or "", json.dumps(memo_json or {}), mode),
+    )
+    conn.commit()
+
+
+def comparison_prose_history(conn: sqlite3.Connection, reviewer: str, *, cap: int = 40) -> list[str]:
+    """Serialize recent picks as prose lines for the model (Casita-style vote prose)."""
+    rows = list(conn.execute(
+        "SELECT left_key, right_key, winner, skipped, reason, is_hypothetical "
+        "FROM comparisons WHERE reviewer=? ORDER BY id DESC LIMIT ?",
+        (reviewer, cap),
+    ))
+    lines: list[str] = []
+    for r in reversed(rows):
+        left, right = r["left_key"], r["right_key"]
+        hyp = " [hypothetical]" if r["is_hypothetical"] else ""
+        reason = (r["reason"] or "").strip()
+        reason_bit = f' because "{reason}"' if reason else ""
+        if r["skipped"]:
+            lines.append(f"skipped {left} vs {right}{hyp}{reason_bit}")
+        elif r["winner"]:
+            loser = right if r["winner"] == left else left
+            lines.append(f'chose {r["winner"]} over {loser}{hyp}{reason_bit}')
+        else:
+            lines.append(f"undecided {left} vs {right}{hyp}")
+    return lines
 
 
 def end_session(conn: sqlite3.Connection, reviewer: str, top_keys: list[str], notes: str | None = None) -> int:

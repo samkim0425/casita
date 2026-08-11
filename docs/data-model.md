@@ -41,14 +41,16 @@ flowchart LR
   subgraph mash["tmp/mash.sqlite gitignored"]
     reviewers[reviewers]
     comparisons[comparisons]
+    memos[preference_memos]
     fit_cache[fit_cache]
     sessions[sessions]
   end
 
-  listings -->|read features / photos / routes| mash
+  listings -->|briefs / photos / raw condition| mash
   votes -.->|bootstrap seed only| comparisons
   reviewers --> comparisons
-  comparisons --> fit_cache
+  comparisons --> memos
+  memos --> fit_cache
 ```
 
 Mash tables (see `src/casita/mash/db.py`):
@@ -56,8 +58,9 @@ Mash tables (see `src/casita/mash/db.py`):
 | Table | Purpose |
 | --- | --- |
 | `reviewers` | Name plus ranked feature order for the session |
-| `comparisons` | Pairwise picks, skips, and hypothetical rounds |
-| `fit_cache` | Cached `w` / `u` fit per reviewer |
+| `comparisons` | Pairwise picks, skips, optional written reasons, hypothetical rounds |
+| `preference_memos` | Growing English preference memo per reviewer (stub or Vertex) |
+| `fit_cache` | Cached model ranks and memo metadata |
 | `sessions` | Optional end-of-session notes |
 
 ## Ways This Could Go Further

@@ -27,7 +27,6 @@ from .models import Listing
 
 load_dotenv()
 
-PROJECT = os.environ.get("CASITA_GCP_PROJECT")
 LOCATION = os.environ.get("CASITA_VERTEX_LOCATION", "global")
 
 # Strip a "google-vertex:" prefix if an env var includes one.
@@ -39,14 +38,34 @@ EXTRACT_MODEL = _model_name("CASITA_EXTRACT_MODEL", "gemini-3.1-pro-preview")
 RANK_MODEL = _model_name("CASITA_RANK_MODEL", "gemini-3.1-pro-preview")
 
 _client: genai.Client | None = None
+_client_project: str | None = None
+
+
+def gcp_project() -> str | None:
+    """Active Vertex project (env may be set after import, e.g. mash --project)."""
+    return (os.environ.get("CASITA_GCP_PROJECT") or "").strip() or None
+
+
+# Snapshot at import; prefer gcp_project() / _get_client() for live value.
+PROJECT = os.environ.get("CASITA_GCP_PROJECT")
 
 
 def _get_client() -> genai.Client:
-    global _client
-    if not PROJECT:
-        raise RuntimeError("Set CASITA_GCP_PROJECT to use Vertex-backed LLM commands.")
-    if _client is None:
-        _client = genai.Client(vertexai=True, project=PROJECT, location=LOCATION)
+    global _client, _client_project, PROJECT
+    project = gcp_project()
+    PROJECT = project
+    if not project:
+        raise RuntimeError(
+            "Set CASITA_GCP_PROJECT (or pass mash --project / use gcloud default) "
+            "to use Vertex-backed LLM commands."
+        )
+    if _client is None or _client_project != project:
+        _client = genai.Client(
+            vertexai=True,
+            project=project,
+            location=os.environ.get("CASITA_VERTEX_LOCATION", LOCATION),
+        )
+        _client_project = project
     return _client
 
 

@@ -16,7 +16,7 @@ CLI.
 | Enrichment and ranking | `llm.py`, `rank.py`, `walk.py`, `dedup.py` |
 | Static rendering | `html.py`, `listing_page.py` |
 | Optional private deploy | `cloud_sync.py`, `publish` command |
-| **CasitaMash** (this fork) | `src/casita/mash/` — pairwise UI on `:8766`, BT fit `w·x + u`, comparisons in gitignored `tmp/mash.sqlite`; CLI `casita mash` / `mash anchors` |
+| **CasitaMash** (this fork) | `src/casita/mash/` — pairwise UI on `:8766`, Gemini preference memo + model rank (Vertex for live demo; offline stub for CI), comparisons in gitignored `tmp/mash.sqlite`; CLI `casita mash` / `mash anchors` |
 
 ## Rough Edges
 

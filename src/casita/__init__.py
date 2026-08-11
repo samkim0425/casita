@@ -1209,17 +1209,47 @@ def demo(fixture: Path, host: str, port: int):
 
 
 @cli.group(name="mash", invoke_without_command=True)
+@click.option(
+    "--fixture",
+    type=click.Path(exists=True, dir_okay=False, path_type=Path),
+    default=DEMO_FIXTURE,
+    help="Listings SQLite (read-only for mash; comparisons go to CASITA_MASH_DB).",
+)
+@click.option("--host", default="127.0.0.1")
+@click.option("--port", default=8766, help="Mash HTTP port (demo uses 8765).")
+@click.option(
+    "--site-dir",
+    type=click.Path(file_okay=False, path_type=Path),
+    default=None,
+    help="Optional rendered site dir for /listing detail links.",
+)
+@click.option(
+    "--project",
+    "gcp_project",
+    default=None,
+    help=(
+        "GCP project for Vertex Gemini. Optional: also reads CASITA_GCP_PROJECT, "
+        "GOOGLE_CLOUD_PROJECT, or `gcloud config get-value project`."
+    ),
+)
 @click.pass_context
-def mash_group(ctx):
+def mash_group(ctx, fixture, host, port, site_dir, gcp_project):
     """CasitaMash — pairwise preference UI, or inspect route anchors.
 
     \b
-      uv run casita mash              # start the compare UI
-      uv run casita mash serve        # same
-      uv run casita mash anchors      # print beaches / bakeries / groceries
+      uv run casita mash --project YOUR_GCP_PROJECT
+      uv run casita mash serve --project YOUR_GCP_PROJECT
+      uv run casita mash anchors
     """
     if ctx.invoked_subcommand is None:
-        ctx.invoke(mash_serve)
+        ctx.invoke(
+            mash_serve,
+            fixture=fixture,
+            host=host,
+            port=port,
+            site_dir=site_dir,
+            gcp_project=gcp_project,
+        )
 
 
 @mash_group.command(name="serve")
@@ -1237,9 +1267,35 @@ def mash_group(ctx):
     default=None,
     help="Optional rendered site dir for /listing detail links.",
 )
-def mash_serve(fixture: Path, host: str, port: int, site_dir: Path | None):
+@click.option(
+    "--project",
+    "gcp_project",
+    default=None,
+    help=(
+        "GCP project for Vertex Gemini. Optional: also reads CASITA_GCP_PROJECT, "
+        "GOOGLE_CLOUD_PROJECT, or `gcloud config get-value project`."
+    ),
+)
+def mash_serve(
+    fixture: Path,
+    host: str,
+    port: int,
+    site_dir: Path | None,
+    gcp_project: str | None,
+):
     """Start the CasitaMash pairwise UI (additive; does not alter browse)."""
     import shutil
+
+    from .mash import llm_prefs as mash_llm_prefs
+
+    resolved = mash_llm_prefs.apply_gcp_project(gcp_project)
+    if resolved:
+        console.print(f"[green]vertex project:[/green] {resolved}")
+    else:
+        console.print(
+            "[yellow]vertex:[/yellow] no project found — offline stub "
+            "(pass --project, or set CASITA_GCP_PROJECT / gcloud default)"
+        )
 
     demo_db = ROOT / "tmp" / "demo.sqlite"
     demo_db.parent.mkdir(exist_ok=True)

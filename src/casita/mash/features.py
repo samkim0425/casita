@@ -76,6 +76,7 @@ ALWAYS_SHOW = ["price", "beds", "baths", "price_per_bed", "sqft", "price_per_sqf
 
 ALWAYS_SHOW_COPY = (
     "Add features you care about, then use ↑ / ↓ to rank them (order matters!). "
+    "These set card rows and what the memo will probe next. "
     "Total rent, $/bed, and $/sqft are always selected."
 )
 
@@ -128,6 +129,16 @@ class ListingFeatures:
     is_hypothetical: bool = False
     hyp_note: str | None = None
     labels: dict[str, str] = field(default_factory=dict)
+    # Raw Gemini / listing strings for the model-native path — never feed lookup floats.
+    light_quality: str | None = None
+    condition_quality: str | None = None
+    view_quality: str | None = None
+    visual_summary: str | None = None
+    outdoor_visible: str | None = None
+    laundry_text: str | None = None
+    parking_text: str | None = None
+    dogs_text: str | None = None
+    description: str | None = None
 
 
 def _resolve_outdoor(L: Listing) -> tuple[float | None, bool]:
@@ -304,6 +315,16 @@ def extract(
     if known.get("is_sf"):
         labels["is_sf"] = "Marin" if values["is_sf"] < 0.5 else "SF"
 
+    visual = None
+    outdoor_vis = None
+    if photo_review:
+        visual = photo_review.get("visual_summary") or None
+        outdoor_vis = photo_review.get("outdoor_visible") or None
+    if not visual:
+        visual = L.visual_summary or None
+    if not outdoor_vis:
+        outdoor_vis = L.outdoor_visible or None
+
     return ListingFeatures(
         key=L.key,
         values=values,
@@ -318,6 +339,15 @@ def extract(
         url=L.url or "",
         detail_path=detail_path,
         labels=labels,
+        light_quality=L.light_quality,
+        condition_quality=L.condition_quality,
+        view_quality=L.view_quality,
+        visual_summary=visual,
+        outdoor_visible=outdoor_vis,
+        laundry_text=L.laundry,
+        parking_text=L.parking,
+        dogs_text=labels.get("dogs"),
+        description=(L.description or None),
     )
 
 

@@ -174,7 +174,7 @@ def expected_weight_info(fit: FitResult, a: ListingFeatures, b: ListingFeatures)
     return entropy * moving / (1.0 + varying_count(a, b, fit.active_features))
 
 
-def why_line(fit: FitResult | None, a: ListingFeatures, b: ListingFeatures, feature_order: list[str], strategy: str) -> str:
+def why_line(fit: FitResult | None, a: ListingFeatures, b: ListingFeatures, feature_order: list[str], strategy: str, *, probe_features: list[str] | None = None) -> str:
     def _label(name: str) -> str:
         text = FEATURE_LABELS.get(name, name.replace("_", " ")).lower()
         return f'"{text}"'
@@ -190,6 +190,21 @@ def why_line(fit: FitResult | None, a: ListingFeatures, b: ListingFeatures, feat
     def _both_known(name: str) -> bool:
         return bool(a.known.get(name) and b.known.get(name)
                     and a.values.get(name) is not None and b.values.get(name) is not None)
+
+    probes = [p for p in (probe_features or []) if p]
+    if probes:
+        active = [p for p in probes if _both_known(p) or p in _visible_features(feature_order)]
+        if not active:
+            active = probes[:2]
+        if len(active) >= 2:
+            return (
+                f"Probing {_join_labels(active[:2])} from your preference memo. "
+                f"Your pick here will show us how you trade those off."
+            )
+        return (
+            f"Probing {_label(active[0])} from your preference memo. "
+            f"Your pick here will show us how much that matters to you."
+        )
 
     visible = _visible_features(feature_order)
     comparable = [n for n in visible if _both_known(n)]
@@ -352,6 +367,20 @@ def _staircase_hyp(
     )
 
 
+def _probe_boost(a: ListingFeatures, b: ListingFeatures, probe_features: list[str]) -> float:
+    if not probe_features:
+        return 0.0
+    boost = 0.0
+    for name in probe_features:
+        if advantage(a, b, name) != 0:
+            boost += 3.0
+    if len(probe_features) >= 2:
+        signs = [advantage(a, b, n) for n in probe_features[:3]]
+        if 1 in signs and -1 in signs:
+            boost += 5.0
+    return boost
+
+
 def select_pair(
     pool: list[ListingFeatures],
     feature_order: list[str],
@@ -361,10 +390,13 @@ def select_pair(
     n_comparisons: int,
     recent_hyp: int,
     coverage: dict[str, int] | None = None,
+    probe_features: list[str] | None = None,
     rng: random.Random | None = None,
 ) -> PairOffer | None:
+    """Pick next pair. Play path passes fit=None and uses memo probe_features."""
     rng = rng or random.Random()
     coverage = coverage or {}
+    probes = [p for p in (probe_features or []) if p]
     visible = _visible_features(feature_order)
     elig = [f for f in pool if eligible(f)[0]]
     if len(elig) < 2:
@@ -376,24 +408,34 @@ def select_pair(
         and rng.random() < 0.18
         and feature_order
     )
-    focus_order = [f for f in (list(feature_order) or ["trail", "beach", "grocery"]) if f not in COST_FEATURES]
+    focus_order = [f for f in probes if f not in COST_FEATURES]
+    focus_order += [
+        f for f in (list(feature_order) or ["trail", "beach", "grocery"])
+        if f not in COST_FEATURES and f not in focus_order
+    ]
     if not focus_order:
         focus_order = ["trail", "beach", "grocery"]
-    rng.shuffle(focus_order)
+    if not probes:
+        rng.shuffle(focus_order)
+
+    def _finish(offer: PairOffer) -> PairOffer:
+        offer.why_line = why_line(
+            fit, offer.left, offer.right, feature_order, offer.strategy,
+            probe_features=probes,
+        )
+        return offer
 
     if use_hyp:
         for focus in focus_order[:3]:
             offer = _staircase_hyp(elig, feature_order, focus, rng)
             if offer and has_tradeoff(offer.left, offer.right, visible):
-                offer.why_line = offer.why_line or why_line(fit, offer.left, offer.right, feature_order, offer.strategy)
-                return offer
+                return _finish(offer)
 
-    if n_comparisons >= 8 and feature_order and rng.random() < 0.45:
+    if n_comparisons >= 8 and feature_order and (probes or rng.random() < 0.45):
         for focus in focus_order:
             offer = _staircase_real(elig, feature_order, seen, focus)
             if offer and has_tradeoff(offer.left, offer.right, visible):
-                offer.why_line = why_line(fit, offer.left, offer.right, feature_order, offer.strategy)
-                return offer
+                return _finish(offer)
 
     best = None
     best_score = -1e18
@@ -407,8 +449,8 @@ def select_pair(
                 continue
             if not has_tradeoff(a, b, visible):
                 continue
-            if fit is None:
-                score = cold_start_score(a, b, visible, coverage)
+            if probes or fit is None:
+                score = cold_start_score(a, b, visible, coverage) + _probe_boost(a, b, probes)
             else:
                 p = predict_proba(fit, a, b)
                 near = 1.0 - abs(p - 0.5) * 2
@@ -418,7 +460,6 @@ def select_pair(
                 best_score = score
                 best = (a, b)
     if not best:
-        # widen sample once if nothing found
         sample = elig
         for i, a in enumerate(sample):
             for b in sample[i + 1:]:
@@ -429,15 +470,20 @@ def select_pair(
                     continue
                 if not has_tradeoff(a, b, visible):
                     continue
-                score = cold_start_score(a, b, visible, coverage)
+                score = cold_start_score(a, b, visible, coverage) + _probe_boost(a, b, probes)
                 if score > best_score:
                     best_score = score
                     best = (a, b)
     if not best:
         return None
     a, b = best
-    strategy = "cold_start" if fit is None else "info_gain"
-    return PairOffer(a, b, strategy, why_line(fit, a, b, feature_order, strategy), False)
+    strategy = "memo_probe" if probes else ("cold_start" if fit is None else "info_gain")
+    return PairOffer(
+        a, b, strategy,
+        why_line(fit, a, b, feature_order, strategy, probe_features=probes),
+        False,
+    )
+
 
 
 def params_per_feature() -> int:

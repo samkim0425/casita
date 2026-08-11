@@ -45,3 +45,4 @@ site/
 .DS_Store
 Thumbs.db
 NEXTSTEPS.md
+docs/mash-model-in-the-loop.md
