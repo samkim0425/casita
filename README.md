@@ -74,7 +74,7 @@ More schema detail is in [`docs/data-model.md`](docs/data-model.md).
 
 ### FaceMash, on purpose
 
-I have seen *The Social Network* an embarrassing number of times.
+I have watched *The Social Network* an embarrassing number of times.
 The dorm-window ranking scene stuck with me.
 I wanted an excuse to try and build the thing.
 
