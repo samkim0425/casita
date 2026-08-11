@@ -30,6 +30,8 @@ Maps, GCS, and Firebase stay optional.
 
 Without a GCP project (or without billing/API), `uv run casita mash` falls back to a deterministic offline stub. This is NOT the intended demo experience for the interview loop. Please ensure that the GCP project is configured with billing/API enabled.
 
+If the UI shows a "Gemini fallback" banner with Vertex configured, a model call failed (often a temporary `429` quota/rate limit). Wait a minute and keep comparing, or check Vertex quotas on your project.
+
 ```bash
 uv run casita mash anchors   # beaches, bakeries, groceries, trails we measure against
 ```
