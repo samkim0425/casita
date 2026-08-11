@@ -2,33 +2,24 @@
 
 [![Documentation](https://img.shields.io/badge/docs-casita-0b6e4f?style=for-the-badge)](https://matin.github.io/casita/)
 
-This fork adds **CasitaMash**, a FaceMash-style comparison tool on Casita's credentials-free demo fixture. You pick which of two listings you prefer.
-Each pick (plus an optional written reason) feeds **Gemini via Vertex**, which updates a growing **preference memo**, re-ranks the catalog, and surfaces what it is still weighing — photos and condition stay in language (and vision) for that loop, not as lookup-table floats.
-Skip, labeled hypothetical trades, and latency/bias telemetry stay.
+This fork adds **CasitaMash**, a FaceMash-style comparison tool on Casita's credentials-free demo fixture.
+You pick which of two listings you prefer.
+The app learns from those picks and ranks the whole catalog, including places you never saw.
+
+You do not need to see every listing.
+After enough comparisons, the model scores the rest from the features you cared about.
+That is the point: a usable order without an exhaustive tour of the catalog.
 
 Built on [Casita](https://matin.github.io/casita/), a personal SF/Marin rental search tool published under MIT for an interview loop.
 
 ## Run it
 
-The intended demo path uses Vertex.
-You do not need a project named `casita-mash` or any repo-specific GCP id. But you do need to create your own GCP project with billing and the Vertex AI API enabled. To do this, run `gcloud auth application-default login`, and pass **your** project id.
-Step-by-step setup is in [`docs/getting-started.md`](docs/getting-started.md).
-
 ```bash
 uv sync
-gcloud auth application-default login
-uv run casita mash --project YOUR_GCP_PROJECT
+uv run casita mash
 ```
 
-Replace `YOUR_GCP_PROJECT` with the project id you chose (e.g. `my-casita-mash-demo`).
-On startup you should see `mash preference brain: vertex`.
 Open <http://127.0.0.1:8766/mash/>.
-
-If your gcloud default project is already set (`gcloud config set project …`), ADC login plus `uv run casita mash` is enough.
-`.env` / `CASITA_GCP_PROJECT` still works.
-Maps, GCS, and Firebase stay optional.
-
-Without a GCP project (or without billing/API), `uv run casita mash` falls back to a deterministic offline stub — fine for CI and smoke tests, not the intended interview experience.
 
 ```bash
 uv run casita mash anchors   # beaches, bakeries, groceries, trails we measure against
@@ -36,8 +27,10 @@ uv run casita mash anchors   # beaches, bakeries, groceries, trails we measure a
 
 Also at <http://127.0.0.1:8766/mash/anchors>.
 
+Everything here is offline.
 Mash reads `fixtures/demo.sqlite` and a committed POI file.
-Your comparisons and preference memos live in gitignored `tmp/mash.sqlite` and never touch the fixture.
+Your comparisons live in gitignored `tmp/mash.sqlite` and never touch the fixture.
+No Vertex, Maps, GCS, or Firebase.
 
 ```mermaid
 flowchart LR
@@ -51,36 +44,15 @@ flowchart LR
   subgraph mash["tmp/mash.sqlite gitignored"]
     reviewers[reviewers]
     comparisons[comparisons]
-    memos[preference_memos]
     fit_cache[fit_cache]
     sessions[sessions]
   end
 
-  listings -->|briefs / photos / raw condition| mash
+  listings -->|read features / photos / routes| mash
   votes -.->|bootstrap seed only| comparisons
   reviewers --> comparisons
-  comparisons --> memos
-  memos --> fit_cache
+  comparisons --> fit_cache
 ```
-
-### The model loop
-
-Casita already feeds votes and written reasons to a model as prose.
-Mash extends that: each pick (plus an optional reason) goes to Gemini via Vertex, which updates a cumulative preference memo, re-ranks the catalog in the background, and surfaces model-visible moments while you keep comparing.
-Photos and condition enter as language and vision, not lookup-table floats.
-
-Your feature ranking at the start sets which levers appear on the card and which themes the memo may probe next.
-The model can still mention soft signals from photos in prose, but pair steering stays inside what you ranked.
-
-Pair selection is local plumbing for latency.
-Preference learning, standings, and the moments below are model-driven.
-
-1. **Preference memo:** Gemini accumulates your picks, optional written reasons, and photo reads into plain English you can read on the play screen and results page.
-2. **Catalog rank:** Standings and per-listing reasons come from a memo-driven re-rank that runs in the background after each pick, so the order evolves while you compare.
-3. **Why-line:** One sentence above each pair cites your memo and the tradeoff on the card, so the next comparison is framed in your own emerging taste, not a fixed template.
-4. **Still weighing:** A short line under the why-line shows probe themes the memo has not settled yet, so the loop is legible mid-play, not only after the fact.
-5. **Surprise:** When a pick clearly contradicts the memo, the model surfaces a challenge and optional "what changed?" before you continue, so preference is negotiated rather than silently overwritten.
-6. **Quick question:** After enough picks, Gemini may ask one forced A/B when the memo still has ambiguity; your answer feeds the next memo update.
 
 More schema detail is in [`docs/data-model.md`](docs/data-model.md).
 
@@ -92,11 +64,9 @@ More schema detail is in [`docs/data-model.md`](docs/data-model.md).
    A cookie on `127.0.0.1` is enough for a local demo.
    If this ever left localhost, we would have to add real auth.
 2. Rank the features you care about.
-   These set card rows and what the memo will probe next.
    Total rent, `$/bed`, and `$/sqft` always stay on.
 3. Compare pairs.
    Arrow keys or click to choose, space to skip, click a photo for the gallery.
-   Watch the memo box update, the model why-line under each pair, and occasional surprise or quick-question overlays.
 4. Open **Current Standings** anytime after the first pick.
    When the top 20 stops moving much, the app says so and you can see your final results.
 
@@ -104,7 +74,7 @@ More schema detail is in [`docs/data-model.md`](docs/data-model.md).
 
 ### FaceMash, on purpose
 
-I have seen *The Social Network* an embarrassing number of times.
+I have watched *The Social Network* an embarrassing number of times.
 The dorm-window ranking scene stuck with me.
 I wanted an excuse to try and build the thing.
 
@@ -126,7 +96,7 @@ Decisions are a set of tradeoffs.
 No listing wins on everything.
 
 So my target output was a ranked list I could actually use: which places to email first, and a sense of which levers are driving that order.
-Standings show model scores with per-listing reasons drawn from the preference memo — photos, vibe, and soft fields in language.
+Standings show the total score and, when it matters, the leftover bit that features cannot explain (photos, vibe, stuff not on the card).
 
 ### The hard part: FaceMash only ranked one thing
 
@@ -136,39 +106,50 @@ Housing is not like that.
 Two apartments differ on price, size, laundry, light, condition, and distance to a dozen places.
 People also weigh those differently.
 There is no universal ranking to converge on.
-With about 118 eligible listings and a realistic number of comparisons, most homes show up once or not at all — you need something that generalizes from prose and photos, not one score per listing you may never see.
 
-CasitaMash uses a feature layer for **card display** and **pair selection** plumbing, but standings come from the preference memo and model rank:
+Plain Bradley-Terry (the Elo idea done properly for offline data) learns one number per listing.
+That breaks down here.
+With about 118 eligible listings and a realistic number of comparisons, most homes show up once or not at all.
+The model is still learning "which flat" when the useful question is "how much is this lever worth."
+It also cannot score a listing you never saw.
+
+So CasitaMash learns weights over features instead:
 
 ```
-pick (+ optional reason) → preference memo → model ranks catalog
+score = w · x + u
 ```
+
+`w · x` is the part that generalizes to unseen listings.
+`u` catches whatever the columns miss.
+Learning on the order of fifteen weights takes dozens of comparisons.
+Sorting 118 listings by comparison alone takes on the order of n log n picks.
+That gap is the argument for the design.
 
 ### Why you pick features first
 
 Showing every possible row on a card buries the difference that actually decides the pair.
 CasitaMash asks you to rank the features you care about and mostly shows those.
-Fewer rows, faster reads, and the pairs focus on levers you could see while picking.
+Fewer rows, faster reads, and the fit focuses on levers you could see while picking.
 
 Your onboarding order chooses which optional features are in play.
-It does not seed the memo.
+It does not seed the weights.
 New sessions start cold.
-If your picks disagree with what you said you cared about, that shows up in the memo rather than getting papered over up front.
+If your picks disagree with what you said you cared about, that shows up in the fit rather than getting papered over up front.
 
 ## What I tried and rejected
 
 A few dead ends shaped the design more than the wins.
 
-**Pure listing Elo.**
-One score per listing does not survive a realistic comparison count on ~118 homes.
+**Pure listing Elo / Bradley-Terry.**
+Weaker held-out accuracy than the feature model.
 The multi-dimensional problem is real.
 
 **Aggressive per-person feature pruning.**
-Early numbers looked great until selection was done honestly inside each fold.
-Optional features stay selectable; we do not pretend zeros are insights.
+Keeping only 3 “best” features looked smart until selection was done without peeking at the test data. 
+Then it didn’t help. L2 shrinkage already soft-pedals weak features; we don’t hard-delete them.
 
 **Priors for new users.**
-Tempting, and every source is contaminated: another person's memo, the old ranking prompt, or your own stated order turned into fake revealed preference.
+Tempting, and every source is contaminated: another person's fit, the old ranking prompt, or your own stated order turned into fake revealed preference.
 Sessions start at zero.
 
 **Shortlist stability as the selection objective.**
