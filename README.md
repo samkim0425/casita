@@ -145,9 +145,8 @@ Weaker held-out accuracy than the feature model.
 The multi-dimensional problem is real.
 
 **Aggressive per-person feature pruning.**
-Early numbers looked great until selection was done honestly inside each fold.
-L2 shrinkage does the quiet work.
-Optional features stay selectable; we do not pretend zeros are insights.
+Keeping only 3 “best” features looked smart until selection was done without peeking at the test data. 
+Then it didn’t help. L2 shrinkage already soft-pedals weak features; we don’t hard-delete them.
 
 **Priors for new users.**
 Tempting, and every source is contaminated: another person's fit, the old ranking prompt, or your own stated order turned into fake revealed preference.
