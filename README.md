@@ -28,7 +28,7 @@ If your gcloud default project is already set (`gcloud config set project …`),
 `.env` / `CASITA_GCP_PROJECT` still works.
 Maps, GCS, and Firebase stay optional.
 
-Without a GCP project (or without billing/API), `uv run casita mash` falls back to a deterministic offline stub — fine for CI and smoke tests, not the intended interview experience.
+Without a GCP project (or without billing/API), `uv run casita mash` falls back to a deterministic offline stub. This is NOT the intended demo experience for the interview loop. Please ensure that the GCP project is configured with billing/API enabled.
 
 ```bash
 uv run casita mash anchors   # beaches, bakeries, groceries, trails we measure against
